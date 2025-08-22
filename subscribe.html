@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Hindu ePaper: Subscription Plans</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700;800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap');
+
+        /* Global body and font styles */
+        body {
+            font-family: 'Open Sans', sans-serif;
+            background-color: #f7f5f2;
+            color: #333;
+        }
+
+        /* The Hindu specific styles */
+        .the-hindu-header {
+            background-color: #fff;
+            border-bottom: 1px solid #ddd;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+
+        .the-hindu-header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 1.5rem;
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        .the-hindu-logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.25rem;
+            font-weight: 700;
+            color: #333;
+        }
+
+        .the-hindu-btn {
+            background-color: #e51a24;
+            color: #fff;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: background-color 0.2s;
+        }
+
+        .the-hindu-btn:hover {
+            background-color: #c7151f;
+        }
+
+        .plan-card {
+            background-color: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            padding: 2.5rem;
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out, border-color 0.3s ease-in-out;
+            border: 2px solid transparent;
+        }
+
+        .plan-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+            border-color: #e51a24;
+        }
+
+        .featured-card {
+            border-color: #e51a24;
+            border-width: 2px;
+            position: relative;
+        }
+
+        .featured-card:hover {
+            transform: translateY(-8px) scale(1.03);
+            border-color: #c7151f;
+        }
+
+        .featured-card:hover .subscribe-button {
+            animation: pulse-ring 1.1s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+        }
+
+        .featured-badge {
+            position: absolute;
+            top: -16px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #e51a24;
+            color: #fff;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .plan-title {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+
+        .plan-price {
+            font-size: 2.25rem;
+            font-weight: 800;
+            color: #e51a24;
+            margin-bottom: 1.5rem;
+        }
+
+        .plan-features {
+            text-align: left;
+            margin-bottom: 2rem;
+            flex-grow: 1;
+        }
+
+        .plan-features li {
+            position: relative;
+            padding-left: 24px;
+            margin-bottom: 12px;
+            color: #555;
+            font-size: 1rem;
+        }
+
+        .plan-features li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #1a9956;
+            font-weight: bold;
+        }
+
+        .plan-description {
+            font-size: 0.875rem;
+            color: #777;
+            margin-bottom: 1.5rem;
+        }
+
+        .subscribe-button {
+            background-color: #e51a24;
+            color: #fff;
+            padding: 0.75rem 2rem;
+            border-radius: 4px;
+            font-weight: 700;
+            text-align: center;
+            text-decoration: none;
+            transition: background-color 0.2s, transform 0.2s;
+            margin-top: auto;
+        }
+
+        .subscribe-button:hover {
+            background-color: #c7151f;
+        }
+
+        @keyframes pulse-ring {
+            0% {
+                box-shadow: 0 0 0 0 rgba(229, 26, 36, 0.4);
+            }
+
+            100% {
+                box-shadow: 0 0 0 10px rgba(229, 26, 36, 0);
+            }
+        }
+
+        .savings-badge {
+            background-color: #1a9956;
+            color: #fff;
+            font-size: 0.8rem;
+            font-weight: bold;
+            padding: 4px 8px;
+            border-radius: 9999px;
+            margin-top: -1.5rem;
+            margin-bottom: 1.5rem;
+            display: inline-block;
+        }
+
+        /* Pricing Toggle */
+        .toggle-switch {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 2rem;
+            font-weight: bold;
+            color: #777;
+        }
+
+        .toggle-switch span {
+            margin: 0 1rem;
+        }
+
+        .toggle-switch input[type="checkbox"] {
+            display: none;
+        }
+
+        .toggle-switch label {
+            display: inline-block;
+            width: 60px;
+            height: 30px;
+            background-color: #ddd;
+            border-radius: 15px;
+            position: relative;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .toggle-switch label::after {
+            content: '';
+            position: absolute;
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            background-color: #fff;
+            top: 2px;
+            left: 2px;
+            transition: transform 0.2s;
+        }
+
+        .toggle-switch input[type="checkbox"]:checked+label {
+            background-color: #e51a24;
+        }
+
+        .toggle-switch input[type="checkbox"]:checked+label::after {
+            transform: translateX(30px);
+        }
+
+        /* Mobile Sticky CTA */
+        .sticky-cta {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: #e51a24;
+            color: #fff;
+            padding: 1rem;
+            text-align: center;
+            z-index: 100;
+            display: none;
+        }
+
+        @media (max-width: 767px) {
+            .mobile-scroll {
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+                scrollbar-width: none;
+                /* Firefox */
+                -ms-overflow-style: none;
+                /* IE and Edge */
+            }
+
+            .mobile-scroll::-webkit-scrollbar {
+                display: none;
+            }
+
+            .mobile-scroll .plan-card {
+                flex-shrink: 0;
+                width: 80%;
+                margin-right: 1.5rem;
+            }
+
+            .mobile-scroll .plan-card:last-child {
+                margin-right: 0;
+            }
+
+            .sticky-cta {
+                display: block;
+            }
+        }
+
+        /* Dark Mode */
+        html.dark body {
+            background-color: #121212;
+            color: #e0e0e0;
+        }
+
+        html.dark .the-hindu-header {
+            background-color: #1f1f1f;
+            border-bottom-color: #333;
+        }
+
+        html.dark .the-hindu-logo {
+            color: #e0e0e0;
+        }
+
+        html.dark .plan-card {
+            background-color: #1f1f1f;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+            border-color: #1f1f1f;
+        }
+
+        html.dark .plan-card:hover {
+            border-color: #e51a24;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6);
+        }
+
+        html.dark .featured-card {
+            border-color: #e51a24;
+        }
+
+        html.dark .plan-title {
+            color: #e0e0e0;
+        }
+
+        html.dark .plan-price {
+            color: #e51a24;
+        }
+
+        html.dark .plan-features li {
+            color: #a0a0a0;
+        }
+
+        html.dark .plan-features li::before {
+            color: #10b981;
+        }
+
+        html.dark .plan-description {
+            color: #888;
+        }
+
+        html.dark .toggle-switch label {
+            background-color: #4b5563;
+        }
+
+        html.dark .toggle-switch input[type="checkbox"]:checked+label {
+            background-color: #e51a24;
+        }
+
+        html.dark .toggle-switch span {
+            color: #d1d5db;
+        }
+
+        html.dark .sticky-cta {
+            background-color: #c7151f;
+        }
+
+        /* Footer */
+        .the-hindu-footer {
+            background-color: #1f2937;
+            color: #e5e7eb;
+            padding: 3rem 1.5rem 1.5rem;
+            margin-top: 4rem;
+        }
+
+        .the-hindu-footer-content {
+            max-width: 1200px;
+            margin: auto;
+            display: grid;
+            gap: 2rem;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        }
+
+        .the-hindu-footer-section h5 {
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: #fff;
+        }
+
+        .the-hindu-footer-section a {
+            display: block;
+            color: #9ca3af;
+            margin-bottom: 0.5rem;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .the-hindu-footer-section a:hover {
+            color: #fff;
+        }
+
+        .the-hindu-social-icons a {
+            margin-right: 1rem;
+            font-size: 1.25rem;
+            color: #9ca3af;
+            transition: color 0.3s;
+        }
+
+        .the-hindu-social-icons a:hover {
+            color: #fff;
+        }
+
+        .the-hindu-footer-bottom {
+            text-align: center;
+            border-top: 1px solid #374151;
+            margin-top: 2rem;
+            padding-top: 1rem;
+            font-size: 0.875rem;
+            color: #9ca3af;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-100 text-gray-900 dark:bg-zinc-900 dark:text-zinc-100">
+
+    <div class="the-hindu-header">
+        <header class="the-hindu-header-content">
+            <div class="logo">
+                <a href="index.html" class="the-hindu-logo">
+                    <span>THE HINDU</span>
+                </a>
+            </div>
+            <div class="flex items-center gap-4">
+                <div class="icon-group">
+                    <i class="fas fa-moon cursor-pointer text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 transition-colors"
+                        id="dark-mode-btn"></i>
+                </div>
+                <a href="index.html" class="the-hindu-btn">GO BACK</a>
+            </div>
+        </header>
+    </div>
+
+    <section class="text-center py-20 px-6">
+        <h1 class="text-4xl md:text-5xl font-bold text-gray-900 dark:text-zinc-100 mb-4">
+            Unlock the best of The Hindu.
+        </h1>
+        <p class="text-lg md:text-xl text-gray-600 dark:text-zinc-400 max-w-2xl mx-auto mb-8">
+            Choose the right plan for you and gain unlimited access to quality journalism, curated insights, and
+            e-papers.
+        </p>
+
+        <div class="toggle-switch">
+            <span>Monthly</span>
+            <input type="checkbox" id="pricing-toggle">
+            <label for="pricing-toggle"></label>
+            <span>Yearly</span>
+        </div>
+    </section>
+
+    <section class="container mx-auto px-4">
+        <div id="plans-container" class="grid gap-8 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mobile-scroll">
+
+            <div class="plan-card" data-plan="monthly">
+                <h2 class="plan-title">Free Plan</h2>
+                <h3 class="text-sm text-red-600 dark:text-red-400 mb-2">❌ You are unable to copy anything for notes
+                    making and the quality of
+                    newspapers are not good</h3>
+                <p class="text-sm text-gray-500 italic dark:text-zinc-500 mb-6">⚠️ Limited access and features. Not for
+                    daily study use.</p>
+                <div class="plan-features">
+                    <ul>
+                        <li>Indian Express Delhi Coded Edition</li>
+                        <li>The Hindu Delhi Coded Edition</li>
+                        <li>मशीन अनुवादित हिन्दू coded edition</li>
+                    </ul>
+                </div>
+                <a href="https://wa.me/918168305050?text=I%20want%20to%20subscribe%20Free%20Plan"
+                    class="subscribe-button bg-gray-700 hover:bg-gray-800 dark:bg-zinc-700 dark:hover:bg-zinc-600">
+                    Subscribe
+                </a>
+            </div>
+
+            <div class="plan-card monthly-plan" data-plan="monthly">
+                <h2 class="plan-title">Premium Plan</h2>
+                <p class="plan-price">₹0.7p <span class="text-lg">/ Day</span></p>
+                <div class="plan-features">
+                    <ul>
+                        <li>Indian Express: All Editable Editions</li>
+                        <li>The Hindu: All Editable Editions</li>
+                        <li>All Other Newspapers</li>
+                    </ul>
+                </div>
+                <a href="https://wa.me/918168305050?text=I%20want%20to%20subscribe%20Premium%20Plan%20Monthly"
+                    class="subscribe-button">
+                    Subscribe
+                </a>
+            </div>
+
+            <div class="plan-card featured-card yearly-plan" data-plan="yearly">
+                <span class="featured-badge">MOST POPULAR</span>
+                <h2 class="plan-title">Premium Plan</h2>
+                <p class="plan-price">₹12 <span class="text-lg">/ month</span></p>
+                <span class="savings-badge">Save ₹108 (43% Off)</span>
+                <div class="plan-features">
+                    <ul>
+                        <li>Indian Express: All Editable Editions</li>
+                        <li>The Hindu: All Editable Editions</li>
+                        <li>All Other Newspapers</li>
+                        <li>Essential and Frontline Magazines on request</li>
+                        <li>The Hindu School<sup> *</sup></li>
+                    </ul>
+                </div>
+                <a href="https://wa.me/918168305050?text=I%20want%20to%20subscribe%20Premium%20Plan%20Till%20Dec%202025"
+                    class="subscribe-button">
+                    Subscribe
+                </a>
+            </div>
+
+            <div class="plan-card featured-card yearly-plan md:col-span-2 lg:col-span-3 xl:col-span-1"
+                data-plan="yearly">
+                <span class="featured-badge">BEST VALUE</span>
+                <h2 class="plan-title">All Access Pass</h2>
+                <h3 class="text-gray-700 dark:text-zinc-300 font-semibold mb-2">Benefits:</h3>
+                <div class="plan-features">
+                    <ul>
+                        <li>Everything under <strong>Most Popular Plan</strong></li>
+                        <li>Indian Express: All Editable Editions</li>
+                        <li>The Hindu: All Editable Editions</li>
+                        <li>इंसान अनुवादित संस्करण<sup> *</sup></li>
+                        <li>UPSC Editions</li>
+                        <li>Mint</li>
+                        <li>Times of India</li>
+                        <li>Economic Times</li>
+                        <li>Business Line</li>
+                        <li>Business Standards*</li>
+                        <li>Hindustan Times</li>
+                        <li>राष्ट्रीय जागरण</li>
+                        <li>दैनिक जागरण</li>
+                        <li>and many more...</li>
+                    </ul>
+                </div>
+                <p class="text-sm text-gray-500 dark:text-zinc-500">"*" means subject to availability</p>
+                <a href="https://wa.me/918168305050?text=I%20want%20to%20subscribe%20All%20Access%20Pass"
+                    class="subscribe-button mt-4">
+                    Subscribe
+                </a>
+            </div>
+
+        </div>
+    </section>
+
+    <a href="#plans-container" class="sticky-cta font-bold">
+        Subscribe Now
+    </a>
+
+    <footer class="the-hindu-footer">
+        <div class="the-hindu-footer-content">
+            <div class="the-hindu-footer-section">
+                <span class="the-hindu-logo text-white">THE HINDU</span>
+                <p>Digital Edition</p>
+            </div>
+            <div class="the-hindu-footer-section">
+                <h5>QUICK LINKS</h5>
+                <a href="#">About Us</a>
+                <a href="#">Contact Us</a>
+                <a href="#">Careers</a>
+                <a href="#">Advertise</a>
+                <a href="#">Subscription</a>
+            </div>
+            <div class="the-hindu-footer-section">
+                <h5>LEGAL</h5>
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Use</a>
+                <a href="#">Cookie Policy</a>
+                <a href="#">Disclaimer</a>
+            </div>
+            <div class="the-hindu-footer-section">
+                <h5>FOLLOW US</h5>
+                <div class="the-hindu-social-icons">
+                    <a href="#" aria-label="Telegram"><i class="fab fa-telegram-plane"></i></a>
+                    <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                    <a href="https://wa.me/918168305050" target="_blank" aria-label="WhatsApp"><i
+                            class="fab fa-whatsapp"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="the-hindu-footer-bottom">
+            &copy; 2025 The Hindu. All Rights Reserved.
+        </div>
+    </footer>
+
+    <script>
+        const darkBtn = document.getElementById("dark-mode-btn");
+        const html = document.documentElement;
+
+        // Function to set the icon based on the current mode
+        const setDarkModeIcon = () => {
+            if (html.classList.contains("dark")) {
+                darkBtn.classList.remove("fa-moon");
+                darkBtn.classList.add("fa-sun");
+            } else {
+                darkBtn.classList.remove("fa-sun");
+                darkBtn.classList.add("fa-moon");
+            }
+        };
+
+        // Initial check for dark mode
+        setDarkModeIcon();
+
+        // Toggle dark mode
+        darkBtn.addEventListener("click", () => {
+            html.classList.toggle("dark");
+            setDarkModeIcon();
+        });
+
+        // Pricing Toggle Logic
+        const pricingToggle = document.getElementById('pricing-toggle');
+        const plansContainer = document.getElementById('plans-container');
+        const monthlyPlans = plansContainer.querySelectorAll('.monthly-plan');
+        const yearlyPlans = plansContainer.querySelectorAll('.yearly-plan');
+
+        const updatePlansVisibility = (isYearly) => {
+            if (isYearly) {
+                monthlyPlans.forEach(plan => plan.style.display = 'none');
+                yearlyPlans.forEach(plan => plan.style.display = 'flex');
+            } else {
+                monthlyPlans.forEach(plan => plan.style.display = 'flex');
+                yearlyPlans.forEach(plan => plan.style.display = 'none');
+            }
+        };
+
+        // Initial view
+        updatePlansVisibility(false);
+
+        pricingToggle.addEventListener('change', (e) => {
+            updatePlansVisibility(e.target.checked);
+        });
+    </script>
+</body>
+
+</html>

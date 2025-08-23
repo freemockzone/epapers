@@ -42,31 +42,111 @@
             animation: spin 18s linear infinite;
         }
 
-        /* ===== 50-color animated gradient for Subscribe button ===== */
-        .subscribe-anim {
-            background-size: 400% 400%;
-            animation: subscribeGradient 24s linear infinite;
+        /* ================== NEW POPUP STYLES ================== */
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.4);
+            z-index: 9998;
         }
 
-        @keyframes subscribeGradient {
+        .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.8);
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(12px);
+            border-radius: 16px;
+            padding: 30px 25px;
+            width: 360px;
+            color: #fff;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            z-index: 9999;
+            opacity: 0;
+            transition: all 0.5s ease;
+            font-family: "Segoe UI", sans-serif;
+        }
+
+        .popup.show {
+            display: block;
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .popup h2 {
+            margin-bottom: 12px;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .popup p {
+            margin: 8px 0;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+
+        .popup .highlight {
+            color: #ffeb3b;
+            font-weight: bold;
+            margin: 10px 0;
+            font-size: 16px;
+        }
+
+        .popup button {
+            margin-top: 15px;
+            padding: 10px 22px;
+            background: #ff5252;
+            border: none;
+            border-radius: 8px;
+            color: #fff;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .popup button:hover {
+            background: #e53935;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 12px;
+            right: 18px;
+            font-size: 22px;
+            cursor: pointer;
+            color: #fff;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+
+        .close-btn:hover {
+            color: #ffeb3b;
+        }
+
+        /* ================== 100 COLOR BACKGROUND ANIMATION (SMOOTH) ================== */
+        .bg-gradient {
+            background: linear-gradient(to right, #FF0000, #FF7F00, #FFFF00, #7FFF00, #00FF00, #00FF7F, #00FFFF, #007FFF, #0000FF, #7F00FF, #FF00FF, #FF007F, #F0F8FF, #FAEBD7, #00FFFF, #7FFFD4, #F0FFFF, #F5F5DC, #FFE4C4, #000000, #FFEBCD, #0000FF, #8A2BE2, #A52A2A, #DEB887, #7FFF00, #D2691E, #FF7F50, #6495ED, #FFF8DC, #DC143C, #00FFFF, #00008B, #008B8B, #B8860B, #A9A9A9, #006400, #BDB76B, #8B008B, #556B2F, #FF8C00, #9932CC, #8B0000, #E9967A, #8FBC8F, #483D8B, #2F4F4F, #00CED1, #9400D3, #FF1493, #00BFFF, #696969, #1E90FF, #B22222, #228B22, #FFFAFA, #3CB371, #FFD700, #DAA520, #808080, #008000, #ADFF2F, #F0FFF0, #FF69B4, #CD5C5C, #4B0082, #FFFFF0, #F0E68C, #E0FFFF, #ADD8E6, #F08080, #E0FFFF, #FAF0E6, #D3D3D3, #90EE90, #FFB6C1, #FFA07A, #20B2AA, #87CEFA, #778899, #B0C4DE, #FFFFE0, #00FF00, #32CD32, #FAF0E6, #FF00FF, #800080, #6A5ACD, #4169E1, #F4A460, #2E8B57, #FFF5EE, #A0522D, #C0C0C0, #87CEEB, #6B8E23, #FFDAB9, #DDA0DD, #FF4500, #FA8072, #7B68EE, #48D1CC, #C71585, #191970, #F5FFFA, #FFE4E1, #FFE4B5, #FFDEAD, #000080, #FDF5E6, #808000, #6B8E23, #FFA500, #FF4500, #DA70D6, #EEE8AA, #98FB98, #AFEEEE, #1E90FF, #FF1493, #DCDCDC, #FFF8DC, #F0FFF0, #B0E0E6, #BC8F8F, #CD853F, #FFC0CB, #F5F5F5, #800000, #008080, #4682B4, #D2B48C, #008000, #D87093, #FF6347, #40E0D0, #EE82EE, #F5DEB3, #FFFFFF, #F5F5F5, #FFFF00, #9ACD32);
+            background-size: 10000% 100%;
+            animation: color-shift 120s infinite linear;
+            color: white;
+            /* Added to ensure text is visible on the dark background */
+        }
+
+        @keyframes color-shift {
             0% {
-                background-position: 0% 50%
-            }
-
-            25% {
-                background-position: 100% 50%
-            }
-
-            50% {
-                background-position: 0% 50%
-            }
-
-            75% {
-                background-position: 100% 50%
+                background-position: 0% 50%;
             }
 
             100% {
-                background-position: 0% 50%
+                background-position: 100% 50%;
             }
         }
     </style>
@@ -99,6 +179,9 @@
                     <li><a href="#current-affairs"
                             class="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800"><span>🗞️</span><span>Current
                                 Affairs</span></a></li>
+                    <li><a href="demo-2.html"
+                            class="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800"><span>🎯</span><span>Daily
+                                MCQ's</span></a></li>
                     <li><a href="#epapers"
                             class="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800"><span>📄</span><span>ePapers</span></a>
                     </li>
@@ -113,12 +196,7 @@
 
             <div class="mt-auto hidden lg:block">
                 <a href="subscribe.html"
-                    class="subscribe-anim w-full inline-flex items-center justify-center gap-2 px-4 py-3 rounded-2xl font-bold text-white shadow-lg hover:opacity-95 transition"
-                    style="background-image: linear-gradient(135deg,
-                    #ff9a9e,#fad0c4,#f6d365,#fda085,#a1c4fd,#c2e9fb,#d4fc79,#96e6a1,#84fab0,#8fd3f4,#fccb90,#d57eeb,
-                    #f093fb,#f5576c,#4facfe,#00f2fe,#43e97b,#38f9d7,#fa709a,#fee140,#30cfd0,#330867,#5ee7df,#b490ca,
-                    #d299c2,#fef9d7,#fbd786,#c6ffdd,#f7797d,#ffd3a5,#fd6585,#a18cd1,#fbc2eb,#96fbc4,#f9f586,#f8b195,
-                    #c6ffdd,#ffecd2,#fcb69f,#ff8177,#ffb199,#6a85b6,#bac8e0,#b6fbff,#83a4d4,#b993d6,#8ca6db,#a1c4fd,#c2e9fb,#ffdde1,#ee9ca7);">
+                    class="bg-gradient w-full inline-flex items-center justify-center gap-2 px-4 py-3 rounded-2xl font-bold shadow-lg hover:opacity-95 transition">
                     🚀 Subscribe
                 </a>
             </div>
@@ -147,12 +225,7 @@
                     <input id="searchBox" type="search" placeholder="Search current affairs…"
                         class="glass soft-shadow px-4 py-2 rounded-xl outline-none w-full md:w-64 max-w-full text-sm placeholder:text-slate-400" />
                     <a href="subscribe.html"
-                        class="subscribe-anim hidden md:inline-flex items-center gap-2 px-4 py-2 rounded-xl font-semibold text-white shadow-lg hover:opacity-95 transition"
-                        style="background-image: linear-gradient(135deg,
-                        #ff9a9e,#fad0c4,#f6d365,#fda085,#a1c4fd,#c2e9fb,#d4fc79,#96e6a1,#84fab0,#8fd3f4,#fccb90,#d57eeb,
-                        #f093fb,#f5576c,#4facfe,#00f2fe,#43e97b,#38f9d7,#fa709a,#fee140,#30cfd0,#330867,#5ee7df,#b490ca,
-                        #d299c2,#fef9d7,#fbd786,#c6ffdd,#f7797d,#ffd3a5,#fd6585,#a18cd1,#fbc2eb,#96fbc4,#f9f586,#f8b195,
-                        #c6ffdd,#ffecd2,#fcb69f,#ff8177,#ffb199,#6a85b6,#bac8e0,#b6fbff,#83a4d4,#b993d6,#8ca6db,#a1c4fd,#c2e9fb,#ffdde1,#ee9ca7);">Subscribe</a>
+                        class="bg-gradient hidden md:inline-flex items-center gap-2 px-4 py-2 rounded-xl font-semibold shadow-lg hover:opacity-95 transition">Subscribe</a>
                 </div>
             </header>
 
@@ -173,7 +246,7 @@
                 </div>
                 <div class="glass soft-shadow rounded-2xl p-5 hover-float">
                     <p class="text-sm text-slate-500 dark:text-slate-400">Subscribers</p>
-                    <p class="text-3xl font-extrabold mt-1">1211</p>
+                    <p class="text-3xl font-extrabold mt-1">∞</p>
                 </div>
             </section>
 
@@ -230,12 +303,7 @@
             </section>
 
             <a href="subscribe.html"
-                class="subscribe-anim fixed bottom-5 right-5 md:hidden inline-flex items-center gap-2 px-4 py-3 rounded-2xl font-bold text-white shadow-xl"
-                style="background-image: linear-gradient(135deg,
-                #ff9a9e,#fad0c4,#f6d365,#fda085,#a1c4fd,#c2e9fb,#d4fc79,#96e6a1,#84fab0,#8fd3f4,#fccb90,#d57eeb,
-                #f093fb,#f5576c,#4facfe,#00f2fe,#43e97b,#38f9d7,#fa709a,#fee140,#30cfd0,#330867,#5ee7df,#b490ca,
-                #d299c2,#fef9d7,#fbd786,#c6ffdd,#f7797d,#ffd3a5,#fd6585,#a18cd1,#fbc2eb,#96fbc4,#f9f586,#f8b195,
-                #c6ffdd,#ffecd2,#fcb69f,#ff8177,#ffb199,#6a85b6,#bac8e0,#b6fbff,#83a4d4,#b993d6,#8ca6db,#a1c4fd,#c2e9fb,#ffdde1,#ee9ca7);">
+                class="bg-gradient fixed bottom-5 right-5 md:hidden inline-flex items-center gap-2 px-4 py-3 rounded-2xl font-bold shadow-xl">
                 🚀 Subscribe
             </a>
 
@@ -249,6 +317,18 @@
         </main>
     </div>
 
+    <div class="overlay" id="overlay"></div>
+
+    <div class="popup" id="offerPopup">
+        <span class="close-btn" onclick="closePopup()">×</span>
+        <h2>📚 Stay Ahead with Daily e-Papers & Study Material!</h2>
+        <p>Access newspapers, current affairs, and exam-ready notes — all in one place.</p>
+        <p><b>Your one-stop hub for UPSC, SSC, Banking & State Exams.</b></p>
+        <p class="highlight">🔔 Special Independence Offer: Flat 50% Off Premium Access</p>
+        <button onclick="window.location.href='subscribe.html'">Subscribe Now</button>
+        <p style="margin-top:10px;">🎉 Celebrate Knowledge. Empower Your Preparation.<br>
+            📖 Exclusive <b>Student Discount Available!</b></p>
+    </div>
     <script>
         /* ================== THEME ================== */
         const root = document.documentElement;
@@ -296,10 +376,11 @@
 
         /* ================== DATA (edit daily) ================== */
         let currentAffairs = [];
-        let filteredAffairs = []; // New variable to hold the filtered articles for pagination
+        let filteredAffairs = [];
         let currentPage = 1;
-        const pageSize = 15; // You can adjust this number
+        const pageSize = 15;
 
+        // E-PAPER DATA & HELPERS
         function getSixAMISTTimestamp() {
             const now = new Date();
             const istOffsetMs = 5.5 * 60 * 60 * 1000;
@@ -310,15 +391,16 @@
         }
 
         const epapers = [
-            { title: 'The Hindu Delhi Edition', url: 'https://jumpshare.com/s/dfQyJLhQ0LwFVm3tLEdw', addedAt: getSixAMISTTimestamp(), thumbnailUrl: '1.png' },
-            { title: 'हिन्दू इंसान अनुवादित', url: 'https://limewire.com/d/cvXHm#wMH6ssdi8D', addedAt: getSixAMISTTimestamp(), thumbnailUrl: '2.png' },
-            { title: 'Indian Express Delhi', url: 'https://www.transfernow.net/dl/20250822bqp8M3wM', addedAt: getSixAMISTTimestamp(), thumbnailUrl: '3.png' },
+            { title: 'The Hindu Delhi Edition', url: 'https://jumpshare.com/s/7BWdy6UNSGVsGuUAGxPe', addedAt: getSixAMISTTimestamp(), thumbnailUrl: '1.png' },
+            { title: 'हिन्दू इंसान अनुवादित', url: '#', addedAt: getSixAMISTTimestamp(), thumbnailUrl: 'हिन्दी.png' },
+            { title: 'Indian Express Delhi', url: 'https://jumpshare.com/s/1STp3pZKqkar7eGrQNjp', addedAt: getSixAMISTTimestamp(), thumbnailUrl: '3.png' },
             { title: 'Business Line', url: 'businessline.pdf', addedAt: getSixAMISTTimestamp(), thumbnailUrl: 'wip.png' },
-            { title: 'मशीन अनुवादित - द हिन्दू', url: 'https://jumpshare.com/s/nlXgflWy2j5eSMG1Nfgc', addedAt: getSixAMISTTimestamp(), thumbnailUrl: '5.png' }
+            { title: 'मशीन अनुवादित - द हिन्दू', url: 'https://limewire.com/d/T6W9r#jxfPJkzDQ4', addedAt: getSixAMISTTimestamp(), thumbnailUrl: '5.png' }
         ];
 
         /* ================== HELPERS ================== */
         const fmtDate = d => new Date(d).toLocaleDateString(undefined, { day: '2-digit', month: 'short', year: 'numeric' });
+
         const timeLeft = (addedAt) => {
             const expiry = addedAt + 24 * 60 * 60 * 1000;
             const diff = expiry - Date.now();
@@ -351,7 +433,6 @@
             prevBtn.style.display = 'inline-block';
             nextBtn.style.display = 'inline-block';
 
-            // Calculate start and end indices for the current page
             const startIndex = (currentPage - 1) * pageSize;
             const endIndex = Math.min(startIndex + pageSize, filteredAffairs.length);
             const articlesToRender = filteredAffairs.slice(startIndex, endIndex);
@@ -371,7 +452,6 @@
             </article>
             `).join('');
 
-            // Update pagination buttons state
             prevBtn.disabled = currentPage === 1;
             nextBtn.disabled = currentPage >= totalPages;
             pageInfo.textContent = `Page ${currentPage} of ${totalPages}`;
@@ -380,23 +460,18 @@
         function filterAffairs() {
             const q = (searchBox.value || '').toLowerCase().trim();
             const d = filterDate.value;
-            const todayStr = new Date().toISOString().slice(0, 10);
 
-            // Filter the full list of articles
             filteredAffairs = currentAffairs.filter(a => {
                 const matchesText = [a.title, a.summary, ...(a.tags || [])].join(' ').toLowerCase().includes(q);
-                const matchesDate = d ? a.date === d : (a.date === todayStr);
+                const matchesDate = !d || a.date === d;
                 return matchesText && matchesDate;
             });
 
-            // Sort them and reset page to 1
             filteredAffairs.sort((a, b) => new Date(b.date) - new Date(a.date));
             currentPage = 1;
 
-            // Render the first page
             renderPaginatedAffairs();
 
-            // Update stats
             document.getElementById('statAffairs').textContent = filteredAffairs.length;
         }
 
@@ -448,49 +523,98 @@
             document.getElementById('statExpiring').textContent = active.filter(p => timeLeft(p.addedAt).h < 6).length;
         }
 
-        /* ================== NEW: FETCH & RENDER ================== */
-        async function fetchRSSFeed(url, source) {
-            const rss2json = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(url)}`;
-            const res = await fetch(rss2json);
-            const data = await res.json();
-            return data.items.map(item => ({
-                date: new Date(item.pubDate).toISOString().slice(0, 10),
-                title: item.title,
-                summary: item.description.replace(/<[^>]+>/g, '').slice(0, 150) + "...",
-                link: item.link,
-                tags: [source]
-            }));
+        /* ================== FETCH & RENDER ================== */
+        const feeds = [
+            { source: "The Hindu", url: "https://www.thehindu.com/news/national/feeder/default.rss" },
+            { source: "Indian Express", url: "https://indianexpress.com/feed/" },
+            { source: "Mint", url: "https://www.livemint.com/rss/news" },
+            { source: "Times of India", url: "https://timesofindia.indiatimes.com/rssfeedstopstories.cms" },
+            { source: "Economic Times", url: "https://economictimes.indiatimes.com/rssfeedstopstories.cms" },
+            { source: "Business Line", url: "https://www.thehindubusinessline.com/news/feeder/default.rss" },
+            { source: "Business Standard", url: "https://www.business-standard.com/rss/4/all-news.rss" },
+            { source: "Hindustan Times", url: "https://www.hindustantimes.com/rss/india-news/rssfeed.xml" }
+        ];
+
+        // Helper function to get the current date in IST
+        function getISTToday() {
+            const now = new Date();
+            const istOffset = 5.5 * 60 * 60 * 1000; // 5.5 hours in milliseconds
+            const localOffset = now.getTimezoneOffset() * 60 * 1000; // Local offset in milliseconds
+            const utcTime = now.getTime() + localOffset;
+            const istTime = utcTime + istOffset;
+            return new Date(istTime).toISOString().slice(0, 10);
+        }
+
+        // Fetch and parse RSS via rss2json (secure proxy)
+        async function fetchRSS(feed) {
+            try {
+                const apiURL = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(feed.url)}`;
+                const res = await fetch(apiURL);
+                const data = await res.json();
+                const items = data.items;
+
+                if (!items) {
+                    console.error("No items found or invalid feed:", feed.source);
+                    return [];
+                }
+
+                const todayIST = getISTToday();
+
+                return items.filter(item => {
+                    const itemPubDate = new Date(item.pubDate);
+                    // Manually convert the article's UTC date to IST
+                    const itemPubDateIST = new Date(itemPubDate.getTime() + (5.5 * 60 * 60 * 1000));
+                    return itemPubDateIST.toISOString().slice(0, 10) === todayIST;
+                }).map(item => ({
+                    date: todayIST,
+                    title: item.title || "No title",
+                    summary: (item.description || item.content || "").replace(/<[^>]+>/g, "").slice(0, 150) + "...",
+                    link: item.link || "#",
+                    tags: [feed.source, ...(item.categories || [])]
+                }));
+            } catch (err) {
+                console.error("Error fetching:", feed.source, err);
+                return [];
+            }
         }
 
         async function loadCurrentAffairs() {
-            const feeds = [
-                { url: "https://www.thehindu.com/news/national/feeder/default.rss", source: "The Hindu" },
-                { url: "https://indianexpress.com/feed/", source: "Indian Express" },
-                { url: "https://economictimes.indiatimes.com/rssfeedsdefault.cms", source: "Economic Times" },
-                { url: "https://www.jagran.com/rss/news/national.xml", source: "Jagran" },
-                { url: "https://www.livemint.com/rss/homepage", source: "Mint" },
-                { url: "https://timesofindia.indiatimes.com/rssfeedstopstories.cms", source: "Times of India" },
-                { url: "https://www.thehindubusinessline.com/feeder/default.rss", source: "Business Line" }
-            ];
-
             let articles = [];
+
             for (const f of feeds) {
-                try {
-                    const list = await fetchRSSFeed(f.url, f.source);
-                    articles = articles.concat(list);
-                } catch (e) {
-                    console.error("Error fetching feed:", f.source, e);
-                }
+                const list = await fetchRSS(f);
+                articles = articles.concat(list);
             }
-            currentAffairs = articles;
-            filterAffairs();
+
+            // Sort by publication time (latest first)
+            articles.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+            // Clear old & push into your existing array
+            currentAffairs.length = 0;
+            currentAffairs.push(...articles);
+
+            filterAffairs(); // Re-render with your UI logic
         }
 
-        /* ================== INIT ================== */
+        // ================== NEW POPUP LOGIC ==================
+        function showPopup() {
+            document.getElementById("overlay").style.display = "block";
+            document.getElementById("offerPopup").classList.add("show");
+        }
+
+        function closePopup() {
+            document.getElementById("overlay").style.display = "none";
+            document.getElementById("offerPopup").classList.remove("show");
+        }
+
+        // ================== INIT ==================
         function init() {
             renderPapers();
             loadCurrentAffairs();
             setInterval(renderPapers, 60000);
+
+            // Auto show after 3 seconds
+            setTimeout(showPopup, 3000);
         }
 
         document.addEventListener('DOMContentLoaded', init);

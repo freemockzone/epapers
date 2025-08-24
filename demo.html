@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Auto MCQ – UPSC Current Affairs (Daily)</title>
+    <style>
+        :root {
+            --bg: #0f172a;
+            /* slate-900 */
+            --card: #111827ee;
+            /* gray-900 */
+            --muted: #94a3b8;
+            /* slate-400 */
+            --text: #e5e7eb;
+            /* gray-200 */
+            --accent: #22c55e;
+            /* green-500 */
+            --accent-2: #38bdf8;
+            /* sky-400 */
+            --danger: #ef4444;
+            /* red-500 */
+            --warn: #f59e0b;
+            /* amber-500 */
+            --chip: #1f2937;
+            /* gray-800 */
+        }
+
+        * {
+            box-sizing: border-box
+        }
+
+        html,
+        body {
+            height: 100%
+        }
+
+        body {
+            margin: 0;
+            background: radial-gradient(1200px 600px at 10% -10%, #111827 0%, #0b1226 60%, #090f20 100%), var(--bg);
+            color: var(--text);
+            font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, 'Helvetica Neue', Arial, 'Apple Color Emoji', 'Segoe UI Emoji';
+        }
+
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 20;
+            background: linear-gradient(180deg, rgba(9, 15, 32, .95), rgba(9, 15, 32, .75));
+            backdrop-filter: blur(8px);
+            border-bottom: 1px solid #1f2937
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 16px
+        }
+
+        h1 {
+            font-size: clamp(20px, 3vw, 32px);
+            margin: 6px 0 4px;
+        }
+
+        .subtitle {
+            color: var(--muted);
+            font-size: 14px
+        }
+
+        .controls {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+            margin: 14px 0
+        }
+
+        @media(min-width:800px) {
+            .controls {
+                grid-template-columns: 1.5fr 1fr 1fr 1fr
+            }
+        }
+
+        .card {
+            background: linear-gradient(180deg, rgba(17, 24, 39, .9), rgba(17, 24, 39, .85));
+            border: 1px solid #1f2937;
+            border-radius: 16px;
+            box-shadow: 0 8px 40px rgba(0, 0, 0, .35);
+            padding: 16px
+        }
+
+        label {
+            display: block;
+            font-size: 12px;
+            color: var(--muted);
+            margin-bottom: 6px
+        }
+
+        input[type="number"],
+        select,
+        .input,
+        textarea {
+            width: 100%;
+            background: var(--chip);
+            border: 1px solid #374151;
+            border-radius: 12px;
+            color: var(--text);
+            padding: 10px 12px;
+            outline: none
+        }
+
+        .row {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap
+        }
+
+        .btn {
+            appearance: none;
+            border: none;
+            border-radius: 999px;
+            padding: 10px 16px;
+            font-weight: 600;
+            color: #0b1220;
+            cursor: pointer;
+            transition: .2s background, .2s transform
+        }
+
+        .btn:hover {
+            transform: translateY(-1px)
+        }
+
+        .btn:active {
+            transform: translateY(0)
+        }
+
+        .btn.primary {
+            background: linear-gradient(90deg, var(--accent), #16a34a)
+        }
+
+        .btn.secondary {
+            background: linear-gradient(90deg, var(--accent-2), #0284c7)
+        }
+
+        .btn.ghost {
+            background: #111827;
+            border: 1px solid #374151;
+            color: var(--text)
+        }
+
+        .btn.warn {
+            background: linear-gradient(90deg, var(--warn), #d97706)
+        }
+
+        .chips {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap
+        }
+
+        .chip {
+            background: var(--chip);
+            border: 1px solid #374151;
+            color: var(--text);
+            padding: 6px 10px;
+            border-radius: 999px;
+            font-size: 12px
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 16px
+        }
+
+        @media(min-width:900px) {
+            .grid {
+                grid-template-columns: 1.3fr .7fr
+            }
+        }
+
+        .quiz {
+            display: grid;
+            gap: 12px
+        }
+
+        .q-card {
+            background: #0b1220;
+            border: 1px solid #263247;
+            border-radius: 16px;
+            padding: 16px
+        }
+
+        .q-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px
+        }
+
+        .q-idx {
+            background: #122038;
+            border: 1px solid #1f2d44;
+            color: #c7d2fe;
+            padding: 6px 10px;
+            border-radius: 10px;
+            font-size: 12px
+        }
+
+        .option {
+            display: flex;
+            gap: 10px;
+            align-items: flex-start;
+            background: #0e172a;
+            border: 1px solid #1f2d3e;
+            border-radius: 12px;
+            padding: 10px;
+            margin: 8px 0;
+            cursor: pointer
+        }
+
+        .option input {
+            margin-top: 2px
+        }
+
+        .option.correct {
+            outline: 2px solid #16a34a
+        }
+
+        .option.wrong {
+            outline: 2px solid var(--danger)
+        }
+
+        .palette {
+            display: grid;
+            grid-template-columns: repeat(8, 1fr);
+            gap: 8px
+        }
+
+        .pal-btn {
+            border: 1px solid #334155;
+            background: #0f172a;
+            color: #cbd5e1;
+            border-radius: 10px;
+            padding: 8px;
+            cursor: pointer
+        }
+
+        .pal-btn.answered {
+            background: #1e293b
+        }
+
+        .pal-btn.review {
+            background: #0b3a24;
+            border-color: #0f5132
+        }
+
+        .results {
+            display: none
+        }
+
+        .score {
+            font-size: 24px;
+            font-weight: 800
+        }
+
+        .meta {
+            color: var(--muted);
+            font-size: 12px
+        }
+
+        .links a {
+            color: #93c5fd
+        }
+
+        .hidden {
+            display: none
+        }
+
+        .fade-in {
+            animation: fade .3s ease
+        }
+
+        @keyframes fade {
+            from {
+                opacity: .2;
+                transform: translateY(6px)
+            }
+
+            to {
+                opacity: 1;
+                transform: none
+            }
+        }
+
+        footer {
+            border-top: 1px solid #1f2937;
+            margin-top: 24px
+        }
+
+        code.k {
+            background: #0b1220;
+            border: 1px solid #1f2937;
+            color: #93c5fd;
+            padding: 2px 6px;
+            border-radius: 6px
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <h1>Auto-Generated Current Affairs MCQ (UPSC CSE)</h1>
+            <div class="subtitle">Creates daily MCQs from the web (India-focused) — fully client-side. Timezone: <span
+                    id="tz"></span></div>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="card">
+            <div class="controls">
+                <div>
+                    <label for="qCount">Number of MCQs</label>
+                    <input id="qCount" type="number" min="5" max="50" value="15" />
+                </div>
+                <div>
+                    <label for="recency">Lookback (days)</label>
+                    <select id="recency">
+                        <option value="1" selected>1 day (today)</option>
+                        <option value="2">2 days</option>
+                        <option value="3">3 days</option>
+                        <option value="7">7 days</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="difficulty">Difficulty</label>
+                    <select id="difficulty">
+                        <option value="easy">Easy</option>
+                        <option value="moderate" selected>Moderate</option>
+                        <option value="tough">Tough</option>
+                    </select>
+                </div>
+                <div>
+                    <label>&nbsp;</label>
+                    <div class="row">
+                        <button id="genBtn" class="btn primary">⚡ Fetch & Generate MCQs</button>
+                        <button id="exportBtn" class="btn secondary">⬇️ Export JSON</button>
+                        <button id="printBtn" class="btn ghost">🖨️ Print</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="chips" id="topics">
+                <!-- topic chips injected -->
+            </div>
+            <div class="meta" style="margin-top:8px">Sources: Google News RSS (India), PIB, Rajya Sabha/PRS, Environment
+                & Sci-Tech feeds where available. Uses a CORS-safe proxy with graceful fallback. If a feed blocks
+                access, the app still works with cached examples.</div>
+        </section>
+
+        <section class="grid" style="margin-top:16px">
+            <div class="card quiz fade-in">
+                <div class="q-head">
+                    <div>
+                        <div style="font-weight:700">Question <span id="qNum">–</span>/<span id="qTotal">–</span></div>
+                        <div id="qTopic" class="meta">&nbsp;</div>
+                    </div>
+                    <div class="row">
+                        <button id="markBtn" class="btn warn">⚑ Mark for Review</button>
+                        <button id="clearBtn" class="btn ghost">⟲ Clear</button>
+                    </div>
+                </div>
+                <div id="questionText" style="margin-top:10px"></div>
+                <div id="options"></div>
+                <div class="row" style="margin-top:8px">
+                    <button id="prevBtn" class="btn ghost">← Prev</button>
+                    <button id="nextBtn" class="btn ghost">Next →</button>
+                    <button id="submitBtn" class="btn secondary" style="margin-left:auto">✅ Submit</button>
+                </div>
+            </div>
+
+            <aside class="card fade-in">
+                <div style="display:flex;justify-content:space-between;align-items:center;gap:8px">
+                    <div>
+                        <div style="font-weight:700">Palette</div>
+                        <div class="meta">Jump to any question</div>
+                    </div>
+                    <div class="chip" id="today"></div>
+                </div>
+                <div id="palette" class="palette" style="margin-top:12px"></div>
+                <div style="margin-top:12px" class="meta">Legend: default = not visited, darker = answered, green =
+                    marked for review.</div>
+                <hr style="border-color:#1f2937;margin:14px 0" />
+                <div>
+                    <div style="font-weight:700;margin-bottom:6px">Sources fetched</div>
+                    <div id="sourcesList" class="chips"></div>
+                </div>
+            </aside>
+        </section>
+
+        <section id="results" class="card results fade-in" style="margin-top:16px">
+            <div class="row" style="justify-content:space-between;align-items:center">
+                <div>
+                    <div class="score" id="scoreLine"></div>
+                    <div class="meta" id="metaLine"></div>
+                </div>
+                <div class="row">
+                    <button id="retryBtn" class="btn primary">🔁 New Set</button>
+                    <button id="reviewBtn" class="btn ghost">📝 Review Answers</button>
+                </div>
+            </div>
+            <div id="review" class="hidden" style="margin-top:12px"></div>
+        </section>
+
+        <footer class="container" style="opacity:.8">
+            <p class="meta">Tip: You can edit the topic list in code. If a feed is slow or blocked by CORS, the
+                generator falls back to a built‑in mini dataset (last resort) so you can still practice. For server-side
+                reliability, point the same code to a tiny proxy (e.g. Cloudflare Worker) later.</p>
+            <p class="meta">Keyboard: <code class="k">A/B/C/D</code> to answer, <code class="k">←/→</code> to navigate,
+                <code class="k">R</code> mark, <code class="k">Backspace</code> clear.
+            </p>
+        </footer>
+    </main>
+
+    <script>
+        // ================== CONFIG ==================
+        const TIMEZONE = 'Asia/Kolkata';
+        const TOPIC_TAGS = [
+            { key: 'Polity & Governance', q: 'site:pib.gov.in OR site:prsindia.org OR site:egazette.nic.in' },
+            { key: 'Economy', q: 'economy India RBI Budget' },
+            { key: 'International Relations', q: 'MEA India foreign policy' },
+            { key: 'Environment', q: 'environment MoEFCC climate biodiversity India' },
+            { key: 'Sci & Tech', q: 'ISRO DST DBT MeitY AI space India' },
+            { key: 'Security/Defence', q: 'defence India DRDO armed forces' },
+            { key: 'Schemes & Welfare', q: 'scheme ministry India launch' },
+        ];
+
+        const RSS_SOURCES = (
+            lookbackDays => [
+                // Google News RSS queries filtered to India English, with recency via when:Xd
+                `https://news.google.com/rss/search?q=${encodeURIComponent('site:pib.gov.in OR site:prsindia.org')}+when%3A${lookbackDays}d&hl=en-IN&gl=IN&ceid=IN:en`,
+                `https://news.google.com/rss/search?q=${encodeURIComponent('ISRO OR DRDO OR MeitY OR DST')}+when%3A${lookbackDays}d&hl=en-IN&gl=IN&ceid=IN:en`,
+                `https://news.google.com/rss/search?q=${encodeURIComponent('MoEFCC biodiversity climate India')}+when%3A${lookbackDays}d&hl=en-IN&gl=IN&ceid=IN:en`,
+                `https://news.google.com/rss/search?q=${encodeURIComponent('RBI monetary policy India')}+when%3A${lookbackDays}d&hl=en-IN&gl=IN&ceid=IN:en`,
+                `https://news.google.com/rss/search?q=${encodeURIComponent('Parliament India bill Lok Sabha Rajya Sabha')}+when%3A${lookbackDays}d&hl=en-IN&gl=IN&ceid=IN:en`,
+            ]
+        );
+
+        // CORS helper: try AllOrigins first; fallback to textise dot iitty (r.jina.ai) which returns page text for links
+        const prox = url => `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`;
+
+        // ================== STATE ==================
+        let ARTICLES = []; // {title, link, date, source}
+        let MCQS = []; // {q, options[4], answerIdx, topic, ref}
+        let idx = 0;
+        let marked = new Set();
+        let answers = new Map(); // idx -> optionIdx
+
+        // ================== UTIL ==================
+        const fmtDate = (d) => new Intl.DateTimeFormat('en-IN', { dateStyle: 'full', timeStyle: 'short', timeZone: TIMEZONE }).format(d);
+        const todayIST = () => new Date(new Date().toLocaleString('en-US', { timeZone: TIMEZONE }));
+        const shuffle = (arr) => arr.sort(() => Math.random() - .5);
+        const uniq = arr => [...new Set(arr.filter(Boolean))];
+
+        function renderTopicChips() {
+            const box = document.getElementById('topics');
+            box.innerHTML = '';
+            TOPIC_TAGS.forEach(t => {
+                const el = document.createElement('div');
+                el.className = 'chip';
+                el.textContent = t.key;
+                box.appendChild(el);
+            });
+        }
+
+        // Parse RSS XML into items
+        function parseRSS(xml) {
+            const dom = new DOMParser().parseFromString(xml, 'text/xml');
+            const items = [...dom.querySelectorAll('item')].map(it => ({
+                title: it.querySelector('title')?.textContent?.trim() || '',
+                link: it.querySelector('link')?.textContent?.trim() || '',
+                date: new Date(it.querySelector('pubDate')?.textContent || Date.now()),
+                source: new URL((it.querySelector('link')?.textContent || '#')).hostname.replace('www.', '')
+            }));
+            return items;
+        }
+
+        async function fetchRSS(url) {
+            const r = await fetch(prox(url));
+            if (!r.ok) throw new Error('feed blocked');
+            return await r.text();
+        }
+
+        function withinLookback(dt, days) {
+            const now = todayIST();
+            const past = new Date(now.getTime() - days * 24 * 60 * 60 * 1000);
+            return dt >= past && dt <= now;
+        }
+
+        function extractEntities(title) {
+            // naive: pick capitalized words & acronyms, drop stopwords
+            const STOP = new Set(['The', 'A', 'An', 'Of', 'For', 'And', 'In', 'On', 'With', 'At', 'To', 'From', 'By', 'Over', 'Under', 'After', 'Before', 'New', 'India', 'Indian', 'Govt', 'Government']);
+            return uniq(
+                (title || '')
+                    .replace(/\([^)]*\)/g, ' ')
+                    .replace(/\[[^\]]*\]/g, ' ')
+                    .split(/\s+/)
+                    .filter(w => w && (/[A-Z]{2,}/.test(w) || /^[A-Z][a-z\-]+$/.test(w)))
+                    .filter(w => !STOP.has(w))
+            );
+        }
+
+        function makeCloze(title, answer) {
+            if (!answer) return null;
+            const re = new RegExp(`\\b${answer.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&')}\\b`);
+            if (!re.test(title)) return null;
+            return title.replace(re, '____');
+        }
+
+        function generateMCQsFromArticles(arts, desired, difficulty) {
+            const poolEntities = uniq(arts.flatMap(a => extractEntities(a.title))).slice(0, 60);
+            const mcqs = [];
+            for (const art of arts) {
+                if (mcqs.length >= desired) break;
+                const ents = extractEntities(art.title);
+                const answer = ents[0] || null;
+                let stem = makeCloze(art.title, answer);
+                if (!answer || !stem) {
+                    // fallback: topic identification type
+                    stem = `This news item is most closely related to which area? — “${art.title}”`;
+                }
+                // Build options
+                let options = [];
+                if (answer && stem.includes('____')) {
+                    options = uniq([answer, ...shuffle(poolEntities.filter(e => e !== answer)).slice(0, 3)]);
+                    while (options.length < 4) {
+                        options.push('None of the above');
+                    }
+                } else {
+                    const topic = guessTopic(art.title);
+                    const distract = ['Polity & Governance', 'Economy', 'International Relations', 'Environment', 'Sci & Tech', 'Security/Defence', 'Schemes & Welfare'];
+                    options = shuffle([topic, ...distract.filter(d => d !== topic).slice(0, 3)]);
+                }
+                const answerIdx = stem.includes('area?') ? options.indexOf(guessTopic(art.title)) : options.indexOf(answer);
+                mcqs.push({
+                    q: stem,
+                    options: options.slice(0, 4),
+                    answerIdx: Math.max(0, answerIdx),
+                    topic: guessTopic(art.title),
+                    ref: art
+                });
+            }
+            // difficulty tweak: shuffle options more for tough; easy -> include "None of the above" sometimes
+            if (difficulty === 'easy') {
+                mcqs.forEach(m => {
+                    if (Math.random() < 0.25 && !m.options.includes('None of the above')) {
+                        m.options[Math.floor(Math.random() * 4)] = 'None of the above';
+                    }
+                });
+            }
+            return mcqs;
+        }
+
+        function guessTopic(title) {
+            const t = title.toLowerCase();
+            if (/bill|act|ministry|cabinet|parliament|loksabha|rajya sabha|scheme|policy/.test(t)) return 'Polity & Governance';
+            if (/gdp|rbi|inflation|budget|gst|exports|imports|bank|econom/.test(t)) return 'Economy';
+            if (/cop\d+|climate|biodiversity|tiger|wildlife|moefcc|environment|forest|pollution|renewable/.test(t)) return 'Environment';
+            if (/isro|drdo|launch|satellite|ai |quantum|meity|dst|dbt|startup|patent|vaccine/.test(t)) return 'Sci & Tech';
+            if (/china|us |uk |united nations|unsc|russia|pakistan|bangladesh|nepal|sri lanka|bilateral|multilateral|treaty|summit|g20|brics|quad/.test(t)) return 'International Relations';
+            if (/army|navy|air force|iaf|defence|missile|border|security|cyber/.test(t)) return 'Security/Defence';
+            return 'Schemes & Welfare';
+        }
+
+        function buildPalette(total) {
+            const pal = document.getElementById('palette');
+            pal.innerHTML = '';
+            for (let i = 0; i < total; i++) {
+                const b = document.createElement('button');
+                b.className = 'pal-btn';
+                b.textContent = i + 1;
+                b.onclick = () => { idx = i; renderQuestion(); };
+                pal.appendChild(b);
+            }
+        }
+
+        function refreshPalette() {
+            [...document.querySelectorAll('.pal-btn')].forEach((b, i) => {
+                b.classList.toggle('answered', answers.has(i));
+                b.classList.toggle('review', marked.has(i));
+            });
+        }
+
+        function renderQuestion() {
+            const total = MCQS.length; if (total === 0) return;
+            const m = MCQS[idx];
+            document.getElementById('qNum').textContent = idx + 1;
+            document.getElementById('qTotal').textContent = total;
+            document.getElementById('qTopic').textContent = `Topic: ${m.topic} · Source: ${m.ref.source}`;
+
+            document.getElementById('questionText').innerHTML = `<div style="font-size:18px;line-height:1.35">${m.q}</div>`;
+
+            const optBox = document.getElementById('options');
+            optBox.innerHTML = '';
+            m.options.forEach((opt, i) => {
+                const row = document.createElement('label');
+                row.className = 'option';
+                row.innerHTML = `<input type="radio" name="opt" ${answers.get(idx) === i ? 'checked' : ''}/> <div><div><strong>${String.fromCharCode(65 + i)}.</strong> ${opt}</div></div>`;
+                row.onclick = () => { answers.set(idx, i); refreshPalette(); };
+                optBox.appendChild(row);
+            });
+            document.getElementById('markBtn').onclick = () => { marked.has(idx) ? marked.delete(idx) : marked.add(idx); refreshPalette(); };
+            document.getElementById('clearBtn').onclick = () => { answers.delete(idx); renderQuestion(); refreshPalette(); };
+            refreshPalette();
+        }
+
+        function submitQuiz() {
+            let correct = 0; const review = [];
+            MCQS.forEach((m, i) => {
+                const pick = answers.get(i);
+                const ok = pick === m.answerIdx;
+                if (ok) correct++;
+                review.push({ i, ok, pick, m });
+            });
+            const scorePct = Math.round((correct / MCQS.length) * 100);
+            document.getElementById('results').style.display = 'block';
+            document.getElementById('scoreLine').textContent = `Score: ${correct}/${MCQS.length} (${scorePct}%)`;
+            const tzNow = fmtDate(todayIST());
+            document.getElementById('metaLine').textContent = `Evaluated on ${tzNow} · Difficulty: ${document.getElementById('difficulty').value}`;
+
+            const rev = document.getElementById('review');
+            rev.innerHTML = review.map(({ i, ok, pick, m }) => {
+                const opts = m.options.map((o, j) => {
+                    const cls = j === m.answerIdx ? 'correct' : (j === pick && j !== m.answerIdx ? 'wrong' : '');
+                    return `<div class="option ${cls}"><div><strong>${String.fromCharCode(65 + j)}.</strong> ${o}</div></div>`
+                }).join('');
+                return `<div class="q-card"><div class="q-head"><div class="q-idx">Q${i + 1}</div><a class="chip" href="${m.ref.link}" target="_blank" rel="noopener">Open source</a></div><div style="margin-top:8px">${m.q}</div>${opts}</div>`
+            }).join('');
+        }
+
+        function exportJSON() {
+            const blob = new Blob([JSON.stringify({ generatedAt: new Date().toISOString(), timezone: TIMEZONE, mcqs: MCQS }, null, 2)], { type: 'application/json' });
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = `auto-mcqs-${new Date().toISOString().slice(0, 10)}.json`;
+            a.click();
+        }
+
+        function printPage() { window.print(); }
+
+        function setupKeys() {
+            window.addEventListener('keydown', e => {
+                if (['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName)) return;
+                if (e.key === 'ArrowRight') { idx = Math.min(MCQS.length - 1, idx + 1); renderQuestion(); }
+                if (e.key === 'ArrowLeft') { idx = Math.max(0, idx - 1); renderQuestion(); }
+                if (/^[abcd]$/i.test(e.key)) {
+                    const n = e.key.toLowerCase().charCodeAt(0) - 97; answers.set(idx, n); refreshPalette(); renderQuestion();
+                }
+                if (e.key === 'Backspace') { answers.delete(idx); renderQuestion(); }
+                if (e.key.toLowerCase() === 'r') { marked.has(idx) ? marked.delete(idx) : marked.add(idx); refreshPalette(); }
+            });
+        }
+
+        async function generate() {
+            const count = +document.getElementById('qCount').value || 15;
+            const lookback = +document.getElementById('recency').value || 1;
+            const difficulty = document.getElementById('difficulty').value;
+
+            document.getElementById('sourcesList').innerHTML = '';
+            ARTICLES = [];
+
+            const feedUrls = RSS_SOURCES(lookback);
+            const sourcesDom = document.getElementById('sourcesList');
+
+            // Try all feeds in parallel, ignore failures
+            const results = await Promise.allSettled(feedUrls.map(u => fetchRSS(u)));
+            results.forEach((res, i) => {
+                const badge = document.createElement('div');
+                badge.className = 'chip';
+                badge.textContent = `Feed ${i + 1}: ${res.status === 'fulfilled' ? 'OK' : 'Skipped'}`;
+                sourcesDom.appendChild(badge);
+            });
+
+            results.forEach((res, i) => {
+                if (res.status === 'fulfilled') {
+                    try {
+                        const items = parseRSS(res.value)
+                            .filter(it => withinLookback(new Date(it.date), lookback))
+                            .slice(0, 30);
+                        ARTICLES.push(...items);
+                    } catch (err) { /* ignore */ }
+                }
+            });
+
+            // Fallback mini dataset if nothing fetched
+            if (ARTICLES.length === 0) {
+                ARTICLES = [
+                    { title: 'ISRO announces new small satellite launch mission for climate observations', link: '#', date: new Date(), source: 'demo' },
+                    { title: 'RBI releases guidelines to enhance digital payments security', link: '#', date: new Date(), source: 'demo' },
+                    { title: 'Union Cabinet approves scheme to promote green hydrogen in India', link: '#', date: new Date(), source: 'demo' },
+                    { title: 'India and Bangladesh hold talks on river water sharing', link: '#', date: new Date(), source: 'demo' },
+                    { title: 'MoEFCC notifies new rules to curb plastic waste', link: '#', date: new Date(), source: 'demo' },
+                    { title: 'DRDO tests new indigenously developed missile system', link: '#', date: new Date(), source: 'demo' },
+                ];
+            }
+
+            // De-duplicate by title
+            const seen = new Set();
+            ARTICLES = ARTICLES.filter(a => { if (seen.has(a.title)) return false; seen.add(a.title); return true; });
+
+            MCQS = generateMCQsFromArticles(ARTICLES, count, difficulty);
+
+            // Build UI
+            buildPalette(MCQS.length);
+            idx = 0; marked.clear(); answers.clear();
+            renderQuestion(); refreshPalette();
+
+            document.getElementById('results').style.display = 'none';
+        }
+
+        // ============== INIT ==============
+        (function init() {
+            document.getElementById('tz').textContent = TIMEZONE;
+            document.getElementById('today').textContent = new Date().toLocaleDateString('en-IN', { timeZone: TIMEZONE, dateStyle: 'full' });
+            renderTopicChips();
+            setupKeys();
+
+            document.getElementById('genBtn').onclick = generate;
+            document.getElementById('exportBtn').onclick = exportJSON;
+            document.getElementById('printBtn').onclick = printPage;
+
+            document.getElementById('prevBtn').onclick = () => { idx = Math.max(0, idx - 1); renderQuestion() };
+            document.getElementById('nextBtn').onclick = () => { idx = Math.min(MCQS.length - 1, idx + 1); renderQuestion() };
+            document.getElementById('submitBtn').onclick = submitQuiz;
+            document.getElementById('retryBtn').onclick = generate;
+            document.getElementById('reviewBtn').onclick = () => {
+                const r = document.getElementById('review');
+                r.classList.toggle('hidden');
+            }
+
+            // Auto-generate on first load for demo
+            generate();
+        })();
+    </script>
+</body>
+
+</html>

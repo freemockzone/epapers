@@ -1,0 +1,936 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SSC CGL Prelims Mock Test — Frontend Only</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #ffffff;
+            --muted: #f5f7fb;
+            --text: #111827;
+            --sub: #6b7280;
+            --primary: #2563eb;
+            --primary-600: #1d4ed8;
+            --accent: #10b981;
+            --warn: #f59e0b;
+            --danger: #ef4444;
+            --card: #ffffff;
+            --border: #e5e7eb;
+            --palette-answered: #22c55e;
+            --palette-not-answered: #ef4444;
+            --palette-not-visited: #9ca3af;
+            --palette-marked: #8b5cf6;
+            --palette-marked-answered: #0ea5e9;
+        }
+
+        * {
+            box-sizing: border-box
+        }
+
+        html,
+        body {
+            height: 100%
+        }
+
+        body {
+            margin: 0;
+            font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, "Helvetica Neue", Arial;
+            color: var(--text);
+            background: var(--bg);
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 16px
+        }
+
+        .navbar {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            background: #fff;
+            border-bottom: 1px solid var(--border)
+        }
+
+        .nav-wrap {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 16px
+        }
+
+        .brand {
+            display: flex;
+            gap: 10px;
+            align-items: center
+        }
+
+        .brand .logo {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, var(--primary), #7c3aed);
+        }
+
+        .brand h1 {
+            font-size: 18px;
+            margin: 0;
+            font-weight: 700
+        }
+
+        .nav-actions {
+            display: flex;
+            gap: 10px;
+            align-items: center
+        }
+
+        .btn {
+            appearance: none;
+            border: 1px solid var(--border);
+            background: #fff;
+            color: var(--text);
+            padding: 8px 12px;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer
+        }
+
+        .btn.primary {
+            background: var(--primary);
+            color: #fff;
+            border-color: var(--primary)
+        }
+
+        .btn.primary:hover {
+            background: var(--primary-600)
+        }
+
+        .btn.ghost {
+            background: #fff
+        }
+
+        .btn.icon {
+            display: flex;
+            gap: 8px;
+            align-items: center
+        }
+
+        .info-strip {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin: 16px 0
+        }
+
+        .pill {
+            background: var(--muted);
+            padding: 8px 12px;
+            border-radius: 999px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border: 1px solid var(--border)
+        }
+
+        .layout {
+            display: grid;
+            grid-template-columns: 320px 1fr;
+            gap: 16px
+        }
+
+        .card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            box-shadow: 0 1px 0 rgba(0, 0, 0, 0.02)
+        }
+
+        .card .card-h {
+            padding: 12px 14px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center
+        }
+
+        .card .card-b {
+            padding: 14px
+        }
+
+        .palette {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 8px
+        }
+
+        .qdot {
+            padding: 10px 0;
+            text-align: center;
+            font-weight: 700;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            background: #fff;
+            cursor: pointer;
+            user-select: none
+        }
+
+        .qdot[disabled] {
+            cursor: not-allowed;
+            opacity: .6
+        }
+
+        .qdot.answered {
+            background: var(--palette-answered);
+            color: #fff;
+            border-color: var(--palette-answered)
+        }
+
+        .qdot.not-answered {
+            background: #fff;
+            color: var(--danger);
+            border-color: var(--danger)
+        }
+
+        .qdot.not-visited {
+            background: #fff;
+            color: var(--palette-not-visited)
+        }
+
+        .qdot.marked {
+            background: var(--palette-marked);
+            color: #fff;
+            border-color: var(--palette-marked)
+        }
+
+        .qdot.marked-answered {
+            background: var(--palette-marked-answered);
+            color: #fff;
+            border-color: var(--palette-marked-answered)
+        }
+
+        .legend {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+            font-size: 12px;
+            color: var(--sub)
+        }
+
+        .legend .item {
+            display: flex;
+            align-items: center;
+            gap: 8px
+        }
+
+        .legend .sw {
+            width: 14px;
+            height: 14px;
+            border-radius: 4px;
+            border: 1px solid var(--border)
+        }
+
+        .sw.answered {
+            background: var(--palette-answered);
+            border-color: var(--palette-answered)
+        }
+
+        .sw.not-answered {
+            background: #fff;
+            border-color: var(--danger)
+        }
+
+        .sw.not-visited {
+            background: #fff
+        }
+
+        .sw.marked {
+            background: var(--palette-marked);
+            border-color: var(--palette-marked)
+        }
+
+        .sw.marked-answered {
+            background: var(--palette-marked-answered);
+            border-color: var(--palette-marked-answered)
+        }
+
+        .question-area {
+            display: flex;
+            flex-direction: column;
+            gap: 12px
+        }
+
+        .qheader {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 12px
+        }
+
+        .qtitle {
+            font-weight: 700
+        }
+
+        .qtopic {
+            color: var(--sub);
+            font-size: 12px
+        }
+
+        .qtext {
+            line-height: 1.5
+        }
+
+        .qtext .hi {
+            margin-top: 8px;
+            color: #1f2937
+        }
+
+        .options {
+            display: grid;
+            gap: 10px
+        }
+
+        .opt {
+            display: flex;
+            gap: 10px;
+            align-items: flex-start;
+            border: 1px solid var(--border);
+            padding: 10px;
+            border-radius: 10px;
+            cursor: pointer
+        }
+
+        .opt input {
+            margin-top: 4px
+        }
+
+        .actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 8px
+        }
+
+        .actions .btn {
+            min-width: 130px
+        }
+
+        /* Results */
+        .two-col {
+            display: grid;
+            grid-template-columns: 360px 1fr;
+            gap: 16px
+        }
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px
+        }
+
+        .stat {
+            background: var(--muted);
+            border: 1px solid var(--border);
+            padding: 10px;
+            border-radius: 10px
+        }
+
+        .stat h4 {
+            margin: 0;
+            font-size: 12px;
+            color: var(--sub)
+        }
+
+        .stat p {
+            margin: 6px 0 0;
+            font-weight: 800;
+            font-size: 18px
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse
+        }
+
+        th,
+        td {
+            border: 1px solid var(--border);
+            padding: 8px;
+            text-align: left
+        }
+
+        th {
+            background: #fafafa
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--muted);
+            border: 1px solid var(--border);
+            padding: 10px 12px;
+            border-radius: 999px;
+            font-weight: 700
+        }
+
+        .badge .emoji {
+            font-size: 20px
+        }
+
+        .hide {
+            display: none !important
+        }
+
+        /* Mobile */
+        @media (max-width:1000px) {
+            .layout {
+                grid-template-columns: 1fr
+            }
+
+            .two-col {
+                grid-template-columns: 1fr
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="nav-wrap container">
+            <div class="brand">
+                <div class="logo" aria-hidden="true"></div>
+                <h1>Bank PO Maths — Mock Test</h1>
+            </div>
+            <div class="nav-actions">
+                <button class="btn ghost" id="instructionsBtn">Instructions</button>
+                <a class="btn primary" href="index.html" title="Go Back to Home">Go Back</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="info-strip" id="infoStrip">
+            <div class="pill"><strong>Sections:</strong> Quant (Mixed)</div>
+            <div class="pill"><strong>Total Qs:</strong> <span id="totalQs">25</span></div>
+            <div class="pill"><strong>Timer:</strong> <span id="timer">00:00:00</span></div>
+            <div class="pill"><strong>Marking:</strong> +2 / -0.5</div>
+        </div>
+
+        <div class="layout" id="examLayout">
+            <!-- Palette -->
+            <aside class="card" id="paletteCard">
+                <div class="card-h">
+                    <strong>Question Palette</strong>
+                    <span id="paletteMeta" class="qtopic">Visited: 0 / 25</span>
+                </div>
+                <div class="card-b">
+                    <div id="palette" class="palette" aria-label="Question Palette"></div>
+                    <div style="height:12px"></div>
+                    <div class="legend">
+                        <div class="item"><span class="sw answered"></span> Answered</div>
+                        <div class="item"><span class="sw not-answered" style="border-color:var(--danger)"></span> Not
+                            Answered</div>
+                        <div class="item"><span class="sw marked"></span> Marked</div>
+                        <div class="item"><span class="sw marked-answered"></span> Marked & Answered</div>
+                        <div class="item"><span class="sw not-visited" style="border-color:var(--border)"></span> Not
+                            Visited</div>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Question Panel -->
+            <main class="card">
+                <div class="card-h">
+                    <div>
+                        <div class="qtitle">Question <span id="qNumber">1</span> of <span id="qTotal">25</span></div>
+                        <div class="qtopic" id="qTopic">Topic</div>
+                    </div>
+                    <div class="qtopic" id="statusText">Not Visited</div>
+                </div>
+                <div class="card-b">
+                    <div class="question-area">
+                        <div class="qtext" id="qText"></div>
+                        <div class="options" id="options"></div>
+                    </div>
+                    <div class="actions">
+                        <button class="btn" id="clearBtn">Clear Response</button>
+                        <button class="btn" id="markBtn">Mark for Review</button>
+                        <button class="btn" id="prevBtn">⟵ Previous</button>
+                        <button class="btn primary" id="saveNextBtn">Save & Next ⟶</button>
+                        <button class="btn" id="nextBtn">Next ⟶</button>
+                        <button class="btn" id="submitBtn"
+                            style="margin-left:auto; border-color:var(--danger); color:#fff; background:var(--danger)">Submit
+                            Test</button>
+                    </div>
+                </div>
+            </main>
+        </div>
+
+        <!-- Results -->
+        <section id="resultsSection" class="hide">
+            <div class="two-col">
+                <div class="card">
+                    <div class="card-h"><strong>Performance Chart</strong></div>
+                    <div class="card-b">
+                        <canvas id="resultChart" width="320" height="320" aria-label="Result Chart"></canvas>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-h"><strong>Summary</strong></div>
+                    <div class="card-b">
+                        <div class="summary-grid">
+                            <div class="stat">
+                                <h4>Total Score</h4>
+                                <p id="rTotalScore">0</p>
+                            </div>
+                            <div class="stat">
+                                <h4>Percentage</h4>
+                                <p id="rPercentage">0%</p>
+                            </div>
+                            <div class="stat">
+                                <h4>Correct Answers</h4>
+                                <p id="rCorrect">0</p>
+                            </div>
+                            <div class="stat">
+                                <h4>Incorrect Answers</h4>
+                                <p id="rIncorrect">0</p>
+                            </div>
+                            <div class="stat">
+                                <h4>Unattempted</h4>
+                                <p id="rUnattempted">0</p>
+                            </div>
+                            <div class="stat">
+                                <h4>Accuracy</h4>
+                                <p id="rAccuracy">0%</p>
+                            </div>
+                        </div>
+                        <div style="height:12px"></div>
+                        <div id="badge" class="badge"><span class="emoji">🎯</span> <span id="badgeText">Badge</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="height:16px"></div>
+
+            <div class="card">
+                <div class="card-h"><strong>Topic-wise Analysis</strong></div>
+                <div class="card-b">
+                    <div class="table-wrap">
+                        <table id="topicTable">
+                            <thead>
+                                <tr>
+                                    <th>Topic</th>
+                                    <th>Questions</th>
+                                    <th>Attempted</th>
+                                    <th>Correct</th>
+                                    <th>Incorrect</th>
+                                    <th>Accuracy</th>
+                                    <th>Avg Time (s)</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div style="height:16px"></div>
+
+            <div class="card">
+                <div class="card-h"><strong>Detailed Time Analysis</strong></div>
+                <div class="card-b">
+                    <div class="summary-grid">
+                        <div class="stat">
+                            <h4>Total Time Taken</h4>
+                            <p id="timeTotal">0s</p>
+                        </div>
+                        <div class="stat">
+                            <h4>Average Time / Q</h4>
+                            <p id="timeAvg">0s</p>
+                        </div>
+                    </div>
+                    <div style="height:12px"></div>
+                    <table id="timeTable">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Topic</th>
+                                <th>Status</th>
+                                <th>Chosen</th>
+                                <th>Correct</th>
+                                <th>Time (s)</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div style="height:16px"></div>
+
+            <div class="card">
+                <div class="card-h">
+                    <strong>Review your Answers</strong>
+                    <button class="btn" id="toggleReviewBtn">Show</button>
+                </div>
+                <div class="card-b hide" id="reviewBlock"></div>
+            </div>
+        </section>
+    </div>
+
+    <dialog id="instructionsModal">
+        <form method="dialog" style="max-width:720px">
+            <h3>Instructions</h3>
+            <p>This mock test simulates SSC CGL Prelims UI. Use the palette to jump between questions. Marking scheme
+                used here is <strong>+2</strong> for correct and <strong>-0.5</strong> for incorrect. No marks for
+                unattempted.</p>
+            <ul>
+                <li>Use <em>Save & Next</em> to record an answer and move ahead.</li>
+                <li><em>Mark for Review</em> toggles review status.</li>
+                <li><em>Clear Response</em> removes selected option.</li>
+            </ul>
+            <div style="display:flex; justify-content:flex-end; gap:8px; margin-top:10px">
+                <button class="btn">Close</button>
+            </div>
+        </form>
+    </dialog>
+
+    <script>
+        // ---------- Config ----------
+        const MARKS_CORRECT = 2;    // exam-like
+        const MARKS_WRONG = -0.5; // exam-like
+
+        // 10 badge tiers by percentage
+        const BADGES = [
+            { min: 0, max: 9.99, text: "Newcomer", emoji: "🌱" },
+            { min: 10, max: 19.99, text: "Learner", emoji: "📘" },
+            { min: 20, max: 29.99, text: "Improving", emoji: "🚧" },
+            { min: 30, max: 39.99, text: "Competent", emoji: "🛠️" },
+            { min: 40, max: 49.99, text: "Steady", emoji: "📈" },
+            { min: 50, max: 59.99, text: "Proficient", emoji: "🎓" },
+            { min: 60, max: 69.99, text: "Advanced", emoji: "⚡" },
+            { min: 70, max: 79.99, text: "Expert", emoji: "🏆" },
+            { min: 80, max: 89.99, text: "Master", emoji: "🥇" },
+            { min: 90, max: 100.1, text: "Legend", emoji: "👑" },
+        ];
+
+        // ---------- Data (25 Qs) ----------
+        // Each question: id, topic, en, hi, options:[...], correct:"a|b|c|d|e"
+        const QUESTIONS = [
+            { id: 1, topic: "Average", en: "If 6 years are subtracted from the present age of Veer and the remainder is divided by 18, then the present age of his grand-daughter Sneha is obtained. If Sneha is 2 years younger to his brother whose age is 5 years, then what is the ratio of the age of Veer and Sneha after 6 years?", hi: "यदि वीर की वर्तमान आयु में से 6 वर्ष घटा दिए जाएँ और शेष को 18 से भाग दिया जाए, तो उसकी पोती स्नेहा की वर्तमान आयु प्राप्त होती है। यदि स्नेहा अपने भाई, जिसकी आयु 5 वर्ष है, से 2 वर्ष छोटी है, तो 6 वर्ष बाद वीर और स्नेहा की आयु का अनुपात क्या होगा?", options: ["20 : 3", "24 : 5", "21 : 4", "22 : 3"], correct: "d" },
+            { id: 2, topic: "Average", en: "My sister was born 26 yrs after my mother was born and I was born 28 yrs after my father was born. The present average age of my family is 32.5 yrs. After 3 yrs my sister will get married and will leave the family, then average age of family will become 41 yrs. What is the present age of my mother?", hi: "मेरी बहन का जन्म मेरी माँ के जन्म के 26 साल बाद हुआ था और मेरा जन्म मेरे पिता के जन्म के 28 साल बाद हुआ था... मेरी माँ की वर्तमान आयु क्या है?", options: ["40", "50", "42", "41"], correct: "c" },
+            { id: 3, topic: "Boat and Stream", en: "A boat can cover 36 km upstream and 55 km downstream in 11 hrs and 48 km upstream and 77 km downstream in 15 hrs, find speed of boat in still water.", hi: "एक नाव 11 घंटे में 36 किमी प्रतिकूल और 55 किमी अनुकूल तथा 15 घंटे में 48 किमी प्रतिकूल और 77 किमी अनुकूल तय करती है... स्थिर जल में गति ज्ञात करें।", options: ["8 km/h", "6.5 km/h", "7.5 km/h", "8.5 km/h"], correct: "d" },
+            { id: 4, topic: "Boat and Stream", en: "A boat covers 28 km downstream in 42 min. Ratio of speed in still water to stream is 7:3. Find difference between time for 60 km downstream & 40 km upstream.", hi: "एक नाव 42 मिनट में 28 किमी अनुकूल तय करती है। स्थिर जल : धारा = 7:3. 60 किमी अनुकूल और 40 किमी प्रतिकूल के समयांतर का मान।", options: ["2.25 hr", "1 hr", "1.5 hr", "0.4 hr", "0.9 hr"], correct: "b" },
+            { id: 5, topic: "Speed, Time, and Distance", en: "John went to city by bicycle at 25 km/h and came back at 4 km/h. Round trip took 5 h 48 m. Find one-way distance.", hi: "जॉन 25 किमी/घं से गया और 4 किमी/घं से लौटा। कुल समय 5 घं 48 मि। एक ओर की दूरी?", options: ["10 km", "20 km", "25 km", "30 km"], correct: "b" },
+            { id: 6, topic: "Time and Work", en: "X, Y, Z can do a work in 46, 92, 23 days. X started, Y joined after 2 days, Z joined after 8 days. For how many days did X work?", hi: "X:46, Y:92, Z:23 दिन। X शुरू, Y 2 दिन बाद, Z 8 दिन बाद। X ने कुल कितने दिन काम किया?", options: ["16", "21", "18", "13"], correct: "c" },
+            { id: 7, topic: "Speed, Time, and Distance", en: "Two friends: motorcycle 30 km/h, train 24 km/h. Biker takes 6 h 12 m. Find train travel time.", hi: "दोस्त: बाइक 30, ट्रेन 24। बाइक समय 6घं12मि। ट्रेन का समय?", options: ["8:00h", "7:25h", "7:50h", "7:45h", "None"], correct: "b" },
+            { id: 8, topic: "Time and Work", en: "A & B do work in 12 and 18 days. Worked 4 days together, then A & C finish in next 4 days. In how many days will C alone complete 50% work?", hi: "A:12, B:18. 4 दिन साथ, फिर A+C अगले 4 दिन। C अकेले 50% काम कितने दिन में करेगा?", options: ["18", "21", "36", "24"], correct: "a" },
+            { id: 9, topic: "Time and Work", en: "Samir=10d, Puneet=15d. After 3 days together, Ashok joined; total 5 days to finish. Out of Rs.4500, how much for Ashok?", hi: "समीर 10, पुनीत 15। 3 दिन बाद अशोक, कुल 5 दिन। 4500 में अशोक का हिस्सा?", options: ["1500", "800", "750", "1071"], correct: "c" },
+            { id: 10, topic: "Ratio and Proportion", en: "Boys:Girls = 2:5. Then 10 boys leave, 20 girls join. New ratio 4:25. Find number of boys now.", hi: "लड़के:लड़कियाँ=2:5। 10 लड़के गए, 20 लड़कियाँ आईं। नया अनुपात 4:25। अब लड़कों की संख्या?", options: ["12", "8", "9", "22"], correct: "a" },
+            { id: 11, topic: "Ratio and Proportion", en: "Rs.6859 divided among A,B,C,D such that A:B=4:3, B:C=5:4, C:D=6:5. Find amount of B.", hi: "6859 राशि A,B,C,D में: A:B=4:3, B:C=5:4, C:D=6:5. B की राशि?", options: ["1805", "1444", "2508", "2407"], correct: "a" },
+            { id: 12, topic: "Ratio and Proportion", en: "Ramesh,Rajan,Ritesh invest 3:5:7. After 1yr, Ritesh adds 337600, Ramesh withdraws 45600; ratios become 24:59:167. Find Ramesh initial.", hi: "3:5:7 निवेश। 1 वर्ष बाद रितेश +337600, रमेश -45600; अनुपात 24:59:167। रमेश प्रारंभिक निवेश?", options: ["45600", "96000", "141600", "156000"], correct: "c" },
+            { id: 13, topic: "Simple and Compound Interest", en: "P split in A:B:C = 2:1:3. A: 10% SI 2y; B:5% CI 2y; C:6% CI half-yearly 1y. Total interest=6852. Find P.", hi: "P को 2:1:3 में। A:10% SI 2 वर्ष; B:5% CI 2 वर्ष; C:6% CI अर्धवार्षिक 1 वर्ष। कुल ब्याज 6852। P ज्ञात करें।", options: ["60000", "72000", "48000", "120000"], correct: "a" },
+            { id: 14, topic: "Simple and Compound Interest", en: "Rs.84000 on SI at 15% for 3 years. Find simple interest.", hi: "84000 पर 15% साधारण ब्याज 3 वर्ष। ब्याज?", options: ["39800", "38700", "37800", "37200"], correct: "c" },
+            { id: 15, topic: "Profit and Loss", en: "B buys 15 kg apples @180/kg from wholesaler using 950 g as 1 kg. B sells @180/kg using 750 g as 1 kg. Find profit % (2 d.p.)", hi: "B 15 किग्रा 180 रु/किग्रा, थोक वाले का 1 किग्रा=950ग्राम; B बेचता 180 रु/किग्रा पर 1 किग्रा=750ग्राम। लाभ %?", options: ["33.33%", "26.67%", "22.55%", "25.75%"], correct: "b" },
+            { id: 16, topic: "Profit and Loss", en: "3/4th sold at +8% and rest at -4%. Overall profit Rs.600. Find value of consignment.", hi: "3/4 भाग 8% लाभ पर, शेष 4% हानि पर। कुल लाभ ₹600। माल का मूल्य?", options: ["15000", "12000", "18000", "6000"], correct: "b" },
+            { id: 17, topic: "Profit and Loss", en: "Dishonest trader claims CP but uses false weight and gains 12.5%. How many grams does he use for 1 kg?", hi: "बेईमान व्यापारी लागत मूल्य पर कहता है पर गलत बाट से 12.5% लाभ। 1 किग्रा के लिए कितने ग्राम?", options: ["880.5", "888.8", "850", "900"], correct: "b" },
+            { id: 18, topic: "Mixture and Alligation", en: "Tea Rs108 and Rs120 mixed with a third in ratio 2:3:5. Mixture worth Rs125/kg. Find third price (nearest integer).", hi: "108 व 120 रु/किग्रा चाय तीसरी किस्म के साथ 2:3:5 में। मिश्रण 125 रु/किग्रा। तीसरी कीमत?", options: ["128", "130", "130", "135"], correct: "d" },
+            { id: 19, topic: "Percentage", en: "Anurag 48%, Ayush 33%. Anurag got 60 above pass, Ayush 15 below pass; Veer 54%. How many above pass did Veer get?", hi: "अनुराग 48%, आयुष 33%. अनुराग पास से +60, आयुष -15; वीर 54%. वीर पास से कितने अधिक?", options: ["90", "55", "45", "70"], correct: "a" },
+            { id: 20, topic: "Percentage", en: "Manoj gave 60% salary to wife, rest into MF. Wife spends 30% on grocery, 20% on rent; from remaining she bought gold Rs.18000. Find Manoj salary.", hi: "मनोज 60% पत्नी को देता, शेष MF। पत्नी 30% किराना, 20% किराया; शेष से 18000 सोना। मनोज वेतन?", options: ["60000", "54000", "64000", "58000", "66000"], correct: "a" },
+            { id: 21, topic: "Percentage", en: "A number increased by 5% then by 20%. By what % should consumption be reduced to keep expenditure same? (2 d.p.)", hi: "पहले 5% फिर 20% वृद्धि। व्यय समान रखने हेतु कितने % कमी?", options: ["16%", "18%", "30%", "26%"], correct: "d" },
+            { id: 22, topic: "Percentage", en: "In a class 250/300 are girls; rest boys. If 60% boys and 80% girls are present, what % of class is absent?", hi: "कक्षा में 250/300 लड़कियाँ, शेष लड़के। 60% लड़के व 80% लड़कियाँ उपस्थित। कुल कितने % अनुपस्थित?", options: ["22 2/3", "12 1/3", "26 2/3", "23 1/3"], correct: "d" },
+            { id: 23, topic: "Partnership", en: "A=40000, B=48000, C=80000 initially. After 6 months, for remaining year: A+4000 (once), B+4000 (once), C+4000 every month. Total profit 6,72,000. Find C's share.", hi: "आरंभ: A 40000, B 48000, C 80000. 6 माह बाद शेष अवधि: A +4000, B +4000, C हर माह +4000. कुल लाभ 6,72,000. C का हिस्सा?", options: ["1,96,750", "1,80,480", "2,11,200", "2,80,320"], correct: "d" },
+            { id: 24, topic: "Pipe and Cisterns", en: "Taps A,B,C fill a tank in 20,24,30 h. How long together?", hi: "A,B,C क्रमशः 20,24,30 घं. साथ में समय?", options: ["8 hours", "12 hours", "9 hours", "6 hours"], correct: "a" },
+            { id: 25, topic: "Pipe and Cisterns", en: "Each inlet fills in 84h; each outlet empties in 105h. Tank empty; open 9 inlets & 10 outlets together. After how many hours will it be completely filled?", hi: "प्रत्येक इनलेट 84घं, प्रत्येक आउटलेट 105घं. 9 इनलेट + 10 आउटलेट साथ खोले। टंकी कब भरेगी?", options: ["90", "88", "80", "84"], correct: "d" },
+        ];
+
+        // ---------- State ----------
+        const state = {
+            current: 0,
+            answers: Array(QUESTIONS.length).fill(null), // 'a'|'b'|'c'|'d'|'e'|null
+            marked: Array(QUESTIONS.length).fill(false),
+            visited: Array(QUESTIONS.length).fill(false),
+            times: Array(QUESTIONS.length).fill(0), // seconds per question
+            lastTick: Date.now(),
+            timerStart: Date.now(),
+            finished: false,
+        };
+
+        // ---------- Helpers ----------
+        const el = (id) => document.getElementById(id);
+        function fmtTime(sec) {
+            const h = Math.floor(sec / 3600), m = Math.floor((sec % 3600) / 60), s = Math.floor(sec % 60);
+            const pad = n => String(n).padStart(2, '0');
+            return `${pad(h)}:${pad(m)}:${pad(s)}`;
+        }
+        function percent(n, total) { return total ? (n * 100 / total) : 0 }
+
+        // ---------- Timer + Per-question tracking ----------
+        setInterval(() => {
+            if (state.finished) return;
+            const now = Date.now();
+            const dt = (now - state.lastTick) / 1000; // seconds
+            state.times[state.current] += dt;
+            state.lastTick = now;
+            const totalSec = (now - state.timerStart) / 1000;
+            el('timer').textContent = fmtTime(totalSec);
+        }, 1000);
+
+        // ---------- Render Palette ----------
+        function buildPalette() {
+            const pal = el('palette');
+            pal.innerHTML = '';
+            QUESTIONS.forEach((q, idx) => {
+                const btn = document.createElement('button');
+                btn.className = 'qdot not-visited';
+                btn.textContent = idx + 1;
+                btn.addEventListener('click', () => goto(idx));
+                pal.appendChild(btn);
+            })
+            updatePalette();
+        }
+
+        function updatePalette() {
+            const pal = el('palette');
+            const visitedCount = state.visited.filter(Boolean).length;
+            el('paletteMeta').textContent = `Visited: ${visitedCount} / ${QUESTIONS.length}`;
+            [...pal.children].forEach((btn, idx) => {
+                btn.className = 'qdot';
+                const ans = state.answers[idx];
+                const vis = state.visited[idx];
+                const mark = state.marked[idx];
+                if (!vis) btn.classList.add('not-visited');
+                else if (mark && ans) btn.classList.add('marked-answered');
+                else if (mark) btn.classList.add('marked');
+                else if (ans) btn.classList.add('answered');
+                else btn.classList.add('not-answered');
+            })
+        }
+
+        // ---------- Render Question ----------
+        function renderQuestion() {
+            const q = QUESTIONS[state.current];
+            el('qNumber').textContent = state.current + 1;
+            el('qTotal').textContent = QUESTIONS.length;
+            el('qTopic').textContent = q.topic;
+            const status = state.visited[state.current] ? (state.answers[state.current] ? 'Answered' : (state.marked[state.current] ? 'Marked' : 'Not Answered')) : 'Not Visited';
+            el('statusText').textContent = status;
+
+            el('qText').innerHTML = `
+      <div><strong>${q.en}</strong></div>
+      <div class="hi">${q.hi}</div>
+    `;
+            const letters = ['a', 'b', 'c', 'd', 'e'];
+            el('options').innerHTML = '';
+            q.options.forEach((op, i) => {
+                const id = `q${q.id}_opt${i}`;
+                const wrap = document.createElement('label');
+                wrap.className = 'opt';
+                wrap.innerHTML = `<input type="radio" name="q${q.id}" id="${id}" value="${letters[i]}"> <div><strong>(${letters[i].toUpperCase()})</strong> ${op}</div>`;
+                const input = wrap.querySelector('input');
+                input.checked = state.answers[state.current] === letters[i];
+                input.addEventListener('change', (e) => {
+                    state.answers[state.current] = e.target.value;
+                    updatePalette();
+                    el('statusText').textContent = 'Answered';
+                })
+                el('options').appendChild(wrap);
+            })
+        }
+
+        function visit() {
+            state.visited[state.current] = true;
+            updatePalette();
+        }
+
+        function goto(idx) {
+            if (idx === state.current) return;
+            state.lastTick = Date.now();
+            state.current = idx;
+            visit();
+            renderQuestion();
+        }
+
+        // ---------- Button Actions ----------
+        el('clearBtn').onclick = () => {
+            state.answers[state.current] = null;
+            renderQuestion();
+            updatePalette();
+        }
+        el('markBtn').onclick = () => {
+            state.marked[state.current] = !state.marked[state.current];
+            renderQuestion();
+            updatePalette();
+        }
+        el('prevBtn').onclick = () => {
+            if (state.current > 0) goto(state.current - 1);
+        }
+        el('nextBtn').onclick = () => {
+            if (state.current < QUESTIONS.length - 1) goto(state.current + 1);
+        }
+        el('saveNextBtn').onclick = () => {
+            if (state.current < QUESTIONS.length - 1) goto(state.current + 1);
+        }
+
+        // ---------- Submit ----------
+        el('submitBtn').onclick = () => {
+            if (!confirm('Submit the test? You will not be able to change your answers.')) return;
+            state.finished = true;
+            document.getElementById('examLayout').classList.add('hide');
+            document.getElementById('infoStrip').classList.add('hide');
+            document.getElementById('paletteCard').classList.add('hide'); // ensure palette hidden on results
+            document.getElementById('resultsSection').classList.remove('hide');
+            computeResults();
+        }
+
+        // ---------- Results & Analysis ----------
+        function computeResults() {
+            const total = QUESTIONS.length;
+            let correct = 0, incorrect = 0, unattempted = 0;
+            const timeTotal = state.times.reduce((a, b) => a + b, 0);
+
+            QUESTIONS.forEach((q, i) => {
+                const ans = state.answers[i];
+                if (ans == null) unattempted++;
+                else if (ans === q.correct) correct++; else incorrect++;
+            });
+
+            const score = correct * MARKS_CORRECT + incorrect * MARKS_WRONG; // unattempted=0
+            const percentage = percent(correct, total * 1.0) * 100 / 100; // based on correct count only for %
+            const acc = percent(correct, correct + incorrect);
+
+            // Fill summary
+            el('rTotalScore').textContent = `${score.toFixed(2)} / ${(total * MARKS_CORRECT).toFixed(2)}`;
+            el('rCorrect').textContent = correct;
+            el('rIncorrect').textContent = incorrect;
+            el('rUnattempted').textContent = unattempted;
+            el('rAccuracy').textContent = `${acc.toFixed(2)}%`;
+            el('rPercentage').textContent = `${(percent(correct, total)).toFixed(2)}%`;
+
+            // Badge
+            const pct = percent(correct, total);
+            const badge = BADGES.find(b => pct >= b.min && pct <= b.max) || BADGES[0];
+            el('badge').querySelector('.emoji')?.remove();
+            el('badge').insertAdjacentHTML('afterbegin', `<span class="emoji">${badge.emoji}</span>`);
+            el('badgeText').textContent = `${badge.text} • ${pct.toFixed(2)}%`;
+
+            // Chart (vanilla canvas pie)
+            drawPie('resultChart', [correct, incorrect, unattempted], ['Correct', 'Incorrect', 'Unattempted']);
+
+            // Topic-wise table
+            const topicMap = new Map();
+            QUESTIONS.forEach((q, i) => {
+                if (!topicMap.has(q.topic)) topicMap.set(q.topic, { q: 0, a: 0, c: 0, w: 0, t: 0 });
+                const m = topicMap.get(q.topic); m.q++;
+                const ans = state.answers[i];
+                const time = Math.round(state.times[i]); m.t += time;
+                if (ans != null) { m.a++; if (ans === q.correct) m.c++; else m.w++; }
+            });
+            const tbody = el('topicTable').querySelector('tbody');
+            tbody.innerHTML = '';
+            for (const [topic, m] of topicMap.entries()) {
+                const tr = document.createElement('tr');
+                const acc = percent(m.c, m.a).toFixed(2) + "%";
+                const avg = (m.a ? (m.t / m.a).toFixed(1) : '-');
+                tr.innerHTML = `<td>${topic}</td><td>${m.q}</td><td>${m.a}</td><td>${m.c}</td><td>${m.w}</td><td>${acc}</td><td>${avg}</td>`;
+                tbody.appendChild(tr);
+            }
+
+            // Time analysis
+            el('timeTotal').textContent = `${Math.round(timeTotal)}s (${fmtTime(timeTotal)})`;
+            el('timeAvg').textContent = `${(timeTotal / QUESTIONS.length).toFixed(1)}s`;
+            const timeBody = el('timeTable').querySelector('tbody');
+            timeBody.innerHTML = '';
+            QUESTIONS.forEach((q, i) => {
+                const tr = document.createElement('tr');
+                const ans = state.answers[i];
+                const status = ans == null ? 'Unattempted' : (ans === q.correct ? 'Correct' : 'Incorrect');
+                tr.innerHTML = `<td>${i + 1}</td><td>${q.topic}</td><td>${status}</td><td>${ans ? ans.toUpperCase() : '-'}</td><td>${q.correct.toUpperCase()}</td><td>${Math.round(state.times[i])}</td>`;
+                timeBody.appendChild(tr);
+            });
+
+            // Review block
+            buildReview();
+        }
+
+        function buildReview() {
+            const block = el('reviewBlock');
+            block.innerHTML = '';
+            QUESTIONS.forEach((q, i) => {
+                const wrap = document.createElement('div');
+                wrap.style.borderBottom = '1px solid var(--border)';
+                wrap.style.padding = '8px 0';
+                const chosen = state.answers[i] ? state.answers[i].toUpperCase() : '-';
+                const correct = q.correct.toUpperCase();
+                const stateStr = chosen === '-' ? 'Unattempted' : (chosen === correct ? 'Correct' : 'Incorrect');
+                const color = chosen === '-' ? '#6b7280' : (chosen === correct ? '#16a34a' : '#ef4444');
+                wrap.innerHTML = `
+        <div style="display:flex; justify-content:space-between; gap:8px; align-items:flex-start">
+          <div>
+            <div style="font-weight:800">Q${i + 1}. ${q.en}</div>
+            <div class="hi">${q.hi}</div>
+            <ul>
+              ${q.options.map((op, idx) => `<li>(${String.fromCharCode(65 + idx)}) ${op}</li>`).join('')}
+            </ul>
+            <div style="margin-top:6px; color:${color}"><strong>Status:</strong> ${stateStr} • <strong>Chosen:</strong> ${chosen} • <strong>Correct:</strong> ${correct}</div>
+          </div>
+          <div class="qtopic" style="min-width:120px"><strong>Topic:</strong><br>${q.topic}</div>
+        </div>
+      `;
+                block.appendChild(wrap);
+            })
+        }
+
+        // ---------- Simple Pie Drawer (no external libs) ----------
+        function drawPie(canvasId, values, labels) {
+            const c = document.getElementById(canvasId);
+            const ctx = c.getContext('2d');
+            const total = values.reduce((a, b) => a + b, 0) || 1;
+            const colors = ['#22c55e', '#ef4444', '#9ca3af'];
+            let start = -Math.PI / 2;
+            ctx.clearRect(0, 0, c.width, c.height);
+            const r = Math.min(c.width, c.height) / 2 - 10; const cx = c.width / 2; const cy = c.height / 2;
+            values.forEach((v, i) => {
+                const ang = (v / total) * Math.PI * 2;
+                ctx.beginPath(); ctx.moveTo(cx, cy); ctx.arc(cx, cy, r, start, start + ang); ctx.closePath(); ctx.fillStyle = colors[i % colors.length]; ctx.fill();
+                start += ang;
+            });
+            // Legend
+            ctx.font = '12px Inter, sans-serif';
+            labels.forEach((lb, i) => {
+                const y = 22 + i * 18; const x = 8;
+                ctx.fillStyle = colors[i % colors.length]; ctx.fillRect(x, y - 10, 12, 12);
+                ctx.fillStyle = '#111827'; ctx.fillText(`${lb}: ${values[i]}`, x + 18, y);
+            })
+        }
+
+        // ---------- Review Toggle ----------
+        el('toggleReviewBtn').onclick = () => {
+            const blk = el('reviewBlock');
+            blk.classList.toggle('hide');
+            el('toggleReviewBtn').textContent = blk.classList.contains('hide') ? 'Show' : 'Hide';
+        }
+
+        // ---------- Instructions Modal ----------
+        const modal = document.getElementById('instructionsModal');
+        el('instructionsBtn').onclick = () => modal.showModal();
+
+        // ---------- Init ----------
+        buildPalette();
+        visit();
+        renderQuestion();
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern PDF Reader</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Inter Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- PDF.js library reference -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* Custom scrollbar styles */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f5f9;
+            /* slate-100 */
+            border-radius: 10px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            /* slate-300 */
+            border-radius: 10px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+            /* slate-400 */
+        }
+
+        /* Hide text selection on controls */
+        .no-select {
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        /* Hero shine animation for the go back button */
+        .shine-effect {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .shine-effect::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -75%;
+            width: 50%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.4);
+            transform: skewX(-25deg);
+            transition: all 0.7s ease-in-out;
+        }
+
+        .shine-effect:hover::before {
+            left: 125%;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50 flex flex-col h-screen overflow-hidden text-gray-800">
+
+    <!-- Header with logo and controls -->
+    <header class="bg-white shadow-lg p-4 md:p-6 flex items-center justify-between z-20">
+        <!-- Left side: Logo and Title -->
+        <div class="flex items-center space-x-3">
+            <span class="text-3xl">📖</span>
+            <h1 class="text-xl md:text-2xl font-bold">Hindi ePapers</h1>
+        </div>
+
+        <!-- Center: Main controls -->
+        <div class="flex-grow flex justify-center items-center space-x-2 md:space-x-4 no-select">
+            <button id="prev-page"
+                class="bg-gray-200 hover:bg-gray-300 text-gray-600 p-2 rounded-full transition-all duration-200"
+                aria-label="Previous Page">
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd"
+                        d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
+                        clip-rule="evenodd"></path>
+                </svg>
+            </button>
+            <span class="text-sm md:text-base font-semibold">
+                Page <span id="page-num">0</span> of <span id="page-count">0</span>
+            </span>
+            <button id="next-page"
+                class="bg-gray-200 hover:bg-gray-300 text-gray-600 p-2 rounded-full transition-all duration-200"
+                aria-label="Next Page">
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd"
+                        d="M7.293 14.707a1 1 0 010-1.414L10.586 10l-3.293-3.293a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                        clip-rule="evenodd"></path>
+                </svg>
+            </button>
+        </div>
+
+        <!-- Right side: Zoom, Download, Go Back -->
+        <div class="flex items-center space-x-2 md:space-x-4">
+            <div class="hidden md:flex items-center space-x-2">
+                <button id="zoom-out"
+                    class="bg-gray-200 hover:bg-gray-300 text-gray-600 p-2 rounded-full transition-all duration-200"
+                    aria-label="Zoom Out">
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd"
+                            d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+                            clip-rule="evenodd"></path>
+                    </svg>
+                </button>
+                <span id="scale-value" class="text-sm md:text-base font-semibold" aria-live="polite"
+                    aria-label="Current zoom level">100%</span>
+                <button id="zoom-in"
+                    class="bg-gray-200 hover:bg-gray-300 text-gray-600 p-2 rounded-full transition-all duration-200"
+                    aria-label="Zoom In">
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd"
+                            d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8zm5 3a1 1 0 100-2 1 1 0 000 2z"
+                            clip-rule="evenodd"></path>
+                    </svg>
+                </button>
+            </div>
+
+            <select id="newspaper-select"
+                class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-1 px-3 rounded-full transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <option value="1.pdf">
+                    Example 1</option>
+                <option value="https://cdn.mozilla.net/pdfjs/helloworld.pdf">Example 2</option>
+            </select>
+
+            <button id="download-pdf"
+                class="hidden md:block bg-blue-500 text-white font-semibold py-2 px-4 rounded-full shadow-md hover:bg-blue-600 transition-colors duration-200"
+                aria-label="Download PDF">
+                Download
+            </button>
+            <button id="go-back-btn"
+                class="bg-slate-800 text-white font-semibold py-2 px-4 rounded-full shadow-md transition-all duration-300 shine-effect"
+                aria-label="Go back to index.html">
+                Go Back
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex-1 flex overflow-hidden">
+        <!-- Mobile Sidebar Backdrop -->
+        <div id="mobile-backdrop"
+            class="fixed inset-0 bg-black bg-opacity-50 z-30 transition-opacity duration-300 opacity-0 pointer-events-none md:hidden"
+            aria-hidden="true"></div>
+
+        <!-- Sidebar for Thumbnails -->
+        <aside id="sidebar"
+            class="bg-white w-64 h-full fixed top-0 left-0 transform -translate-x-full transition-transform duration-300 ease-in-out z-40 md:relative md:transform-none md:z-auto"
+            role="complementary" aria-label="PDF thumbnails">
+            <div class="p-6 flex flex-col h-full no-select">
+                <h2 class="text-xl font-semibold text-gray-800 mb-6">Thumbnails</h2>
+                <div id="thumbnails-container" class="flex-1 overflow-y-auto custom-scrollbar space-y-4">
+                    <!-- Thumbnails will be rendered here -->
+                </div>
+            </div>
+        </aside>
+
+        <!-- PDF Viewer Container -->
+        <div id="viewer-container"
+            class="flex-1 overflow-auto flex items-center justify-center p-4 md:p-8 custom-scrollbar relative"
+            role="main">
+            <div id="loading-message"
+                class="absolute inset-0 flex items-center justify-center bg-gray-100 bg-opacity-75 z-20 hidden"
+                role="alert" aria-busy="true" aria-live="assertive">
+                <div class="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-slate-600"></div>
+                <div class="ml-4 text-slate-800 text-lg font-semibold">Loading PDF...</div>
+            </div>
+            <div id="pdf-container" class="relative bg-white shadow-xl rounded-lg overflow-hidden w-full max-w-full">
+                <canvas id="pdf-canvas" role="img" aria-label="PDF document page"></canvas>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Set the workerSrc to ensure PDF.js can load the worker
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js';
+
+        // Get DOM elements
+        const pdfCanvas = document.getElementById('pdf-canvas');
+        const pageNumSpan = document.getElementById('page-num');
+        const pageCountSpan = document.getElementById('page-count');
+        const prevPageBtn = document.getElementById('prev-page');
+        const nextPageBtn = document.getElementById('next-page');
+        const zoomInBtn = document.getElementById('zoom-in');
+        const zoomOutBtn = document.getElementById('zoom-out');
+        const newspaperSelect = document.getElementById('newspaper-select');
+        const downloadPdfBtn = document.getElementById('download-pdf');
+        const goBackBtn = document.getElementById('go-back-btn');
+        const scaleValueSpan = document.getElementById('scale-value');
+        const thumbnailsContainer = document.getElementById('thumbnails-container');
+        const toggleSidebarBtn = document.getElementById('toggle-sidebar');
+        const sidebar = document.getElementById('sidebar');
+        const loadingMessage = document.getElementById('loading-message');
+        const mobileBackdrop = document.getElementById('mobile-backdrop');
+
+        let pdfDoc = null;
+        let pageNum = 1;
+        let scale = 1.0;
+        let pdfURL = newspaperSelect.value;
+
+        // Function to show/hide the loading spinner
+        const showLoading = (show) => {
+            loadingMessage.style.display = show ? 'flex' : 'none';
+        };
+
+        // Function to toggle the mobile sidebar
+        const toggleSidebar = () => {
+            sidebar.classList.toggle('-translate-x-full');
+            mobileBackdrop.classList.toggle('opacity-0');
+            mobileBackdrop.classList.toggle('pointer-events-none');
+        };
+
+        // Function to highlight the currently active thumbnail
+        const highlightCurrentThumbnail = (pageNumber) => {
+            document.querySelectorAll('#thumbnails-container canvas').forEach(thumb => {
+                const thumbPageNum = parseInt(thumb.dataset.pageNum, 10);
+                if (thumbPageNum === pageNumber) {
+                    thumb.classList.add('border-blue-500');
+                    thumb.classList.remove('border-transparent');
+                    thumb.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                } else {
+                    thumb.classList.add('border-transparent');
+                    thumb.classList.remove('border-blue-500');
+                }
+            });
+        };
+
+        // Render the current page
+        const renderPage = (num) => {
+            if (!pdfDoc) return;
+            showLoading(true);
+            pdfDoc.getPage(num).then(page => {
+                const viewport = page.getViewport({ scale: scale });
+                const context = pdfCanvas.getContext('2d');
+
+                pdfCanvas.height = viewport.height;
+                pdfCanvas.width = viewport.width;
+
+                const renderContext = {
+                    canvasContext: context,
+                    viewport: viewport
+                };
+
+                page.render(renderContext).promise.then(() => {
+                    pageNumSpan.textContent = pageNum;
+                    highlightCurrentThumbnail(pageNum);
+                    showLoading(false);
+                }).catch(err => {
+                    console.error('Error rendering page:', err);
+                    showLoading(false);
+                });
+            }).catch(err => {
+                console.error('Error getting page:', err);
+                showLoading(false);
+            });
+        };
+
+        // Render a thumbnail
+        const renderThumbnail = (pageNum, pdfPage) => {
+            const thumbnailScale = 0.2;
+            const viewport = pdfPage.getViewport({ scale: thumbnailScale });
+            const canvas = document.createElement('canvas');
+            const context = canvas.getContext('2d');
+
+            canvas.className = 'w-full h-auto border-4 rounded-lg cursor-pointer transition-all duration-200 ease-in-out border-transparent hover:border-blue-500 shadow-sm';
+            canvas.dataset.pageNum = pageNum;
+            canvas.height = viewport.height;
+            canvas.width = viewport.width;
+            canvas.title = `Page ${pageNum}`;
+
+            pdfPage.render({
+                canvasContext: context,
+                viewport: viewport
+            });
+
+            canvas.addEventListener('click', () => {
+                pageNum = pageNum;
+                renderPage(pageNum);
+                toggleSidebar();
+            });
+            return canvas;
+        };
+
+        // Render all thumbnails
+        const renderThumbnails = () => {
+            if (!pdfDoc) return;
+            thumbnailsContainer.innerHTML = '';
+            for (let i = 1; i <= pdfDoc.numPages; i++) {
+                pdfDoc.getPage(i).then(page => {
+                    const thumbnailCanvas = renderThumbnail(i, page);
+                    thumbnailsContainer.appendChild(thumbnailCanvas);
+                    if (i === pageNum) {
+                        highlightCurrentThumbnail(pageNum);
+                    }
+                });
+            }
+        };
+
+        // Load PDF
+        const loadPdf = async () => {
+            try {
+                showLoading(true);
+                const loadingTask = pdfjsLib.getDocument(pdfURL);
+                pdfDoc = await loadingTask.promise;
+                pageCountSpan.textContent = pdfDoc.numPages;
+                pageNum = 1;
+                renderPage(pageNum);
+                renderThumbnails();
+            } catch (err) {
+                console.error('Error loading PDF:', err);
+                const viewerContainer = document.getElementById('viewer-container');
+                viewerContainer.innerHTML = '<div class="text-center text-red-500 font-bold text-xl">Error loading PDF. Please try again later.</div>';
+                showLoading(false);
+            }
+        };
+
+        // Handle Next/Prev page
+        const handlePrevPage = () => {
+            if (pageNum <= 1) return;
+            pageNum--;
+            renderPage(pageNum);
+        };
+
+        const handleNextPage = () => {
+            if (pageNum >= pdfDoc.numPages) return;
+            pageNum++;
+            renderPage(pageNum);
+        };
+
+        // Handle Zoom
+        const handleZoom = (factor) => {
+            scale *= factor;
+            scaleValueSpan.textContent = `${Math.round(scale * 100)}%`;
+            renderPage(pageNum);
+        };
+
+        // Event Listeners
+        prevPageBtn.addEventListener('click', handlePrevPage);
+        nextPageBtn.addEventListener('click', handleNextPage);
+        zoomOutBtn.addEventListener('click', () => handleZoom(0.8));
+        zoomInBtn.addEventListener('click', () => handleZoom(1.2));
+
+        // Handle PDF download
+        downloadPdfBtn.addEventListener('click', () => {
+            const a = document.createElement('a');
+            a.href = pdfURL;
+            a.download = pdfURL.substring(pdfURL.lastIndexOf('/') + 1) || 'document.pdf';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        });
+
+        // Handle Go Back button click
+        goBackBtn.addEventListener('click', () => {
+            window.location.href = 'index.html';
+        });
+
+        // Handle dropdown selection change
+        newspaperSelect.addEventListener('change', (event) => {
+            pdfURL = event.target.value;
+            loadPdf();
+        });
+
+        // Mobile sidebar toggle
+        toggleSidebarBtn.addEventListener('click', toggleSidebar);
+        // Close sidebar by clicking on the backdrop
+        mobileBackdrop.addEventListener('click', toggleSidebar);
+
+        // Load the PDF on window load
+        window.addEventListener('load', loadPdf);
+
+        // Handle window resize
+        window.addEventListener('resize', () => {
+            if (pdfDoc) {
+                renderPage(pageNum);
+            }
+        });
+
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,983 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UPSC Daily Quiz</title>
+    <!-- Tailwind CSS from CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chart.js from CDN for charts and graphs -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Space+Mono&display=swap');
+
+        /* Custom scrollbar for clean feel */
+        body::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        body::-webkit-scrollbar-track {
+            background: #E2E8F0;
+        }
+
+        /* light slate-200 */
+        body::-webkit-scrollbar-thumb {
+            background-color: #94A3B8;
+            border-radius: 4px;
+        }
+
+        /* light slate-400 */
+
+        /* Base styles for light theme */
+        body {
+            font-family: 'Space Mono', monospace;
+            background-color: #F8FAFC;
+            /* slate-50 */
+            color: #1E293B;
+            /* slate-800 */
+            transition: background-color 0.5s, color 0.5s;
+        }
+
+        /* Dark mode overrides */
+        .dark body {
+            background-color: #0F172A;
+            /* slate-900 */
+            color: #E2E8F0;
+            /* slate-200; */
+        }
+
+        .dark body::-webkit-scrollbar-track {
+            background: #0F172A;
+        }
+
+        .dark body::-webkit-scrollbar-thumb {
+            background-color: #475569;
+        }
+
+        /* 3D Gradient Wave Header */
+        .header-wave {
+            position: relative;
+            background: linear-gradient(135deg, #A855F7, #EC4899, #F59E0B);
+            transform: perspective(1000px) rotateX(10deg);
+            transform-origin: top;
+            filter: drop-shadow(0 4px 15px #A855F7);
+        }
+
+        .header-wave::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, transparent, rgba(255, 255, 255, 0.3));
+        }
+
+        /* Neon Glow for text */
+        .neon-glow {
+            text-shadow: 0 0 5px #A855F7, 0 0 10px #EC4899, 0 0 15px #F59E0B;
+            animation: neon-pulse 1.5s ease-in-out infinite alternate;
+        }
+
+        @keyframes neon-pulse {
+            from {
+                text-shadow: 0 0 5px #A855F7, 0 0 10px #EC4899, 0 0 15px #F59E0B;
+            }
+
+            to {
+                text-shadow: 0 0 8px #A855F7, 0 0 15px #EC4899, 0 0 25px #F59E0B;
+            }
+        }
+
+        /* Hologram Panel Effect for Date Selector */
+        .hologram-panel {
+            background-color: rgba(255, 255, 255, 0.7);
+            /* white with transparency */
+            border: 2px solid;
+            border-image-slice: 1;
+            border-image-source: linear-gradient(to right, #6366F1, #EC4899);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 0 20px rgba(99, 102, 241, 0.3);
+        }
+
+        /* Quiz Card and 3D Tilt Effect */
+        .quiz-card {
+            background: #F1F5F9;
+            /* slate-100 */
+            border: 1px solid #E2E8F0;
+            /* slate-200 */
+            transition: transform 0.5s ease-in-out, box-shadow 0.5s;
+            transform-style: preserve-3d;
+            position: relative;
+        }
+
+        .quiz-card:hover {
+            transform: rotateY(5deg) scale(1.02);
+            box-shadow: 0 0 20px rgba(236, 72, 153, 0.3);
+        }
+
+        .dark .quiz-card {
+            background: #1E293B;
+            border: 1px solid #334155;
+        }
+
+        .dark .quiz-card:hover {
+            box-shadow: 0 0 20px rgba(236, 72, 153, 0.5);
+        }
+
+        /* Interactive Options Tiles */
+        .option-tile {
+            background: #E2E8F0;
+            /* slate-200 */
+            border: 2px solid transparent;
+            transition: background 0.3s, border-color 0.3s, box-shadow 0.3s;
+        }
+
+        .option-tile:hover {
+            background: #CBD5E1;
+            /* slate-300 */
+            box-shadow: 0 0 10px rgba(99, 102, 241, 0.3);
+        }
+
+        .option-tile.selected {
+            border-color: #6366F1;
+            /* indigo-500 */
+            box-shadow: 0 0 15px #6366F1;
+        }
+
+        .dark .option-tile {
+            background: #334155;
+        }
+
+        .dark .option-tile:hover {
+            background: #475569;
+        }
+
+        .dark .option-tile.selected {
+            border-color: #8B5CF6;
+            box-shadow: 0 0 15px #8B5CF6;
+        }
+
+        /* Submit Button with Ripple Effect */
+        .ripple-btn {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ripple-btn::after {
+            content: '';
+            position: absolute;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.5);
+            width: 100px;
+            height: 100px;
+            margin-top: -50px;
+            margin-left: -50px;
+            opacity: 0;
+            top: 50%;
+            left: 50%;
+            transform: scale(0);
+        }
+
+        .ripple-btn:not(:active)::after {
+            animation: ripple 1.2s ease-out;
+        }
+
+        @keyframes ripple {
+            to {
+                transform: scale(2.5);
+                opacity: 1;
+            }
+        }
+
+        /* Flip Card Transition for results */
+        .flip-container {
+            perspective: 1000px;
+        }
+
+        .flip-container.flipped .flipper {
+            transform: rotateY(180deg);
+        }
+
+        .flipper {
+            transition: 0.8s;
+            transform-style: preserve-3d;
+            position: relative;
+        }
+
+        .front,
+        .back {
+            backface-visibility: hidden;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .front {
+            z-index: 2;
+        }
+
+        .back {
+            transform: rotateY(180deg);
+        }
+
+        /* Circular Progress Bar (Gauge) - now responsive */
+        .circular-progress {
+            position: relative;
+            width: min(80vw, 150px);
+            /* Responsive width with a cap */
+            height: min(80vw, 150px);
+            /* Responsive height with a cap */
+            border-radius: 50%;
+            background: conic-gradient(#EC4899 0deg, #F59E0B 0deg);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .circular-progress::before {
+            content: '';
+            position: absolute;
+            width: calc(100% - 30px);
+            /* Scale inner circle with outer */
+            height: calc(100% - 30px);
+            background-color: #F8FAFC;
+            border-radius: 50%;
+        }
+
+        .dark .circular-progress::before {
+            background-color: #0F172A;
+        }
+
+        .progress-text {
+            position: relative;
+            z-index: 10;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5rem;
+            text-shadow: 0 0 5px #EC4899;
+        }
+
+        /* Make progress text smaller on small screens */
+        @media (max-width: 400px) {
+            .progress-text {
+                font-size: 1.8rem;
+            }
+        }
+
+        /* Accordion for Explanations */
+        .explanation-panel summary {
+            cursor: pointer;
+            list-style: none;
+            /* Hide default triangle */
+        }
+
+        .explanation-panel summary::before {
+            content: '▶';
+            display: inline-block;
+            margin-right: 0.5em;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .explanation-panel[open] summary::before {
+            transform: rotate(90deg);
+        }
+
+        /* Sun/Moon Toggle Button */
+        .theme-toggle-btn {
+            position: relative;
+            overflow: hidden;
+            background: #E2E8F0;
+        }
+
+        .dark .theme-toggle-btn {
+            background: #475569;
+        }
+
+        .theme-toggle-btn::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 150%;
+            height: 150%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0) 70%);
+            transform: translate(-50%, -50%) scale(0);
+            border-radius: 50%;
+            transition: transform 0.8s ease-out;
+        }
+
+        .theme-toggle-btn:hover::after {
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .toggle-icon {
+            transition: transform 0.5s;
+        }
+
+        .dark .toggle-icon.moon {
+            transform: scale(1);
+        }
+
+        .toggle-icon.moon {
+            transform: scale(0);
+        }
+
+        .dark .toggle-icon.sun {
+            transform: scale(0);
+        }
+
+        .toggle-icon.sun {
+            transform: scale(1);
+        }
+
+        .sun-rays {
+            animation: rotate-rays 10s linear infinite;
+        }
+
+        @keyframes rotate-rays {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+</head>
+
+<body class="bg-slate-50 text-slate-800">
+
+    <!-- Header with 3D Gradient Wave -->
+    <header class="header-wave w-full py-16 px-4 sm:px-8 shadow-xl">
+        <div class="max-w-7xl mx-auto text-center relative z-10">
+            <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold font-['Orbitron'] text-white neon-glow">
+                UPSC Daily Current Affairs Quiz
+            </h1>
+            <p class="text-sm sm:text-base font-medium text-slate-200 mt-2">
+                A test of knowledge for the Civil Services Examination.
+            </p>
+        </div>
+    </header>
+
+    <!-- Sleek Navigation Bar -->
+    <nav
+        class="w-full py-4 px-4 sm:px-8 bg-white bg-opacity-70 backdrop-blur-sm shadow-lg sticky top-0 z-20 dark:bg-slate-800">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <span class="text-lg font-bold text-violet-600 font-['Orbitron'] dark:text-cyan-400">Daily Quiz</span>
+            <div class="flex items-center space-x-4">
+                <button id="theme-toggle-btn"
+                    class="theme-toggle-btn px-4 py-2 font-semibold text-sm rounded-full bg-slate-200 text-slate-800 hover:bg-slate-300 transition-colors relative z-10 dark:bg-slate-700 dark:text-slate-200 dark:hover:bg-slate-600">
+                    <span class="relative z-10">
+                        <!-- Sun Icon -->
+                        <svg class="toggle-icon sun h-5 w-5 text-amber-500 absolute inset-0 m-auto" fill="currentColor"
+                            viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="10" cy="10" r="4.5" class="sun-rays"></circle>
+                            <path class="sun-rays" fill="currentColor"
+                                d="M10 0a1 1 0 011 1v1a1 1 0 11-2 0V1a1 1 0 011-1zm0 18a1 1 0 01-1 1v1a1 1 0 112 0v-1a1 1 0 01-1-1zM2.93 2.93a1 1 0 011.414 0l.707.707a1 1 0 01-1.414 1.414l-.707-.707a1 1 0 010-1.414zm14.14 14.14a1 1 0 01-1.414 0l-.707-.707a1 1 0 011.414-1.414l.707.707a1 1 0 010 1.414zM0 10a1 1 0 011-1h1a1 1 0 110 2H1a1 1 0 01-1-1zm18 0a1 1 0 011-1h1a1 1 0 110 2h-1a1 1 0 01-1-1zM2.93 17.07a1 1 0 010-1.414l.707-.707a1 1 0 011.414 1.414l-.707.707a1 1 0 01-1.414 0zm14.14-14.14a1 1 0 010 1.414l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 0z" />
+                        </svg>
+                        <!-- Moon Icon -->
+                        <svg class="toggle-icon moon h-5 w-5 text-gray-400 absolute inset-0 m-auto" fill="currentColor"
+                            viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M17.293 13.293a1 1 0 01-1.414 0l-1.88-1.88a1 1 0 01-.132-1.353c.12-.206.33-.35.56-.445.69-.28 1.458-.435 2.228-.435.534 0 1.054.062 1.564.18.23.053.44.17.56.36.132.227.132.518-.002.747l-1.88 1.88zM10 4a6 6 0 100 12h-1a1 1 0 01-1-1V5a1 1 0 011-1h1z"
+                                clip-rule="evenodd" fill-rule="evenodd" />
+                        </svg>
+                    </span>
+                </button>
+                <a href="index.html"
+                    class="px-4 py-2 font-semibold text-sm rounded-full bg-indigo-600 text-white hover:bg-indigo-700 transition-colors relative z-10">
+                    Home
+                </a>
+            </div>
+        </div>
+    </nav>
+
+
+
+    <div class="min-h-screen flex flex-col items-center p-4">
+        <!-- Main Content Area -->
+        <main id="main-content"
+            class="w-full max-w-3xl flex-grow rounded-2xl shadow-2xl p-4 sm:p-8 mt-32 bg-white border border-slate-200 relative flip-container dark:bg-slate-800 dark:border-slate-700">
+
+            <div class="flipper">
+                <!-- FRONT: Quiz Section -->
+                <div class="front">
+                    <!-- Hologram Date Selector -->
+                    <section id="date-selection"
+                        class="hologram-panel p-6 rounded-2xl mb-8 flex flex-col sm:flex-row items-center justify-center gap-4">
+                        <label for="date-picker" class="text-lg font-bold text-indigo-600 dark:text-cyan-400">Select
+                            Quiz Date:</label>
+                        <input type="date" id="date-picker"
+                            class="rounded-lg border border-slate-300 p-2 bg-slate-100 text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-200 dark:focus:ring-cyan-400">
+                        <select id="date-dropdown"
+                            class="rounded-lg border border-slate-300 p-2 bg-slate-100 text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-200 dark:focus:ring-cyan-400">
+                            <option value="">-- Or pick from recent dates --</option>
+                        </select>
+                    </section>
+
+                    <!-- Progress Bar -->
+                    <div id="progress-container"
+                        class="w-full h-2 bg-slate-200 rounded-full overflow-hidden mb-8 hidden dark:bg-slate-700">
+                        <div id="progress-bar"
+                            class="h-full bg-indigo-500 transition-all duration-500 ease-out dark:bg-cyan-400"
+                            style="width: 0%;"></div>
+                    </div>
+
+                    <!-- Quiz & Initial Message Container -->
+                    <div id="quiz-container" class="hidden">
+                        <!-- The current question and its action button will be dynamically injected here -->
+                    </div>
+
+                    <!-- Initial State Message -->
+                    <div id="initial-message"
+                        class="text-center p-8 border-2 border-dashed border-slate-300 rounded-xl dark:border-slate-600">
+                        <p class="text-lg text-slate-500">Please select a date to start the quiz.</p>
+                    </div>
+                </div>
+
+                <!-- BACK: Results Section -->
+                <div class="back">
+                    <div id="results-container" class="p-4 sm:p-6 w-full max-w-[90%] mx-auto">
+                        <!-- Results summary and details injected here -->
+                    </div>
+                </div>
+            </div>
+
+        </main>
+
+        <!-- Footer -->
+        <footer class="w-full max-w-4xl text-center py-4 mt-8 text-xs text-slate-400 dark:text-slate-500">
+            <p>&copy; 2025 UPSC Daily Quiz. Designed with a futuristic aesthetic.</p>
+        </footer>
+    </div>
+
+    <script>
+        // Check for saved theme preference on page load
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark')
+        } else {
+            document.documentElement.classList.remove('dark')
+        }
+
+        // --- QUIZ DATA ---
+        const quizzes = {
+            "2025-08-26": [
+                {
+                    question: "Consider the following statements regarding the recent observations of the Supreme Court of India (2025):<br>1. The Supreme Court held that social media influencers commercialise free speech, which can potentially hurt sentiments of varied communities.<br>2. The Court directed the Union Government to frame guidelines regulating conduct on social media and online shows in consultation with the National Broadcasters and Digital Association.<br>3. The Court categorically stated that such guidelines would restrict freedom of speech in order to protect the dignity of vulnerable groups.<br>Which of the statements given above is/are correct?",
+                    options: ["1 and 2 only", "2 and 3 only", "1 and 3 only", "1, 2 and 3"],
+                    correctAnswer: 0, // "1 and 2 only"
+                    explanation: "Statements 1 and 2 are correct based on recent Supreme Court observations.<br> Statement 3 is incorrect because the Court clarified it was not trying to curtail free speech but to protect dignity, focusing on sensibilisation rather than restriction."
+                },
+                {
+                    question: "With reference to the functioning of the Indian legislatures as highlighted in recent reports, consider the following statements:<br>1. In the 18th Lok Sabha, the House functioned for less than one-third of its scheduled time during a session in 2024.<br>2. According to PRS Legislative Research, State Assemblies in India met for an average of 28 days in 2024, showing an increase from 2017.<br>3. The Lok Sabha has not had a Deputy Speaker since 2019.<br>Which of the statements given above is/are correct?",
+                    options: ["1 and 2 only", "2 and 3 only", "1 and 3 only", "1, 2 and 3"],
+                    correctAnswer: 2, // "1 and 3 only"
+                    explanation: "Statement 1 is correct; the House functioned for less than one-third of its scheduled time. <br> Statement 2 is incorrect; the average days for state assemblies declined from 28 in 2017 to 20 in 2024. <br>Statement 3 is correct: no Deputy Speaker since June 2019."
+                },
+                {
+                    question: "With reference to the analysis of MPs and MLAs in India (2024), consider the following statements:<br>1. The proportion of Lok Sabha MPs with serious criminal charges has more than doubled between 2009 and 2024.<br>2. Telangana has the highest share of MPs facing serious criminal cases, while Andhra Pradesh has the highest share of MLAs with such cases.<br>3. Rashtriya Janata Dal (RJD) recorded 100% of its MPs with serious criminal cases.<br>4. The Bharatiya Janata Party (BJP) has the highest proportion of MPs and MLAs with serious criminal charges among all parties.<br>Which of the statements given above is/are correct?",
+                    options: ["1 and 2 only", "1, 2 and 3 only", "2, 3 and 4 only", "1, 2, 3 and 4"],
+                    correctAnswer: 1, // "1, 2 and 3 only"
+                    explanation: "Statement 1 is correct; criminal cases rose from 14% to 31%.<br> Statement 2 is correct; Telangana and Andhra Pradesh lead in MPs and MLAs with criminal cases.<br> Statement 3 is correct; all RJD MPs had criminal cases. <br>Statement 4 is incorrect; BJP has the highest absolute number, but not the highest proportion."
+                },
+                {
+                    question: "With reference to the Promotion and Regulation of Online Gaming Act, 2025, consider the following statements:<br>1. The Act classifies online games into three categories: e-sports, social gaming, and real money games (RMGs).<br>2. Real Money Games (RMGs) are banned irrespective of whether they are based on skill, chance, or both.<br>3. The Act empowers the Central Government to notify a regulatory authority to recognise, categorise, and register online games.<br>4. The Act provides penal provisions for players of banned games, including imprisonment of up to three years.<br>Which of the statements given above is/are correct?",
+                    options: ["1 and 2 only", "1, 2 and 3 only", "2, 3 and 4 only", "1, 2, 3 and 4"],
+                    correctAnswer: 1, // "1, 2 and 3 only"
+                    explanation: "Statements 1, 2, and 3 are correct.<br> Statement 4 is incorrect; penalties are for operators and advertisers, not players."
+                }
+            ],
+            "2025-08-25": [
+                {
+                    question: "The term 'Net Zero' is often used in the context of:",
+                    options: ["Economic growth", "Climate change mitigation", "Space exploration", "Digital currency"],
+                    correctAnswer: 1,
+                    explanation: "Net Zero refers to achieving a balance between the greenhouse gases put into the atmosphere and those taken out, a critical goal for mitigating climate change."
+                },
+                {
+                    question: "Which of the following is a key feature of the Indian Constitution's Preamble?",
+                    options: ["It defines the powers of the states", "It outlines the fundamental duties of citizens", "It declares India a Sovereign, Socialist, Secular, Democratic Republic", "It describes the structure of the Parliament"],
+                    correctAnswer: 2,
+                    explanation: "The Preamble is a brief introductory statement that sets out the guiding purpose, principles, and philosophy of the Indian Constitution, declaring India as a Sovereign, Socialist, Secular, Democratic Republic."
+                },
+                {
+                    question: "The 'Strategic Petroleum Reserve' in India is maintained for what purpose?",
+                    options: ["To control oil prices", "To ensure energy security during supply disruptions", "To export crude oil", "To promote green energy usage"],
+                    correctAnswer: 1,
+                    explanation: "India maintains a Strategic Petroleum Reserve to hold crude oil stocks that can be used to mitigate energy supply disruptions, thus ensuring the nation's energy security."
+                },
+                {
+                    question: "What is the primary function of the NITI Aayog?",
+                    options: ["To act as a policy think-tank for the Government of India", "To conduct elections in India", "To manage India's foreign policy", "To regulate the banking sector"],
+                    correctAnswer: 0,
+                    explanation: "NITI Aayog, a policy think-tank of the Government of India, replaced the Planning Commission. Its main role is to provide strategic and technical advice to the central and state governments on policy matters."
+                },
+                {
+                    question: "Which Indian state has the highest literacy rate, as per recent data?",
+                    options: ["Goa", "Mizoram", "Kerala", "Tamil Nadu"],
+                    correctAnswer: 2,
+                    explanation: "Kerala consistently ranks first among Indian states in terms of literacy rate, a testament to its long-standing focus on education and social development."
+                },
+                {
+                    question: "What does the term 'Fiscal Deficit' primarily refer to in the context of government finance?",
+                    options: ["The total debt accumulated by the government", "The difference between total government expenditure and total government receipts", "The amount of money the government prints each year", "The income tax collected by the government"],
+                    correctAnswer: 1,
+                    explanation: "Fiscal deficit is the difference between the government's total expenditure and its total receipts (excluding borrowings). A high fiscal deficit indicates that the government's spending exceeds its revenue, necessitating borrowing."
+                }
+            ]
+        };
+
+        // --- QUIZ LOGIC AND UI INTERACTION ---
+
+        // DOM Element references
+        const datePicker = document.getElementById('date-picker');
+        const dateDropdown = document.getElementById('date-dropdown');
+        const quizContainer = document.getElementById('quiz-container');
+        const resultsContainer = document.getElementById('results-container');
+        const initialMessage = document.getElementById('initial-message');
+        const themeToggleBtn = document.getElementById('theme-toggle-btn');
+        const progressContainer = document.getElementById('progress-container');
+        const progressBar = document.getElementById('progress-bar');
+        const flipContainer = document.getElementById('main-content');
+
+        // State variables
+        let currentQuizData = null;
+        let currentSelections = {};
+        let currentQuestionIndex = 0;
+        let isShowingMistakes = false;
+        let quizStartTime = null;
+
+        /**
+         * Initializes the page by populating the date dropdown with recent dates.
+         */
+        function init() {
+            const quizDates = Object.keys(quizzes).sort().reverse();
+            quizDates.forEach(date => {
+                const option = document.createElement('option');
+                option.value = date;
+                option.textContent = date;
+                dateDropdown.appendChild(option);
+            });
+            // Reset the flip-card view on page load
+            flipContainer.classList.remove('flipped');
+        }
+
+        /**
+         * Updates the progress bar based on the number of questions answered.
+         */
+        function updateProgress() {
+            if (!currentQuizData) return;
+            const totalQuestions = currentQuizData.length;
+            const progressPercentage = (currentQuestionIndex / totalQuestions) * 100;
+            progressBar.style.width = `${progressPercentage}%`;
+        }
+
+        /**
+         * Renders the current question and its options.
+         */
+        function renderQuestion() {
+            if (currentQuestionIndex >= currentQuizData.length) {
+                handleSubmit();
+                return;
+            }
+
+            const totalQuestions = currentQuizData.length;
+            const q = currentQuizData[currentQuestionIndex];
+
+            const actionBtnText = currentQuestionIndex === totalQuestions - 1 ? 'SUBMIT' : 'NEXT QUESTION';
+            const quizHtml = `
+                <div class="mb-8 p-6 quiz-card rounded-2xl shadow-lg">
+                    <p class="text-lg font-bold mb-4 font-['Inter'] text-teal-900 dark:text-cyan-400">
+                        <span class="mr-2">Q${currentQuestionIndex + 1} of ${totalQuestions}:</span> ${q.question}
+                    </p>
+                    <form id="question-form-${currentQuestionIndex}" data-correct-answer="${q.correctAnswer}">
+                        ${q.options.map((option, i) => `
+                            <label class="flex items-center gap-4 p-3 mb-2 rounded-lg cursor-pointer option-tile" for="option-${currentQuestionIndex}-${i}">
+                                <input type="radio" id="option-${currentQuestionIndex}-${i}" name="option-${currentQuestionIndex}" value="${i}" class="h-4 w-4 text-fuchsia-500 border-gray-300 focus:ring-fuchsia-500" aria-label="Option ${String.fromCharCode(65 + i)} for question ${currentQuestionIndex + 1}">
+                                <span>${String.fromCharCode(65 + i)}. ${option}</span>
+                            </label>
+                        `).join('')}
+                    </form>
+                    <div class="mt-8 text-center">
+                        <button id="next-question-btn" class="ripple-btn px-8 py-4 rounded-full bg-gradient-to-br from-violet-600 to-fuchsia-600 text-white font-bold text-lg shadow-lg hover:shadow-2xl hover:scale-105 transition-transform transform">
+                            <span class="relative z-10">${actionBtnText}</span>
+                        </button>
+                    </div>
+                </div>
+            `;
+
+            quizContainer.innerHTML = quizHtml;
+
+            // Add event listener for option highlighting and state tracking
+            const form = document.getElementById(`question-form-${currentQuestionIndex}`);
+            form.addEventListener('change', (e) => {
+                form.querySelectorAll('label').forEach(label => {
+                    label.classList.remove('selected');
+                });
+                const selectedLabel = e.target.closest('label');
+                if (selectedLabel) {
+                    selectedLabel.classList.add('selected');
+                }
+            });
+
+            // Add event listener for the action button
+            document.getElementById('next-question-btn').addEventListener('click', () => {
+                const selectedOption = form.querySelector('input[type="radio"]:checked');
+                if (!selectedOption) {
+                    // Replaced alert with a custom message.
+                    const messageBox = document.createElement('div');
+                    messageBox.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
+                    messageBox.innerHTML = `
+                        <div class="bg-white dark:bg-slate-800 p-6 rounded-lg shadow-lg text-center max-w-sm">
+                            <p class="text-xl font-bold mb-4 text-slate-800 dark:text-slate-200">Please select an option.</p>
+                            <button class="px-4 py-2 bg-indigo-600 text-white rounded-full hover:bg-indigo-700 transition-colors" onclick="this.closest('.fixed').remove()">OK</button>
+                        </div>
+                    `;
+                    document.body.appendChild(messageBox);
+                    return;
+                }
+                currentSelections[currentQuestionIndex] = parseInt(selectedOption.value, 10);
+                currentQuestionIndex++;
+                updateProgress();
+                renderQuestion();
+            });
+        }
+
+        /**
+         * Loads and renders a quiz for the selected date.
+         * @param {string} date - The date string (e.g., "2025-08-26").
+         */
+        function loadQuiz(date) {
+            currentQuizData = quizzes[date];
+            currentSelections = {};
+            currentQuestionIndex = 0;
+            quizStartTime = new Date();
+            isShowingMistakes = false;
+
+            // Hide all other sections
+            initialMessage.classList.add('hidden');
+            resultsContainer.innerHTML = '';
+            quizContainer.classList.add('hidden');
+            progressContainer.classList.add('hidden');
+            flipContainer.classList.remove('flipped');
+
+            if (!currentQuizData) {
+                // No quiz found for this date
+                quizContainer.innerHTML = `<p class="text-center text-lg text-slate-500">No quiz available for this date. Please select another.</p>`;
+                quizContainer.classList.remove('hidden');
+                return;
+            }
+
+            // Start rendering the quiz
+            quizContainer.classList.remove('hidden');
+            progressContainer.classList.remove('hidden');
+            updateProgress();
+            renderQuestion();
+        }
+
+        /**
+         * Renders the circular progress gauge for the results section.
+         * @param {number} percentage - The score percentage.
+         */
+        function renderProgressGauge(percentage) {
+            const gaugeHtml = `
+                <div class="circular-progress my-8 mx-auto" style="background: conic-gradient(#EC4899 ${percentage}%, #F59E0B ${percentage}%); transform: rotate(-90deg);">
+                    <div class="progress-text-container" style="transform: rotate(90deg);">
+                        <span class="progress-text">${percentage}%</span>
+                    </div>
+                </div>
+            `;
+            return gaugeHtml;
+        }
+
+        /**
+         * Renders the detailed review section.
+         * @param {Array} quizQuestions - The quiz data.
+         * @param {Object} userSelections - The user's answers.
+         * @param {boolean} showMistakesOnly - Filter to show only incorrect answers.
+         */
+        function renderReviewSection(quizQuestions, userSelections, showMistakesOnly) {
+            let reviewHtml = '';
+            quizQuestions.forEach((q, index) => {
+                const userSelected = userSelections[index] !== undefined ? userSelections[index] : -1;
+                const correctAnswer = q.correctAnswer;
+                const isCorrect = userSelected === correctAnswer;
+                const isAttempted = userSelected !== -1;
+
+                if (showMistakesOnly && isCorrect) {
+                    return;
+                }
+
+                const icon = isCorrect ? '✅' : (isAttempted ? '❌' : '🤔');
+                const iconColor = isCorrect ? 'text-green-600' : (isAttempted ? 'text-red-600' : 'text-slate-500');
+                const panelBorder = isCorrect ? 'border-green-400' : (isAttempted ? 'border-red-400' : 'border-slate-400');
+                const panelShadow = isCorrect ? 'shadow-green-400/50' : (isAttempted ? 'shadow-red-400/50' : 'shadow-slate-400/50');
+
+                const optionElementsHtml = q.options.map((option, i) => {
+                    const isUserChoice = i === userSelected;
+                    const isCorrectChoice = i === correctAnswer;
+                    let classes = "flex items-center gap-4 p-3 mb-2 rounded-lg bg-slate-200 dark:bg-slate-700";
+
+                    if (isCorrectChoice) {
+                        classes += " border border-green-400 font-bold";
+                    } else if (isUserChoice && !isCorrect) {
+                        classes += " border border-red-400 font-bold";
+                    }
+
+                    return `<div class="${classes}">
+                                <span>${String.fromCharCode(65 + i)}. ${option}</span>
+                                ${isUserChoice ? `<span class="text-xs text-indigo-500 dark:text-cyan-400 font-semibold ml-auto">Your Answer</span>` : ''}
+                                ${isCorrectChoice ? `<span class="text-xs text-green-500 font-semibold ml-auto">Correct Answer</span>` : ''}
+                            </div>`;
+                }).join('');
+
+                reviewHtml += `
+                    <div class="mb-8 p-6 rounded-xl border ${panelBorder} shadow-lg ${panelShadow}">
+                        <p class="text-lg font-bold mb-2 font-['Orbitron']">
+                            <span class="${iconColor} mr-2">${icon}</span>Q${index + 1}: ${q.question}
+                        </p>
+                        ${optionElementsHtml}
+                        <details class="explanation-panel mt-4 border-t border-slate-300 pt-4 dark:border-slate-600">
+                            <summary class="font-semibold text-indigo-600 dark:text-cyan-400">View Explanation</summary>
+                            <div class="mt-2 text-slate-600 dark:text-slate-400">${q.explanation}</div>
+                        </details>
+                    </div>
+                `;
+            });
+            return reviewHtml;
+        }
+
+        /**
+         * Toggles the detailed review section between all questions and only mistakes.
+         */
+        function toggleMistakesView() {
+            isShowingMistakes = !isShowingMistakes;
+            const reviewSection = document.getElementById('review-section');
+            reviewSection.innerHTML = renderReviewSection(currentQuizData, currentSelections, isShowingMistakes);
+
+            const toggleBtn = document.getElementById('show-mistakes-btn');
+            toggleBtn.textContent = isShowingMistakes ? 'Show All Questions' : 'Show Only Mistakes';
+        }
+
+        /**
+         * Handles the quiz submission, calculates score, and renders results.
+         */
+        function handleSubmit() {
+            const date = datePicker.value || dateDropdown.value;
+            if (!date) return;
+
+            const endTime = new Date();
+            const timeTaken = Math.round((endTime - quizStartTime) / 1000); // in seconds
+            const minutes = Math.floor(timeTaken / 60);
+            const seconds = timeTaken % 60;
+            const formattedTime = `${minutes}m ${seconds}s`;
+
+            let correctCount = 0;
+            let incorrectCount = 0;
+            let unansweredCount = 0;
+            let attemptedCount = 0;
+            const totalQuestions = currentQuizData.length;
+
+            currentQuizData.forEach((q, index) => {
+                const userSelected = currentSelections[index] !== undefined ? currentSelections[index] : -1;
+                const correctAnswer = q.correctAnswer;
+
+                if (userSelected === -1) {
+                    unansweredCount++;
+                } else {
+                    attemptedCount++;
+                    if (userSelected === correctAnswer) {
+                        correctCount++;
+                    } else {
+                        incorrectCount++;
+                    }
+                }
+            });
+
+            const score = correctCount;
+            const accuracy = attemptedCount > 0 ? ((correctCount / attemptedCount) * 100).toFixed(0) : 0;
+            const passThreshold = 70; // 70% threshold
+            const isPassed = accuracy >= passThreshold;
+            const rankPercentile = (Math.random() * (95 - 60) + 60).toFixed(0); // Mock percentile
+
+            let accuracyBadgeColor, accuracyBadgeText;
+            if (accuracy >= 70) {
+                accuracyBadgeColor = 'bg-green-500';
+                accuracyBadgeText = 'High Accuracy';
+            } else if (accuracy >= 50) {
+                accuracyBadgeColor = 'bg-orange-500';
+                accuracyBadgeText = 'Good Accuracy';
+            } else {
+                accuracyBadgeColor = 'bg-red-500';
+                accuracyBadgeText = 'Needs Improvement';
+            }
+
+            let recommendationMessage;
+            if (score / totalQuestions >= 0.8) {
+                recommendationMessage = "Excellent! You're exam-ready 🚀";
+            } else if (score / totalQuestions >= 0.5) {
+                recommendationMessage = "Good effort, revise weak areas 📚";
+            } else {
+                recommendationMessage = "Don’t worry, practice daily 🔁";
+            }
+
+            const scoreHtml = `
+                <div class="mb-8 text-center">
+                    <h2 class="text-4xl font-bold font-['Orbitron'] text-fuchsia-600 dark:text-fuchsia-400">${score}/${totalQuestions}</h2>
+                    <p class="text-xl text-slate-500 dark:text-slate-400 font-semibold">${isPassed ? 'Passed' : 'Failed'} with ${accuracy}% Accuracy</p>
+                    <p class="mt-2 text-md font-bold text-slate-600 dark:text-slate-300">Time Taken: ${formattedTime}</p>
+                </div>
+
+                <!-- Scorecard Card -->
+                <div class="mb-8 p-6 rounded-2xl bg-slate-100 dark:bg-slate-700 shadow-xl">
+                    <h3 class="text-2xl font-bold mb-4 font-['Orbitron'] text-indigo-600 dark:text-cyan-400">Scorecard</h3>
+                    <div class="grid grid-cols-2 gap-4 text-center">
+                        <div>
+                            <p class="text-xl font-bold text-slate-800 dark:text-slate-200">${totalQuestions}</p>
+                            <p class="text-sm text-slate-500 dark:text-slate-400">Total Questions</p>
+                        </div>
+                        <div>
+                            <p class="text-xl font-bold text-slate-800 dark:text-slate-200">${attemptedCount}</p>
+                            <p class="text-sm text-slate-500 dark:text-slate-400">Attempted</p>
+                        </div>
+                        <div>
+                            <p class="text-xl font-bold text-green-600 dark:text-green-400">${correctCount}</p>
+                            <p class="text-sm text-slate-500 dark:text-slate-400">Correct</p>
+                        </div>
+                        <div>
+                            <p class="text-xl font-bold text-red-600 dark:text-red-400">${incorrectCount}</p>
+                            <p class="text-sm text-slate-500 dark:text-slate-400">Incorrect</p>
+                        </div>
+                        <div>
+                            <p class="text-xl font-bold text-slate-500 dark:text-slate-400">${unansweredCount}</p>
+                            <p class="text-sm text-slate-500 dark:text-slate-400">Unanswered</p>
+                        </div>
+                        <div>
+                            <p class="text-xl font-bold text-slate-800 dark:text-slate-200">${accuracy}%</p>
+                            <p class="text-sm text-slate-500 dark:text-slate-400">Accuracy</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Charts and Performance -->
+                <div class="mb-8 p-6 rounded-2xl bg-slate-100 dark:bg-slate-700 shadow-xl">
+                    <h3 class="text-2xl font-bold mb-4 font-['Orbitron'] text-indigo-600 dark:text-cyan-400">Performance Summary</h3>
+                    <div class="flex flex-col sm:flex-row items-center justify-center sm:space-x-8">
+                        <div class="w-full sm:w-1/2 flex justify-center items-center">
+                            <canvas id="scorePieChart"></canvas>
+                        </div>
+                        <div class="w-full sm:w-1/2 mt-8 sm:mt-0 text-center sm:text-left">
+                            <p class="text-xl font-semibold mb-2">Final Score: <span class="font-bold text-fuchsia-600">${score}/${totalQuestions}</span></p>
+                            <p class="text-md font-semibold mb-2">Accuracy: <span class="font-bold">${accuracy}%</span></p>
+                            <span class="inline-block px-3 py-1 text-sm font-semibold rounded-full text-white ${accuracyBadgeColor}">${accuracyBadgeText}</span>
+                            <p class="mt-4 text-lg font-semibold text-slate-600 dark:text-slate-300">
+                                Mock Rank: Scored better than ${rankPercentile}% of aspirants!
+                            </p>
+                            <p class="mt-4 text-xl font-bold text-center sm:text-left text-green-600 dark:text-green-400">${recommendationMessage}</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Detailed Review Section -->
+                <div class="mb-8 p-6 rounded-2xl bg-slate-100 dark:bg-slate-700 shadow-xl">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-2xl font-bold font-['Orbitron'] text-indigo-600 dark:text-cyan-400">Detailed Review</h3>
+                        <button id="show-mistakes-btn" onclick="toggleMistakesView()" class="px-4 py-2 text-sm font-semibold rounded-full bg-slate-200 text-slate-800 hover:bg-slate-300 transition-colors dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-600">
+                            Show Only Mistakes
+                        </button>
+                    </div>
+                    <div id="review-section">
+                        ${renderReviewSection(currentQuizData, currentSelections, isShowingMistakes)}
+                    </div>
+                </div>
+
+                <!-- Next Steps / Action Buttons -->
+                <div class="mt-8 text-center space-y-4">
+                    <h3 class="text-2xl font-bold font-['Orbitron'] text-indigo-600 dark:text-cyan-400">Next Steps</h3>
+                    <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+                        <button id="retake-btn" class="w-full sm:w-auto ripple-btn px-8 py-4 rounded-full bg-gradient-to-br from-violet-600 to-fuchsia-600 text-white font-bold text-lg shadow-lg hover:shadow-2xl hover:scale-105 transition-transform transform">
+                            <span class="relative z-10">Try Another Quiz</span>
+                        </button>
+                        <a href="#" class="w-full sm:w-auto px-8 py-4 rounded-full bg-slate-200 text-slate-800 font-semibold hover:bg-slate-300 transition-colors dark:bg-slate-700 dark:text-slate-200 dark:hover:bg-slate-600">
+                            Review Current Affairs
+                        </a>
+                        <a href="#" class="w-full sm:w-auto px-8 py-4 rounded-full bg-slate-200 text-slate-800 font-semibold hover:bg-slate-300 transition-colors dark:bg-slate-700 dark:text-slate-200 dark:hover:bg-slate-600">
+                            Go to Dashboard
+                        </a>
+                    </div>
+                    <div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
+                        <a href="#" class="text-indigo-600 hover:text-indigo-800 dark:text-cyan-400 dark:hover:text-cyan-500 font-semibold">
+                            Download PDF Scorecard
+                        </a>
+                        <a href="#" class="text-indigo-600 hover:text-indigo-800 dark:text-cyan-400 dark:hover:text-cyan-500 font-semibold">
+                            Share Results
+                        </a>
+                    </div>
+                </div>
+            `;
+
+            resultsContainer.innerHTML = scoreHtml;
+
+            // Render the pie chart
+            const pieCtx = document.getElementById('scorePieChart').getContext('2d');
+            const pieChart = new Chart(pieCtx, {
+                type: 'pie',
+                data: {
+                    labels: ['Correct', 'Incorrect', 'Unanswered'],
+                    datasets: [{
+                        data: [correctCount, incorrectCount, unansweredCount],
+                        backgroundColor: ['#10B981', '#EF4444', '#6B7280'],
+                        hoverOffset: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                color: document.documentElement.classList.contains('dark') ? '#E2E8F0' : '#1E293B',
+                                font: { family: 'Space Mono' }
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function (context) {
+                                    let label = context.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    if (context.parsed !== null) {
+                                        label += context.parsed;
+                                    }
+                                    return label;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Set up the review section and buttons
+            document.getElementById('review-section').innerHTML = renderReviewSection(currentQuizData, currentSelections, false);
+            document.getElementById('retake-btn').addEventListener('click', () => loadQuiz(date));
+            document.getElementById('show-mistakes-btn').addEventListener('click', toggleMistakesView);
+
+            flipContainer.classList.add('flipped');
+        }
+
+        // Event listeners
+        datePicker.addEventListener('change', (e) => loadQuiz(e.target.value));
+        dateDropdown.addEventListener('change', (e) => loadQuiz(e.target.value));
+
+        // Initial setup
+        window.onload = init;
+    </script>
+</body>
+
+</html>

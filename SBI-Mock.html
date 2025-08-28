@@ -1,0 +1,1043 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>SBI PO Mock Test – Free Practice Zone</title>
+    <meta name="description"
+        content="Front-end only SBI PO Mock Test with Prelims & Mains, bilingual questions, palette, timer, review, results with charts, dark mode, mobile responsive." />
+    <style>
+        :root {
+            --bg: #f7f7fb;
+            --card: #ffffff;
+            --text: #111827;
+            --muted: #6b7280;
+            --primary: #2563eb;
+            --accent: #10b981;
+            --danger: #ef4444;
+            --shadow: 0 6px 24px rgba(0, 0, 0, .08);
+            --radius: 18px;
+            --gap: 14px;
+            --font: 16px;
+        }
+
+        [data-theme="dark"] {
+            --bg: #0b0f17;
+            --card: #121826;
+            --text: #e5e7eb;
+            --muted: #9aa4b2;
+            --primary: #60a5fa;
+            --accent: #34d399;
+            --danger: #f87171;
+            --shadow: 0 6px 24px rgba(0, 0, 0, .45);
+        }
+
+        html,
+        body {
+            height: 100%
+        }
+
+        body {
+            margin: 0;
+            background: var(--bg);
+            color: var(--text);
+            font-family: system-ui, -apple-system, Segoe UI, Roboto, Inter, Arial, sans-serif;
+            font-size: var(--font);
+            line-height: 1.45;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: auto;
+            padding: 18px
+        }
+
+        .appbar {
+            display: flex;
+            gap: var(--gap);
+            align-items: center;
+            justify-content: space-between;
+            background: var(--card);
+            box-shadow: var(--shadow);
+            padding: 12px 16px;
+            border-radius: var(--radius);
+            position: sticky;
+            top: 0;
+            z-index: 20;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 800
+        }
+
+        .brand .logo {
+            width: 36px;
+            height: 36px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            box-shadow: 0 8px 20px rgba(37, 99, 235, .35);
+        }
+
+        .controls {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            cursor: pointer;
+            border: 0;
+            border-radius: 14px;
+            padding: 10px 14px;
+            background: var(--primary);
+            color: #fff;
+            font-weight: 600;
+            box-shadow: var(--shadow);
+            transition: transform .05s ease, opacity .2s ease
+        }
+
+        .btn:active {
+            transform: translateY(1px)
+        }
+
+        .btn.ghost {
+            background: transparent;
+            color: var(--text);
+            border: 1px solid rgba(127, 127, 127, .25)
+        }
+
+        .btn.muted {
+            background: var(--muted);
+            color: #fff
+        }
+
+        .btn.success {
+            background: var(--accent);
+            color: #003b2b
+        }
+
+        .btn.danger {
+            background: var(--danger)
+        }
+
+        .btn.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .grid {
+            display: grid;
+            gap: var(--gap);
+            grid-template-columns: 260px 1fr 240px;
+            align-items: start;
+        }
+
+        @media (max-width:1024px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+
+            .left,
+            .right {
+                order: 2
+            }
+
+            .main {
+                order: 1
+            }
+        }
+
+        .card {
+            background: var(--card);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 16px;
+        }
+
+        .section-tabs {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-top: 8px
+        }
+
+        .badge {
+            padding: 8px 12px;
+            border-radius: 999px;
+            background: rgba(127, 127, 127, .12);
+            cursor: pointer;
+            font-weight: 600
+        }
+
+        .badge.active {
+            background: rgba(37, 99, 235, .15);
+            outline: 2px solid var(--primary)
+        }
+
+        .timer {
+            font-variant-numeric: tabular-nums;
+            background: rgba(37, 99, 235, .1);
+            color: var(--primary);
+            padding: 10px 12px;
+            border-radius: 12px;
+            font-weight: 800;
+            width: max-content
+        }
+
+        .qa {
+            display: grid;
+            gap: var(--gap);
+            grid-template-columns: 1fr 1fr;
+        }
+
+        @media (max-width:720px) {
+            .qa {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .qbox {
+            border: 1px dashed rgba(127, 127, 127, .25);
+            border-radius: 12px;
+            padding: 12px;
+        }
+
+        .qtitle {
+            font-weight: 800;
+            margin: 8px 0 12px
+        }
+
+        .options {
+            display: grid;
+            gap: 10px;
+            grid-template-columns: 1fr 1fr;
+        }
+
+        @media (max-width:560px) {
+            .options {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .opt {
+            display: flex;
+            gap: 10px;
+            align-items: flex-start;
+            cursor: pointer;
+            padding: 10px;
+            border-radius: 12px;
+            border: 1px solid rgba(127, 127, 127, .25);
+        }
+
+        .opt input {
+            margin-top: 4px
+        }
+
+        .palette {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px
+        }
+
+        .pill {
+            width: 38px;
+            height: 38px;
+            display: grid;
+            place-items: center;
+            border-radius: 12px;
+            border: 1px solid rgba(127, 127, 127, .3);
+            cursor: pointer;
+            font-weight: 700;
+            user-select: none
+        }
+
+        .pill.current {
+            outline: 2px solid var(--primary)
+        }
+
+        .pill.answered {
+            background: rgba(16, 185, 129, .18);
+            border-color: transparent
+        }
+
+        .pill.review {
+            background: rgba(250, 204, 21, .3);
+            border-color: transparent
+        }
+
+        .pill.blank {
+            background: rgba(127, 127, 127, .14)
+        }
+
+        .pill.locked {
+            opacity: .4;
+            pointer-events: none
+        }
+
+        .kbd {
+            background: rgba(127, 127, 127, .18);
+            padding: 2px 6px;
+            border-radius: 6px;
+            font-family: ui-monospace, monospace;
+            font-size: .9em
+        }
+
+        .footer {
+            margin-top: 10px;
+            font-size: .9em;
+            color: var(--muted)
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        @media (max-width:560px) {
+            .stats {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .stat {
+            background: rgba(127, 127, 127, .12);
+            padding: 12px;
+            border-radius: 12px;
+            font-weight: 700;
+        }
+
+        .legend {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin: 6px 0
+        }
+
+        .tag {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            padding: 6px 10px;
+            border-radius: 999px;
+            background: rgba(127, 127, 127, .12);
+            font-weight: 600
+        }
+
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 999px
+        }
+
+        .green {
+            background: var(--accent)
+        }
+
+        .red {
+            background: var(--danger)
+        }
+
+        .yellow {
+            background: #f59e0b
+        }
+
+        .blue {
+            background: var(--primary)
+        }
+
+        .result-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: .95em
+        }
+
+        .result-table td,
+        .result-table th {
+            border-bottom: 1px solid rgba(127, 127, 127, .2);
+            padding: 8px;
+            vertical-align: top
+        }
+
+        .correct {
+            color: var(--accent);
+            font-weight: 700
+        }
+
+        .wrong {
+            color: var(--danger);
+            font-weight: 700
+        }
+
+        .note {
+            font-size: .92em;
+            color: var(--muted)
+        }
+
+        .hidden {
+            display: none !important
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <header class="appbar">
+            <div class="brand">
+                <div class="logo" aria-hidden="true"></div>
+                <div>
+                    <div style="font-size:1.05rem">SBI PO Mock Test</div>
+                    <div style="font-size:.9rem;color:var(--muted)">Free Practice Zone • Front-end only</div>
+                </div>
+            </div>
+            <div class="controls">
+                <button id="toggleTheme" class="btn ghost" title="Toggle Dark Mode">🌙 Dark</button>
+                <button id="fontDec" class="btn ghost" title="Decrease Font Size">A−</button>
+                <button id="fontInc" class="btn ghost" title="Increase Font Size">A+</button>
+                <span class="timer" id="timer">--:--:--</span>
+                <a href="index.html" class="btn ghost">Go Back</a>
+            </div>
+        </header>
+
+        <div class="card" style="margin-top:14px">
+            <div class="section-tabs" id="sectionTabs" aria-label="Sections"></div>
+        </div>
+
+        <div class="grid" id="layout">
+            <aside class="left card" id="leftPanel">
+                <h3 style="margin:0 0 6px">Guidelines</h3>
+                <ul style="margin:0 0 10px 18px;padding:0">
+                    <li>Choose a section above. Timer starts on first question.</li>
+                    <li>Use <span class="kbd">Mark</span> to revisit later. Palette shows status.</li>
+                    <li>Submit anytime; review answers with explanations.</li>
+                </ul>
+                <div class="legend">
+                    <span class="tag"><span class="dot blue"></span>Current</span>
+                    <span class="tag"><span class="dot green"></span>Answered</span>
+                    <span class="tag"><span class="dot yellow"></span>Marked</span>
+                    <span class="tag"><span class="dot"></span>Unseen</span>
+                </div>
+                <div class="footer">All data stays in your browser (localStorage). No login. No backend.</div>
+            </aside>
+
+            <main class="main card" id="mainPanel" aria-live="polite">
+                <div id="homeView">
+                    <h2 style="margin:6px 0 10px">Welcome 👋</h2>
+                    <p>Pick a section to begin. English & Hindi are shown side-by-side. Use the palette to navigate
+                        quickly.</p>
+                    <div class="stats" style="margin-top:14px">
+                        <div class="stat">Prelims: 60 mins • 100 Qs (25×4)</div>
+                        <div class="stat">Mains: 180 mins • Descriptive + Objective</div>
+                    </div>
+                </div>
+
+                <div id="testView" class="hidden">
+                    <div
+                        style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px">
+                        <div><b id="crumbExam">Prelims</b> • <span id="crumbSection">Quantitative Aptitude</span></div>
+                        <div class="note">Q <span id="qIndex">1</span>/<span id="qTotal">—</span></div>
+                    </div>
+
+                    <div class="qa">
+                        <div class="qbox">
+                            <div class="qtitle">हिंदी (Hindi)</div>
+                            <div id="qTextHi">—</div>
+                            <div class="options" id="optsHi"></div>
+                        </div>
+
+                        <div class="qbox">
+                            <div class="qtitle">English</div>
+                            <div id="qTextEn">—</div>
+                            <div class="options" id="optsEn"></div>
+                        </div>
+                    </div>
+
+                    <div style="display:flex;gap:8px;justify-content:space-between;margin-top:12px;flex-wrap:wrap">
+                        <button class="btn muted" id="prevBtn">⟵ Previous</button>
+                        <button class="btn" id="nextBtn">Next ⟶</button>
+                        <button class="btn ghost" id="clearBtn">Clear Response</button>
+                        <button class="btn ghost" id="markBtn">Mark for Review</button>
+                        <button class="btn success" id="submitBtn">Submit Test</button>
+                    </div>
+                </div>
+
+                <div id="resultView" class="hidden">
+                    <h3 style="margin:0 0 10px">Your Result</h3>
+                    <div class="stats" style="grid-template-columns: repeat(3, 1fr);">
+                        <div class="stat">
+                            <div style="font-size:0.9em;color:var(--muted)">Total Score</div>
+                            <div style="font-size:1.5em;font-weight:bold"><span id="statScore">—</span></div>
+                        </div>
+                        <div class="stat">
+                            <div style="font-size:0.9em;color:var(--muted)">Accuracy</div>
+                            <div style="font-size:1.5em;font-weight:bold"><span id="statAccuracy">—</span>%</div>
+                        </div>
+                        <div class="stat">
+                            <div style="font-size:0.9em;color:var(--muted)">Percentage</div>
+                            <div style="font-size:1.5em;font-weight:bold"><span id="statPercentage">—</span>%</div>
+                        </div>
+                    </div>
+
+                    <div style="margin-top:16px;">
+                        <h4 style="margin:0 0 8px">Summary</h4>
+                        <div class="stats">
+                            <div class="stat">Correct Answers: <span id="statCorrect">—</span></div>
+                            <div class="stat">Incorrect Answers: <span id="statWrong">—</span></div>
+                            <div class="stat">Unattempted: <span id="statUnattempted">—</span></div>
+                            <div class="stat">Total Questions: <span id="statTotal">—</span></div>
+                        </div>
+                    </div>
+
+                    <div style="margin-top:16px">
+                        <h4 style="margin:0 0 8px">Detailed Time Analysis</h4>
+                        <div class="stats">
+                            <div class="stat">Total Time Taken: <span id="timeTaken">—</span></div>
+                            <div class="stat">Average Time per Q: <span id="avgTime">—</span></div>
+                        </div>
+                    </div>
+
+                    <div style="margin-top:16px">
+                        <h4 style="margin:0 0 8px">Topic Wise Analysis</h4>
+                        <div class="stats" id="sectionalStats"></div>
+                    </div>
+
+                    <div style="margin-top:16px">
+                        <h4 style="margin:0 0 8px">Visual Breakdown: Score</h4>
+                        <canvas id="sectionalScoreChart" height="220"></canvas>
+                    </div>
+
+                    <div style="margin-top:16px">
+                        <h4 style="margin:0 0 8px">Visual Breakdown: Time</h4>
+                        <canvas id="sectionalTimeChart" height="220"></canvas>
+                    </div>
+
+                    <div style="margin-top:16px">
+                        <button class="btn" id="reviewAnswersBtn">Review your Answers</button>
+                        <table class="result-table hidden" id="reviewTable" style="margin-top:10px;"></table>
+                    </div>
+                </div>
+            </main>
+
+            <aside class="right card" id="rightPanel">
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+                    <h3 style="margin:0">Question Palette</h3>
+                </div>
+                <div id="palette" class="palette"></div>
+            </aside>
+        </div>
+
+        <footer class="footer" style="text-align:center;margin-top:16px">
+            © <span id="year"></span> Free Practice Zone • Built with HTML/CSS/JS/JSON • <b>No backend</b>
+        </footer>
+    </div>
+
+    <script>
+        /* =========================
+           CONFIG & QUESTION BANK
+           ========================= */
+        const SETTINGS = {
+            prelims: {
+                durationMin: 25,
+                scoring: { correct: 2, wrong: -0.5, unanswered: 0 }
+            },
+            mains: {
+                durationMin: 25,
+                scoring: { correct: 2, wrong: -0.5, unanswered: 0 }
+            }
+        };
+
+        const SECTIONS = {
+            prelims: [
+                { id: "qa", name: "Quantitative Aptitude", duration: 25 },
+                { id: "ra", name: "Reasoning Ability", duration: 25 },
+                { id: "el", name: "English Language", duration: 25 },
+                { id: "ga", name: "General Awareness", duration: 25 },
+            ],
+            mains: [
+                { id: "qa", name: "Quantitative Aptitude", duration: 25 },
+                { id: "ra", name: "Reasoning & Computer", duration: 25 },
+                { id: "el", name: "English Language", duration: 25 },
+                { id: "ga", name: "General/Banking Awareness", duration: 25 },
+            ],
+        };
+
+        const QUESTIONS_DB = {
+            prelims: {
+                qa: [
+                    { id: "Q-QA-1", en: { q: "What is the value of (35% of 200) + (15% of 400)?", opts: ["70", "110", "130", "150"], exp: "35% of 200 = 70; 15% of 400 = 60; Total = 130." }, hi: { q: "(200 का 35%) + (400 का 15%) का मान क्या है?", opts: ["70", "110", "130", "150"], exp: "200 का 35% = 70; 400 का 15% = 60; योग = 130." }, ans: 2 },
+                    { id: "Q-QA-2", en: { q: "A train 180 m long crosses a pole in 9 s. Its speed (km/h)?", opts: ["50", "60", "70", "72"], exp: "Speed = 180/9 = 20 m/s = 72 km/h." }, hi: { q: "180 मीटर लंबी ट्रेन 9 सेकंड में खंभा पार करती है। गति (किमी/घं)?", opts: ["50", "60", "70", "72"], exp: "गति = 180/9 = 20 मी/से = 72 किमी/घं." }, ans: 3 },
+                    { id: "Q-QA-3", en: { q: "Simple interest on ₹5000 at 8% p.a. for 2 years?", opts: ["₹400", "₹600", "₹800", "₹1000"], exp: "SI = PRT/100 = 5000×8×2/100 = ₹800." }, hi: { q: "₹5000 पर 8% वार्षिक दर से 2 वर्ष का साधारण ब्याज?", opts: ["₹400", "₹600", "₹800", "₹1000"], exp: "SI = PRT/100 = 5000×8×2/100 = ₹800." }, ans: 2 },
+                    { id: "Q-QA-4", en: { q: "If x: y = 3:5 and y: z = 10:7, then x: z = ?", opts: ["3:7", "6:7", "9:7", "3:5"], exp: "x:y=3:5; y=10k ⇒ x=6k; z=7k ⇒ x:z=6:7." }, hi: { q: "यदि x: y = 3:5 तथा y: z = 10:7, तो x: z = ?", opts: ["3:7", "6:7", "9:7", "3:5"], exp: "x:y=3:5; y=10k ⇒ x=6k; z=7k ⇒ x:z=6:7." }, ans: 1 },
+                    { id: "Q-QA-5", en: { q: "Average of 8, 10, 12, 14, 16 is:", opts: ["10", "12", "13", "14"], exp: "Sum=60, n=5 ⇒ avg=12." }, hi: { q: "8, 10, 12, 14, 16 का औसत:", opts: ["10", "12", "13", "14"], exp: "योग=60, n=5 ⇒ औसत=12." }, ans: 1 },
+                ],
+                ra: [
+                    { id: "Q-RA-1", en: { q: "If 'CAT' is coded as 'DBU', then 'DOG' is coded as:", opts: ["EPI", "EPH", "EOG", "FPI"], exp: "Each letter +1 ⇒ D,O,G → E,P,H." }, hi: { q: "यदि 'CAT' को 'DBU' कोडित है, तो 'DOG' का कोड:", opts: ["EPI", "EPH", "EOG", "FPI"], exp: "प्रत्येक अक्षर +1 ⇒ D,O,G → E,P,H." }, ans: 1 },
+                    { id: "Q-RA-2", en: { q: "Find the odd one: 2, 6, 12, 20, 31, 42", opts: ["6", "12", "31", "42"], exp: "Diffs: +4,+6,+8,+11,+11; 31 breaks +10 rule → odd." }, hi: { q: "असंगत संख्या चुनें: 2, 6, 12, 20, 31, 42", opts: ["6", "12", "31", "42"], exp: "अंतर: +4,+6,+8,+11,+11; 31 बाधित करता, अतः असंगत." }, ans: 2 },
+                    { id: "Q-RA-3", en: { q: "Statements: All pens are blue. Some blue are caps. Conclusion: Some pens are caps — ?", opts: ["True", "False", "Can't be determined", "None"], exp: "From given, intersection not guaranteed ⇒ Can't be determined." }, hi: { q: "वाक्य: सभी पेन नीले हैं। कुछ नीले कैप हैं। निष्कर्ष: कुछ पेन कैप हैं — ?", opts: ["सही", "गलत", "निश्चित नहीं", "कोई नहीं"], exp: "दिए गए से प्रतिच्छेद सुनिश्चित नहीं ⇒ निश्चित नहीं." }, ans: 2 },
+                    { id: "Q-RA-4", en: { q: "Mirror image of 3:15 on a clock is:", opts: ["8:45", "9:45", "8:30", "9:30"], exp: "Mirror time = 11:60 - 3:15 = 8:45." }, hi: { q: "घड़ी में 3:15 का दर्पण प्रतिबिंब:", opts: ["8:45", "9:45", "8:30", "9:30"], exp: "दर्पण समय = 11:60 - 3:15 = 8:45." }, ans: 0 },
+                    { id: "Q-RA-5", en: { q: "Venn: Doctor, Teacher, Human", opts: ["Three circles intersect", "Doctor ⊂ Human; Teacher ⊂ Human", "Doctor ⊂ Teacher", "Disjoint"], exp: "Both are subsets of Human." }, hi: { q: "वेन: डॉक्टर, शिक्षक, मानव", opts: ["तीन वृत्त कटते", "Doctor ⊂ Human; Teacher ⊂ Human", "Doctor ⊂ Teacher", "अलग-अलग"], exp: "दोनों Human के उपसमुच्चय हैं." }, ans: 1 },
+                ],
+                el: [
+                    { id: "Q-EL-1", en: { q: "Choose the correct spelling:", opts: ["Acommodate", "Accommodate", "Accomodate", "Acommodete"], exp: "Correct is 'Accommodate'." }, hi: { q: "सही वर्तनी चुनें:", opts: ["Acommodate", "Accommodate", "Accomodate", "Acommodete"], exp: "सही वर्तनी 'Accommodate' है." }, ans: 1 },
+                    { id: "Q-EL-2", en: { q: "Fill in the blank: She is looking ___ a new job.", opts: ["in", "for", "to", "on"], exp: "Correct preposition: looking for." }, hi: { q: "रिक्त भरें: She is looking ___ a new job.", opts: ["in", "for", "to", "on"], exp: "सही प्रीपोज़िशन: looking for." }, ans: 1 },
+                    { id: "Q-EL-3", en: { q: "Antonym of 'Scarce':", opts: ["Plenty", "Rare", "Shortage", "Sparse"], exp: "Antonym: Plenty." }, hi: { q: "'Scarce' का विलोम:", opts: ["Plenty", "Rare", "Shortage", "Sparse"], exp: "विलोम: Plenty." }, ans: 0 },
+                    { id: "Q-EL-4", en: { q: "Identify the error: He do not know.", opts: ["He", "do", "not", "know"], exp: "'do' → 'does': He does not know." }, hi: { q: "त्रुटि पहचानें: He do not know.", opts: ["He", "do", "not", "know"], exp: "'do' → 'does': He does not know." }, ans: 1 },
+                    { id: "Q-EL-5", en: { q: "One word: A person who speaks many languages.", opts: ["Monolingual", "Polyglot", "Orator", "Linguist"], exp: "Polyglot fits best." }, hi: { q: "एक शब्द: जो कई भाषाएँ बोलता हो।", opts: ["Monolingual", "Polyglot", "Orator", "Linguist"], exp: "Polyglot सबसे उपयुक्त." }, ans: 1 },
+                ],
+                ga: [
+                    { id: "Q-GA-1", en: { q: "RBI established in:", opts: ["1930", "1935", "1947", "1950"], exp: "RBI established on 1 April 1935." }, hi: { q: "RBI की स्थापना कब हुई:", opts: ["1930", "1935", "1947", "1950"], exp: "RBI की स्थापना 1 अप्रैल 1935 को." }, ans: 1 },
+                    { id: "Q-GA-2", en: { q: "Current base year of CPI (Industrial Workers) is:", opts: ["2001", "2012", "2016", "2018"], exp: "CPI-IW base year 2016." }, hi: { q: "CPI (IW) का आधार वर्ष:", opts: ["2001", "2012", "2016", "2018"], exp: "CPI-IW आधार वर्ष 2016." }, ans: 2 },
+                    { id: "Q-GA-3", en: { q: "Headquarters of SBI:", opts: ["Mumbai", "Kolkata", "New Delhi", "Chennai"], exp: "SBI HQ: Mumbai." }, hi: { q: "SBI मुख्यालय:", opts: ["मुंबई", "कोलकाता", "नई दिल्ली", "चेन्नई"], exp: "SBI मुख्यालय: मुंबई." }, ans: 0 },
+                    { id: "Q-GA-4", en: { q: "Bank Rate is decided by:", opts: ["SEBI", "RBI", "NABARD", "Finance Ministry"], exp: "RBI decides policy rates." }, hi: { q: "बैंक दर किसके द्वारा तय:", opts: ["SEBI", "RBI", "NABARD", "वित्त मंत्रालय"], exp: "RBI नीति दर तय करता है." }, ans: 1 },
+                    { id: "Q-GA-5", en: { q: "NEFT stands for:", opts: ["National Electronic Funds Transfer", "National Easy Fund Transfer", "New Electronic Funds Transfer", "None"], exp: "NEFT: National Electronic Funds Transfer." }, hi: { q: "NEFT का पूर्ण रूप:", opts: ["National Electronic Funds Transfer", "National Easy Fund Transfer", "New Electronic Funds Transfer", "None"], exp: "NEFT: National Electronic Funds Transfer." }, ans: 0 },
+                ],
+            },
+            mains: {
+                qa: [], ra: [], el: [], ga: []
+            }
+        };
+
+        /* =========================
+           STATE
+           ========================= */
+        const State = {
+            exam: "prelims",
+            section: "qa",
+            index: 0,
+            answers: {},
+            startedAt: null,
+            endAt: null,
+            timerId: null,
+            locked: false,
+            timePerQuestion: {},
+            timePerSection: {},
+            lastTime: null,
+        };
+
+        /* =========================
+           HELPERS
+           ========================= */
+        const $ = (s) => document.querySelector(s);
+        const $$ = (s) => Array.from(document.querySelectorAll(s));
+        const fmt2 = (n) => String(n).padStart(2, "0");
+        const now = () => Date.now();
+        const duration = (start, end) => (end - start) / 1000;
+        function msToHMS(ms) {
+            const t = Math.max(0, Math.floor(ms / 1000));
+            const h = Math.floor(t / 3600), m = Math.floor((t % 3600) / 60), s = t % 60;
+            return `${fmt2(h)}:${fmt2(m)}:${fmt2(s)}`;
+        }
+        function secondsToHMS(s) {
+            const t = Math.floor(s);
+            const m = Math.floor(t / 60), sec = t % 60;
+            return `${fmt2(m)}:${fmt2(sec)}`;
+        }
+        function getQuestions() { return QUESTIONS_DB[State.exam][State.section] || []; }
+        function currentQuestion() { return getQuestions()[State.index]; }
+        function ensureAnswerSlot(qid) {
+            if (!State.answers[qid]) State.answers[qid] = { choice: null, review: false, time: 0 };
+            return State.answers[qid];
+        }
+        function persist() {
+            const key = `SBIPO_${State.exam}_${State.section}`;
+            localStorage.setItem(key, JSON.stringify({
+                index: State.index, answers: State.answers,
+                startedAt: State.startedAt, endAt: State.endAt,
+                timePerQuestion: State.timePerQuestion,
+                timePerSection: State.timePerSection
+            }));
+        }
+        function restore() {
+            const key = `SBIPO_${State.exam}_${State.section}`;
+            const raw = localStorage.getItem(key);
+            if (!raw) return false;
+            try {
+                const obj = JSON.parse(raw);
+                State.index = obj.index || 0;
+                State.answers = obj.answers || {};
+                State.startedAt = obj.startedAt || null;
+                State.endAt = obj.endAt || null;
+                State.timePerQuestion = obj.timePerQuestion || {};
+                State.timePerSection = obj.timePerSection || {};
+                return true;
+            } catch { return false; }
+        }
+
+        /* =========================
+           RENDER: Sections
+           ========================= */
+        function renderSectionTabs() {
+            const wrap = $("#sectionTabs");
+            wrap.innerHTML = "";
+            (SECTIONS[State.exam] || []).forEach(s => {
+                const el = document.createElement("button");
+                el.className = "badge" + (State.section === s.id ? " active" : "");
+                el.textContent = s.name;
+                el.onclick = () => switchSection(s.id);
+                wrap.appendChild(el);
+            });
+            $("#crumbExam").textContent = State.exam[0].toUpperCase() + State.exam.slice(1);
+            $("#crumbSection").textContent = (SECTIONS[State.exam].find(x => x.id === State.section) || {}).name || "";
+        }
+
+        /* =========================
+           RENDER: Question, Options
+           ========================= */
+        function renderQuestion() {
+            const qs = getQuestions();
+            $("#qTotal").textContent = qs.length || "0";
+            if (!qs.length) {
+                $("#testView").classList.add("hidden");
+                $("#homeView").classList.remove("hidden");
+                return;
+            }
+
+            if (State.lastTime !== null) {
+                const qid = currentQuestion().id;
+                State.timePerQuestion[qid] = (State.timePerQuestion[qid] || 0) + duration(State.lastTime, now());
+                State.timePerSection[State.section] = (State.timePerSection[State.section] || 0) + duration(State.lastTime, now());
+            }
+
+            const q = currentQuestion();
+            $("#homeView").classList.add("hidden");
+            $("#resultView").classList.add("hidden");
+            $("#testView").classList.remove("hidden");
+            $("#rightPanel").classList.remove("hidden");
+
+            $("#qIndex").textContent = State.index + 1;
+            $("#qTextEn").textContent = q.en.q;
+            $("#qTextHi").textContent = q.hi.q;
+
+            const ans = ensureAnswerSlot(q.id);
+
+            const renderOpts = (root, opts, lang) => {
+                root.innerHTML = "";
+                opts.forEach((opt, i) => {
+                    const label = document.createElement("label");
+                    label.className = "opt";
+                    const input = document.createElement("input");
+                    input.type = "radio"; input.name = `opt-${lang}`; input.checked = ans.choice === i;
+                    input.onchange = () => { ans.choice = i; persist(); renderPalette(); };
+                    const span = document.createElement("span");
+                    span.textContent = opt;
+                    label.appendChild(input);
+                    label.appendChild(span);
+                    root.appendChild(label);
+                });
+            };
+            renderOpts($("#optsEn"), q.en.opts, "en");
+            renderOpts($("#optsHi"), q.hi.opts, "hi");
+
+            renderPalette();
+            persist();
+            State.lastTime = now();
+        }
+
+        /* =========================
+           PALETTE
+           ========================= */
+        function renderPalette() {
+            const palette = $("#palette");
+            palette.innerHTML = "";
+            const qs = getQuestions();
+            qs.forEach((q, idx) => {
+                const pill = document.createElement("button");
+                pill.className = "pill";
+                if (State.index === idx) pill.classList.add("current");
+                const a = State.answers[q.id];
+                if (a?.review) pill.classList.add("review");
+                if (a?.choice != null) pill.classList.add("answered");
+                if (!a || a.choice === null) pill.classList.add("blank");
+
+                pill.textContent = idx + 1;
+                pill.onclick = () => { if (!State.locked) { State.index = idx; renderQuestion(); } };
+                palette.appendChild(pill);
+            });
+        }
+
+        /* =========================
+           TIMER
+           ========================= */
+        function startTimer() {
+            const currentSection = SECTIONS[State.exam].find(s => s.id === State.section);
+            const durationMin = currentSection ? currentSection.duration : SETTINGS.prelims.durationMin;
+
+            if (!State.startedAt) { State.startedAt = now(); State.endAt = State.startedAt + durationMin * 60 * 1000; }
+            clearInterval(State.timerId);
+            State.timerId = setInterval(() => {
+                const rem = (State.endAt || now()) - now();
+                $("#timer").textContent = msToHMS(rem);
+                if (rem <= 0) { clearInterval(State.timerId); submitTest(true); }
+            }, 250);
+        }
+
+        /* =========================
+           NAV & VIEWS
+           ========================= */
+        function switchSection(sectionId) {
+            State.section = sectionId;
+            State.index = 0;
+            State.startedAt = null;
+            State.endAt = null;
+            State.timePerQuestion = {};
+
+            persist();
+            renderSectionTabs();
+            restore();
+            renderQuestion();
+            startTimer();
+        }
+        function showView(id) {
+            ["homeView", "testView", "resultView"].forEach(v => $("#" + v).classList.add("hidden"));
+            $("#" + id).classList.remove("hidden");
+        }
+
+        function navigateToQuestion(idx) {
+            State.index = idx;
+            showView("testView");
+            renderQuestion();
+        }
+
+        /* =========================
+           SUBMIT & SCORE
+           ========================= */
+        function computeScore() {
+            const scoring = SETTINGS[State.exam].scoring;
+            const results = { overall: { score: 0, correct: 0, wrong: 0, attempted: 0, total: 0, accuracy: 0, percentage: 0 } };
+
+            const sectionData = {};
+            for (const section of SECTIONS[State.exam]) {
+                const qs_in_section = QUESTIONS_DB[State.exam][section.id];
+                results.overall.total += qs_in_section.length;
+
+                const section_results = { score: 0, correct: 0, wrong: 0, attempted: 0, total: qs_in_section.length };
+
+                qs_in_section.forEach(q => {
+                    const a = State.answers[q.id];
+                    if (a && a.choice != null) {
+                        section_results.attempted++;
+                        if (a.choice === q.ans) {
+                            section_results.correct++;
+                            section_results.score += scoring.correct;
+                        } else {
+                            section_results.wrong++;
+                            section_results.score += scoring.wrong;
+                        }
+                    }
+                });
+                sectionData[section.id] = section_results;
+
+                results.overall.score += section_results.score;
+                results.overall.correct += section_results.correct;
+                results.overall.wrong += section_results.wrong;
+                results.overall.attempted += section_results.attempted;
+            }
+            results.sectional = sectionData;
+
+            if (results.overall.attempted > 0) {
+                results.overall.accuracy = ((results.overall.correct / results.overall.attempted) * 100).toFixed(2);
+            }
+            const maxScore = results.overall.total * scoring.correct;
+            if (maxScore > 0) {
+                results.overall.percentage = ((results.overall.score / maxScore) * 100).toFixed(2);
+            }
+
+            return results;
+        }
+
+        function submitTest(auto = false) {
+            if (!auto && !confirm("Are you sure you want to submit? All remaining time will be lost.")) return;
+
+            State.locked = true;
+            clearInterval(State.timerId);
+
+            if (State.lastTime !== null) {
+                const q = currentQuestion();
+                State.timePerQuestion[q.id] = (State.timePerQuestion[q.id] || 0) + duration(State.lastTime, now());
+                State.timePerSection[State.section] = (State.timePerSection[State.section] || 0) + duration(State.lastTime, now());
+            }
+
+            const results = computeScore();
+            const { overall, sectional } = results;
+
+            $("#statScore").textContent = `${overall.score}`;
+            $("#statCorrect").textContent = `${overall.correct}`;
+            $("#statWrong").textContent = `${overall.wrong}`;
+            $("#statUnattempted").textContent = `${overall.total - overall.attempted}`;
+            $("#statTotal").textContent = `${overall.total}`;
+            $("#statAccuracy").textContent = `${overall.accuracy}`;
+            $("#statPercentage").textContent = `${overall.percentage}`;
+
+            const timeTaken = duration(State.startedAt, now());
+            $("#timeTaken").textContent = secondsToHMS(timeTaken);
+            if (overall.attempted > 0) {
+                $("#avgTime").textContent = secondsToHMS(timeTaken / overall.attempted);
+            } else {
+                $("#avgTime").textContent = "N/A";
+            }
+
+            const sectionalStatsEl = $("#sectionalStats");
+            sectionalStatsEl.innerHTML = "";
+            for (const section of SECTIONS[State.exam]) {
+                const data = sectional[section.id];
+                const time = State.timePerSection[section.id] || 0;
+                const statEl = document.createElement("div");
+                statEl.className = "stat";
+                statEl.innerHTML = `
+                    <div style="font-size:0.9em;color:var(--muted)">${section.name}</div>
+                    <div>Score: <b>${data.score}</b>, Correct: ${data.correct}, Wrong: ${data.wrong}</div>
+                    <div>Time: <b>${secondsToHMS(time)}</b></div>
+                `;
+                sectionalStatsEl.appendChild(statEl);
+            }
+
+            drawSectionalScoreChart(sectional);
+            drawSectionalTimeChart(State.timePerSection);
+            showView("resultView");
+            $("#rightPanel").classList.add("hidden");
+            if (auto) alert("Time is up! Your test has been submitted automatically.");
+        }
+
+        /* =========================
+           REVIEW TABLE
+           ========================= */
+        function buildReviewTable() {
+            const qs = getQuestions();
+            const tb = $("#reviewTable");
+            tb.innerHTML = `
+    <tr><th style="width:56px">Q#</th><th>Question (EN / HI)</th><th>Your Answer</th><th>Correct</th><th>Explanation</th></tr>
+  `;
+            qs.forEach((q, i) => {
+                const a = State.answers[q.id];
+                const your = (a && a.choice != null) ? q.en.opts[a.choice] : "—";
+                const corr = q.en.opts[q.ans];
+                const cls = (a && a.choice === q.ans) ? "correct" : "wrong";
+                const tr = document.createElement("tr");
+                tr.innerHTML = `
+      <td>${i + 1}</td>
+      <td><div><b>${q.en.q}</b><div class="note">${q.hi.q}</div></div></td>
+      <td class="${(your === "—") ? "" : cls}">${your}</td>
+      <td class="correct">${corr}</td>
+      <td><div>${q.en.exp}<div class="note">${q.hi.exp}</div></div></td>
+    `;
+                tb.appendChild(tr);
+            });
+        }
+
+        /* =========================
+           SIMPLE CHARTS (Canvas)
+           ========================= */
+        function drawSectionalScoreChart(sectionalData) {
+            const c = $("#sectionalScoreChart"); const ctx = c.getContext("2d");
+            ctx.clearRect(0, 0, c.width, c.height);
+            const sections = SECTIONS[State.exam];
+            const labels = sections.map(s => s.name);
+            const scores = sections.map(s => sectionalData[s.id].score);
+            const totals = sections.map(s => sectionalData[s.id].total * SETTINGS[State.exam].scoring.correct);
+            const maxScore = Math.max(1, ...scores, ...totals);
+            const w = c.width, h = c.height, pad = 30;
+            const barWidth = (w - pad * 2) / labels.length * 0.6;
+            const gap = (w - pad * 2) / labels.length * 0.4;
+
+            ctx.font = "12px system-ui";
+            ctx.textBaseline = "bottom";
+            ctx.textAlign = "center";
+
+            scores.forEach((score, i) => {
+                const x = pad + i * (barWidth + gap) + gap / 2;
+                const barHeight = (h - pad * 2) * (score / maxScore);
+                ctx.fillStyle = "#2563eb";
+                ctx.fillRect(x, h - pad - barHeight, barWidth, barHeight);
+                ctx.fillStyle = "#94a3b8";
+                ctx.fillText(labels[i].split(' ')[0], x + barWidth / 2, h - 8);
+                ctx.fillText(`${score.toFixed(1)}`, x + barWidth / 2, h - pad - barHeight - 4);
+            });
+        }
+
+        function drawSectionalTimeChart(timeData) {
+            const c = $("#sectionalTimeChart"); const ctx = c.getContext("2d");
+            ctx.clearRect(0, 0, c.width, c.height);
+            const sections = SECTIONS[State.exam];
+            const labels = sections.map(s => s.name);
+            const times = sections.map(s => timeData[s.id] || 0);
+            const maxTime = Math.max(1, ...times);
+            const w = c.width, h = c.height, pad = 30;
+            const barWidth = (w - pad * 2) / labels.length * 0.6;
+            const gap = (w - pad * 2) / labels.length * 0.4;
+
+            ctx.font = "12px system-ui";
+            ctx.textBaseline = "bottom";
+            ctx.textAlign = "center";
+
+            times.forEach((time, i) => {
+                const x = pad + i * (barWidth + gap) + gap / 2;
+                const barHeight = (h - pad * 2) * (time / maxTime);
+                ctx.fillStyle = "#10b981";
+                ctx.fillRect(x, h - pad - barHeight, barWidth, barHeight);
+                ctx.fillStyle = "#94a3b8";
+                ctx.fillText(labels[i].split(' ')[0], x + barWidth / 2, h - 8);
+                ctx.fillText(`${secondsToHMS(time)}`, x + barWidth / 2, h - pad - barHeight - 4);
+            });
+        }
+
+        /* =========================
+           EVENTS
+           ========================= */
+        function wireEvents() {
+            // Navigation buttons
+            $("#nextBtn").onclick = () => { const qs = getQuestions(); if (State.index < qs.length - 1) { State.index++; renderQuestion(); } };
+            $("#prevBtn").onclick = () => { if (State.index > 0) { State.index--; renderQuestion(); } };
+            $("#clearBtn").onclick = () => { const a = ensureAnswerSlot(currentQuestion().id); a.choice = null; persist(); renderQuestion(); };
+            $("#markBtn").onclick = () => { const a = ensureAnswerSlot(currentQuestion().id); a.review = !a.review; persist(); renderPalette(); };
+            $("#submitBtn").onclick = () => submitTest(false);
+
+            // Review Answers toggle
+            $("#reviewAnswersBtn").onclick = () => {
+                const table = $("#reviewTable");
+                if (table.classList.contains("hidden")) {
+                    buildReviewTable();
+                    table.classList.remove("hidden");
+                } else {
+                    table.classList.add("hidden");
+                }
+            };
+
+            // Theme & font
+            $("#toggleTheme").onclick = () => {
+                const dark = document.documentElement.getAttribute("data-theme") === "dark";
+                document.documentElement.setAttribute("data-theme", dark ? "light" : "dark");
+                localStorage.setItem("THEME", dark ? "light" : "dark");
+                $("#toggleTheme").textContent = dark ? "🌙 Dark" : "☀️ Light";
+            };
+            $("#fontInc").onclick = () => { const v = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--font")) || 16; const nv = Math.min(20, v + 1); document.documentElement.style.setProperty("--font", nv + "px"); };
+            $("#fontDec").onclick = () => { const v = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--font")) || 16; const nv = Math.max(12, v - 1); document.documentElement.style.setProperty("--font", nv + "px"); };
+        }
+
+        /* =========================
+           INIT
+           ========================= */
+        function init() {
+            $("#year").textContent = new Date().getFullYear();
+            const th = localStorage.getItem("THEME") || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+            document.documentElement.setAttribute("data-theme", th);
+            $("#toggleTheme").textContent = th === "dark" ? "☀️ Light" : "🌙 Dark";
+
+            State.exam = "prelims";
+            State.section = SECTIONS.prelims[0].id;
+
+            renderSectionTabs();
+            restore();
+            renderQuestion();
+            wireEvents();
+            startTimer();
+        }
+
+        init();
+    </script>
+</body>
+
+</html>

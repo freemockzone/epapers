@@ -1,176 +1,86 @@
 <!DOCTYPE html>
-<html lang="en" class="h-full">
+<html lang="en">
 
 <head>
-    <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-XL099YS7ZS"></script>
     <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag() { dataLayer.push(arguments); }
+        window.dataLayer = window.dataLayer.push(arguments);
         gtag('js', new Date());
-
         gtag('config', 'G-XL099YS7ZS');
     </script>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ePapers Hub</title>
+
     <script src="https://cdn.tailwindcss.com"></script>
-    <meta name="color-scheme" content="light dark" />
+
+    <meta name="color-scheme" content="light dark">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
     <style>
-        /* ================== General Styles ================== */
+        :root {
+            --glass-bg: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.2);
+            --glass-shadow: rgba(0, 0, 0, 0.1);
+            --dark-glass-bg: rgba(0, 0, 0, 0.1);
+            --dark-glass-border: rgba(0, 0, 0, 0.2);
+        }
+
         body {
             font-family: 'Inter', sans-serif;
+            background: #e0e0e0;
+            transition: background 0.5s ease;
         }
 
-        /* ===== Glass & Animations ===== */
-        .glass {
-            backdrop-filter: saturate(140%) blur(14px);
-            -webkit-backdrop-filter: saturate(140%) blur(14px);
-            background: rgba(255, 255, 255, 0.65);
+        body.dark {
+            background: #1a1a1a;
         }
 
-        .dark .glass {
-            background: rgba(17, 24, 39, 0.55);
-            border: 1px solid rgba(255, 255, 255, 0.06);
+        .glass-effect {
+            backdrop-filter: blur(10px);
+            background-color: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 4px 6px var(--glass-shadow);
+            transition: background-color 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
         }
 
-        .soft-shadow {
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
-        }
-
-        .hover-float {
-            transition: transform .2s ease, box-shadow .2s ease;
+        body.dark .glass-effect {
+            background-color: var(--dark-glass-bg);
+            border-color: var(--dark-glass-border);
+            box-shadow: 0 4px 6px rgba(255, 255, 255, 0.05);
         }
 
         .hover-float:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 14px 32px rgba(0, 0, 0, 0.10);
+            transform: translateY(-5px);
+            box-shadow: 0 8px 12px var(--glass-shadow);
         }
 
-        .spin-slow {
-            animation: spin 18s linear infinite;
+        body.dark .hover-float:hover {
+            box-shadow: 0 8px 12px rgba(255, 255, 255, 0.08);
         }
 
-        /* ================== POPUP STYLES ================== */
-        .overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.4);
-            backdrop-filter: blur(3px);
-            z-index: 9998;
+        .animated-spin {
+            animation: spin 8s linear infinite;
         }
 
-        .popup {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%) scale(0.9);
-            z-index: 9999;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s ease-in-out;
-            max-width: 90%;
-            max-height: 90vh;
-            overflow-y: auto;
-        }
+        @keyframes spin {
+            from {
+                transform: rotate(0deg);
+            }
 
-        .popup.show {
-            display: block;
-            opacity: 1;
-            visibility: visible;
-            transform: translate(-50%, -50%) scale(1);
-        }
-
-        .popup-content {
-            padding: 2rem;
-            border-radius: 1.5rem;
-            background-color: #fff;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-            text-align: center;
-        }
-
-        @media (prefers-color-scheme: dark) {
-            .popup-content {
-                background-color: #1a202c;
+            to {
+                transform: rotate(360deg);
             }
         }
 
-        .close-btn {
-            position: absolute;
-            top: 12px;
-            right: 18px;
-            font-size: 22px;
-            cursor: pointer;
-            color: #fff;
-            font-weight: bold;
-            transition: color 0.3s;
-        }
-
-        .close-btn:hover {
-            color: #ffeb3b;
-        }
-
-        /* Styles for the "Subscribe" pop-up as per your original code */
-        #subscriptionPopup {
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(12px);
-            border-radius: 16px;
-            padding: 30px 25px;
-            width: 360px;
-            color: #fff;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-            text-align: center;
-            font-family: "Segoe UI", sans-serif;
-        }
-
-        #subscriptionPopup h2 {
-            margin-bottom: 12px;
-            font-size: 20px;
-            font-weight: bold;
-        }
-
-        #subscriptionPopup p {
-            margin: 8px 0;
-            font-size: 14px;
-            line-height: 1.4;
-        }
-
-        #subscriptionPopup .highlight {
-            color: #ffeb3b;
-            font-weight: bold;
-            margin: 10px 0;
-            font-size: 16px;
-        }
-
-        #subscriptionPopup button {
-            margin-top: 15px;
-            padding: 10px 22px;
-            background: #ff5252;
-            border: none;
-            border-radius: 8px;
-            color: #fff;
-            font-size: 15px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: background 0.3s;
-        }
-
-        #subscriptionPopup button:hover {
-            background: #e53935;
-        }
-
-
-        /* ================== 100 COLOR BACKGROUND ANIMATION (SMOOTH) ================== */
         .bg-gradient {
-            background: linear-gradient(to right, #FF0000, #FF7F00, #FFFF00, #7FFF00, #00FF00, #00FF7F, #00FFFF, #007FFF, #0000FF, #7F00FF, #FF00FF, #FF007F, #F0F8FF, #FAEBD7, #00FFFF, #7FFFD4, #F0FFFF, #F5F5DC, #FFE4C4, #000000, #FFEBCD, #0000FF, #8A2BE2, #A52A2A, #DEB887, #7FFF00, #D2691E, #FF7F50, #6495ED, #FFF8DC, #DC143C, #00FFFF, #00008B, #008B8B, #B8860B, #A9A9A9, #006400, #BDB76B, #8B008B, #556B2F, #FF8C00, #9932CC, #8B0000, #E9967A, #8FBC8F, #483D8B, #2F4F4F, #00CED1, #9400D3, #FF1493, #00BFFF, #696969, #1E90FF, #B22222, #228B22, #FFFAFA, #3CB371, #FFD700, #DAA520, #808080, #008000, #ADFF2F, #F0FFF0, #FF69B4, #CD5C5C, #4B0082, #FFFFF0, #F0E68C, #E0FFFF, #ADD8E6, #F08080, #E0FFFF, #FAF0E6, #D3D3D3, #90EE90, #FFB6C1, #FFA07A, #20B2AA, #87CEFA, #778899, #B0C4DE, #FFFFE0, #00FF00, #32CD32, #FAF0E6, #FF00FF, #800080, #6A5ACD, #4169E1, #F4A460, #2E8B57, #FFF5EE, #A0522D, #C0C0C0, #87CEEB, #6B8E23, #FFDAB9, #DDA0DD, #FF4500, #FA8072, #7B68EE, #48D1CC, #C71585, #191970, #F5FFFA, #FFE4E1, #FFE4B5, #FFDEAD, #000080, #FDF5E6, #808000, #6B8E23, #FFA500, #FF4500, #DA70D6, #EEE8AA, #98FB98, #AFEEEE, #1E90FF, #FF1493, #DCDCDC, #FFF8DC, #F0FFF0, #B0E0E6, #BC8F8F, #CD853F, #FFC0CB, #F5F5F5, #800000, #008080, #4682B4, #D2B48C, #008000, #D87093, #FF6347, #40E0D0, #EE82EE, #F5DEB3, #FFFFFF, #F5F5F5, #FFFF00, #9ACD32);
-            background-size: 10000% 100%;
-            animation: color-shift 120s infinite linear;
-            color: white;
+            background: linear-gradient(135deg, #FF6B6B, #FFC144, #F0E68C, #A9F1DF, #64B5F6, #9D84F7, #FF99C2, #E67E22, #F1C40F, #3498DB, #9B59B6, #E74C3C);
+            background-size: 400% 400%;
+            animation: color-shift 20s ease infinite;
         }
 
         @keyframes color-shift {
@@ -178,537 +88,952 @@
                 background-position: 0% 50%;
             }
 
-            100% {
+            50% {
                 background-position: 100% 50%;
             }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        /* Smooth Gradient Animation for Subscribe Buttons */
+        .animated-gradient {
+            background: linear-gradient(to right, #64B5F6, #9D84F7, #FF99C2, #F0E68C, #FF6B6B);
+            background-size: 400% 400%;
+            animation: pulse-gradient 10s ease infinite;
+            transition: all 0.3s ease;
+        }
+
+        .animated-gradient:hover {
+            transform: scale(1.05);
+            animation-play-state: paused;
+        }
+
+        .animated-gradient.mobile-btn {
+            background: linear-gradient(to right, #FF6B6B, #FFC144, #F0E68C, #A9F1DF, #64B5F6);
+            background-size: 400% 400%;
+            animation: pulse-gradient 10s ease infinite;
+        }
+
+        @keyframes pulse-gradient {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        /* Sidebar transition and z-index fix */
+        #sidebar {
+            transition: transform 0.3s ease-in-out;
+            z-index: 50;
+            height: 100dvh;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        #sidebar::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        #sidebar::-webkit-scrollbar-thumb {
+            background: rgba(100, 116, 139, 0.4);
+            border-radius: 10px;
+        }
+
+        #sidebarBackdrop {
+            z-index: 40;
+            /* Ensure backdrop is on top of content */
+        }
+
+        main {
+            z-index: 20;
+            /* Ensure main content is behind the sidebar */
+        }
+
+        @media (max-width: 768px) {
+            #sidebar {
+                transform: translateX(-100%);
+            }
+
+            #sidebar.open {
+                transform: translateX(0);
+            }
+
+            .backdrop {
+                visibility: hidden;
+                opacity: 0;
+                transition: visibility 0s 0.3s, opacity 0.3s ease-in-out;
+            }
+
+            .backdrop.open {
+                visibility: visible;
+                opacity: 1;
+                transition: visibility 0s 0s, opacity 0.3s ease-in-out;
+            }
+
+            #sidebar nav ul {
+                padding-bottom: 4rem;
+            }
+        }
+
+        /* Skeleton Loading & Shimmer Effect */
+        .skeleton {
+            background-color: #e2e8f0;
+            border-radius: 0.5rem;
+            animation: pulse 1.5s infinite;
+        }
+
+        body.dark .skeleton {
+            background-color: #4b5563;
+        }
+
+        .shimmer {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .shimmer::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            transform: translateX(-100%);
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            animation: shimmer 1.5s infinite;
+        }
+
+        body.dark .shimmer::after {
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.05), transparent);
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.5;
+            }
+        }
+
+        @keyframes shimmer {
+            100% {
+                transform: translateX(100%);
+            }
+        }
+
+        /* Toast Notifications */
+        #toastContainer {
+            position: fixed;
+            bottom: 1rem;
+            right: 1rem;
+            z-index: 100;
+            display: flex;
+            flex-direction: column-reverse;
+            gap: 0.5rem;
+        }
+
+        .toast {
+            background-color: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(5px);
+            border-radius: 0.5rem;
+            padding: 1rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            animation: slideIn 0.5s ease-out forwards;
+            opacity: 0;
+        }
+
+        body.dark .toast {
+            background-color: rgba(31, 41, 55, 0.9);
+        }
+
+        @keyframes slideIn {
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+
+            from {
+                transform: translateY(2rem);
+            }
+        }
+
+        /* Guided Tour Overlay */
+        #tour-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.5s ease, visibility 0s 0.5s;
+        }
+
+        #tour-overlay.active {
+            opacity: 1;
+            visibility: visible;
+            transition: opacity 0.5s ease, visibility 0s;
+        }
+
+        .tour-tooltip {
+            position: absolute;
+            background: white;
+            color: #333;
+            padding: 0.75rem 1rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            font-size: 1rem;
+            line-height: 1.5;
+            z-index: 1001;
+            max-width: 250px;
+        }
+
+        body.dark .tour-tooltip {
+            background: #1f2937;
+            color: #e5e7eb;
+        }
+
+        .tour-highlight {
+            position: relative;
+            z-index: 1002;
+            box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.6);
+            border-radius: 0.5rem;
+            transition: all 0.5s ease;
+        }
+
+        .tour-highlight-fixed {
+            position: fixed !important;
         }
     </style>
 </head>
 
-<body
-    class="h-full bg-gradient-to-br from-slate-50 via-white to-slate-100 text-slate-800 dark:from-slate-900 dark:via-slate-950 dark:to-black dark:text-slate-100">
+<body class="bg-gray-100 dark:bg-gray-900 transition-colors duration-500">
+    <div id="tour-overlay"></div>
 
-    <div class="min-h-screen grid grid-cols-1 lg:grid-cols-[270px,1fr]">
+    <div id="toastContainer"></div>
 
-        <aside id="sidebar" class="glass soft-shadow fixed top-0 left-0 w-64 h-full p-5 flex flex-col gap-6 z-50 transform -translate-x-full transition-transform ease-in-out duration-300
-                    lg:sticky lg:top-0 lg:left-auto lg:w-auto lg:h-screen lg:transform-none lg:p-6 lg:z-40">
-            <button id="closeSidebar" class="absolute top-4 right-4 text-3xl text-slate-500 lg:hidden">&times;</button>
+    <div id="sidebarBackdrop" class="fixed inset-0 bg-black/50 md:hidden backdrop transition-opacity duration-300">
+    </div>
 
-            <div class="flex items-center gap-3">
-                <div
-                    class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-indigo-500 via-sky-500 to-emerald-400 spin-slow">
-                </div>
+    <aside id="sidebar"
+        class="fixed inset-y-0 left-0 w-64 bg-white dark:bg-gray-800 p-6 flex flex-col justify-between transform -translate-x-full md:translate-x-0 transition-transform duration-300 shadow-lg">
+        <div>
+            <div class="flex items-center mb-8">
+                <div class="w-10 h-10 bg-gradient rounded-lg animated-spin mr-3"></div>
                 <div>
-                    <h1 class="text-xl font-extrabold tracking-tight">ePapers</h1>
-                    <p class="text-xs text-slate-500 dark:text-slate-400 -mt-0.5">Govt Job Aspirants</p>
+                    <h1 class="text-3xl font-bold text-gray-800 dark:text-white">ePapers</h1>
+                    <p class="text-sm text-gray-500 dark:text-gray-400">Govt Job Aspirants</p>
                 </div>
             </div>
 
-            <nav class="mt-1 lg:mt-2">
-                <ul class="space-y-2">
-                    <li><a href="#dashboard"
-                            class="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800"><span>🏠</span><span>Dashboard</span></a>
-                    </li>
-                    <li><a href="#current-affairs"
-                            class="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800"><span>🗞️</span><span>Current
-                                Affairs</span></a></li>
-                    <li><a href="demo-2.html"
-                            class="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800"><span>🎯</span><span>Daily
-                                MCQ's</span></a></li>
-                    <li><a href="#epapers"
-                            class="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800"><span>📄</span><span>ePapers</span></a>
-                    </li>
-                    <li><a href="Maths-Mock-Test-01.html"
-                            class="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800"><span>✍</span><span>Bank
-                                PO Mock</span></a></li>
-                    <li><a href="#about"
-                            class="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800"><span>ℹ️</span><span>About</span></a>
-                    </li>
-                    <li><a href="#contact"
-                            class="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800"><span>📧</span><span>Contact</span></a>
-                    </li>
+            <nav>
+                <ul>
+                    <a href="#dashboard"
+                        class="flex items-center p-3 my-2 rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-200">
+                        <svg class="w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                            <path
+                                d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
+                        </svg>
+                        Dashboard
+                    </a>
+                    <a href="#epapers"
+                        class="flex items-center p-3 my-2 rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-200">
+                        <svg class="w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                            <path
+                                d="M4 4a2 2 0 00-2 2v6a2 2 0 002 2h4l2 2 2-2h4a2 2 0 002-2V6a2 2 0 00-2-2H4zm11 6h-4v2h4v-2zm-6-2v2H5v-2h4z" />
+                        </svg>
+                        ePapers
+                    </a>
+                    <a href="#bank-po-mock"
+                        class="flex items-center p-3 my-2 rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-200">
+                        <svg class="w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                            <path
+                                d="M9 2a1 1 0 00-1 1v1h4V3a1 1 0 10-2 0V3H9zM3 5h14a1 1 0 011 1v2a1 1 0 01-1 1H3a1 1 0 01-1-1V6a1 1 0 011-1zm1 5h12v7a1 1 0 01-1 1H5a1 1 0 01-1-1v-7z" />
+                        </svg>
+                        Bank PO Mock
+                    </a>
+                    <a href="#daily-mcqs"
+                        class="flex items-center p-3 my-2 rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-200">
+                        <svg class="w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                            <path
+                                d="M7 3a1 1 0 000 2h6a1 1 0 100-2H7zM4 7a1 1 0 011-1h10a1 1 0 110 2H5a1 1 0 01-1-1zm3 5a1 1 0 000 2h6a1 1 0 100-2H7zM4 15a1 1 0 011-1h10a1 1 0 110 2H5a1 1 0 01-1-1z" />
+                        </svg>
+                        Daily MCQs
+                    </a>
+                    <a href="#current-affairs"
+                        class="flex items-center p-3 my-2 rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-200">
+                        <svg class="w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                            <path
+                                d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z" />
+                        </svg>
+                        Current Affairs
+                    </a>
+                    <a href="#about"
+                        class="flex items-center p-3 my-2 rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-200">
+                        <svg class="w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd"
+                                d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2h2a1 1 0 100-2H9z"
+                                clip-rule="evenodd" />
+                        </svg>
+                        About
+                    </a>
+                    <a href="#contact"
+                        class="flex items-center p-3 my-2 rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-200">
+                        <svg class="w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                            <path
+                                d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.744 4.168A1 1 0 017.5 8h4a1 1 0 01.986-.836l.744-4.168A1 1 0 0115.847 2H18a1 1 0 011 1v2a1 1 0 01-1 1h-1a1 1 0 00-1 1v1a1 1 0 001 1h1a1 1 0 011 1v2a1 1 0 01-1 1h-1a1 1 0 00-1 1v1a1 1 0 001 1h1a1 1 0 011 1v2a1 1 0 01-1 1h-2a1 1 0 01-1-1v-2a1 1 0 00-1-1H7a1 1 0 00-1 1v2a1 1 0 01-1 1H3a1 1 0 01-1-1v-2a1 1 0 011-1h1a1 1 0 001-1v-1a1 1 0 00-1-1H3a1 1 0 01-1-1V5a1 1 0 011-1h2z" />
+                        </svg>
+                        Contact
+                    </a>
                 </ul>
             </nav>
+        </div>
 
-            <div class="mt-auto hidden lg:block">
-                <a href="subscribe.html"
-                    class="bg-gradient w-full inline-flex items-center justify-center gap-2 px-4 py-3 rounded-2xl font-bold shadow-lg hover:opacity-95 transition">
-                    🚀 Subscribe
-                </a>
-            </div>
-
-            <div class="flex items-center gap-2 pt-2">
-                <button id="themeToggle"
-                    class="w-full px-3 py-2 rounded-xl bg-slate-900 text-white dark:bg-white dark:text-slate-900 font-semibold hover:opacity-90 transition">
-                    Toggle Dark/Light
-                </button>
-            </div>
-        </aside>
-
-        <main class="p-4 sm:p-6 lg:p-8">
-
-            <header id="dashboard" class="mb-6 flex flex-col md:flex-row gap-3 md:items-center md:justify-between">
-                <button id="openSidebar" class="p-2 -ml-2 text-2xl text-slate-500 lg:hidden">
-                    ☰
-                </button>
-
-                <div>
-                    <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight">Dashboard</h2>
-                    <p class="text-sm text-slate-500 dark:text-slate-400">Daily Current Affairs • ePapers (auto delete
-                        in 24h)</p>
-                </div>
-                <div class="flex flex-col gap-2 md:flex-row md:items-center">
-                    <input id="searchBox" type="search" placeholder="Search current affairs…"
-                        class="glass soft-shadow px-4 py-2 rounded-xl outline-none w-full md:w-64 max-w-full text-sm placeholder:text-slate-400" />
-                    <a href="subscribe.html"
-                        class="bg-gradient hidden md:inline-flex items-center gap-2 px-4 py-2 rounded-xl font-semibold shadow-lg hover:opacity-95 transition">Subscribe</a>
-                </div>
-            </header>
-
-            <section class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-                <div class="glass soft-shadow rounded-2xl p-5 hover-float">
-                    <p class="text-sm text-slate-500 dark:text-slate-400">Today’s Affairs</p>
-                    <p id="statAffairs" class="text-3xl font-extrabold mt-1">0</p>
-                </div>
-                <div class="glass soft-shadow rounded-2xl p-5 hover-float">
-                    <p class="text-sm text-slate-500 dark:text-slate-400">Active ePapers</p>
-                    <p id="statPapers" class="text-3xl font-extrabold mt-1">0</p>
-                </div>
-                <div class="glass soft-shadow rounded-2xl p-5 hover-float">
-                    <p class="text-sm text-slate-500 dark:text-slate-400">Expiring <span class="hidden sm:inline">in
-                            < 6h</span>
-                    </p>
-                    <p id="statExpiring" class="text-3xl font-extrabold mt-1">0</p>
-                </div>
-                <div class="glass soft-shadow rounded-2xl p-5 hover-float">
-                    <p class="text-sm text-slate-500 dark:text-slate-400">Readers</p>
-                    <p class="text-3xl font-extrabold mt-1">1213</p>
-                </div>
-            </section>
-
-            <section id="current-affairs" class="mb-10">
-                <div class="flex flex-col sm:flex-row items-start sm:items-end justify-between mb-4 gap-4">
-                    <h3 class="text-xl font-bold">🗞️ Daily Current Affairs</h3>
-                    <div class="flex flex-col sm:flex-row sm:items-center gap-2 text-sm w-full sm:w-auto">
-                        <label for="filterDate" class="text-slate-500 dark:text-slate-400 hidden sm:block">Filter
-                            date:</label>
-                        <input id="filterDate" type="date"
-                            class="glass soft-shadow px-3 py-2 rounded-lg outline-none w-full sm:w-auto" />
-                        <button id="clearFilters"
-                            class="px-3 py-2 rounded-lg bg-slate-900 text-white dark:bg-white dark:text-slate-900">Clear</button>
-                    </div>
-                </div>
-
-                <div id="affairsFeed" class="space-y-4">
-                </div>
-
-                <div id="paginationControls" class="flex justify-center items-center gap-4 mt-6">
-                    <button id="prevBtn"
-                        class="px-4 py-2 rounded-lg bg-slate-900 text-white dark:bg-white dark:text-slate-900 disabled:opacity-50 disabled:cursor-not-allowed">
-                        Previous
-                    </button>
-                    <span id="pageInfo" class="text-sm text-slate-600 dark:text-slate-300"></span>
-                    <button id="nextBtn"
-                        class="px-4 py-2 rounded-lg bg-slate-900 text-white dark:bg-white dark:text-slate-900 disabled:opacity-50 disabled:cursor-not-allowed">
-                        Next
-                    </button>
-                </div>
-            </section>
-
-            <section id="epapers" class="mb-12">
-                <h3 class="text-xl font-bold mb-4">📄 Today’s ePapers (auto-delete after 24h)</h3>
-                <div id="epaperGrid" class="grid md:grid-cols-2 xl:grid-cols-3 gap-4">
-                </div>
-            </section>
-
-            <section id="about" class="glass soft-shadow rounded-2xl p-6 mb-8">
-                <h3 class="text-lg font-bold mb-2">ℹ️ About</h3>
-                <p class="text-sm leading-6 text-slate-600 dark:text-slate-300">
-                    ePapers Hub is a free portal for SSC, UPSC, Banking, Railways and other competitive exams.
-                    We publish Daily Current Affairs and provide popular ePapers for 24 hours to keep access fair and
-                    focused.
-                </p>
-            </section>
-
-            <section id="contact" class="glass soft-shadow rounded-2xl p-6">
-                <h3 class="text-lg font-bold mb-2">📧 Contact</h3>
-                <p class="text-sm text-slate-600 dark:text-slate-300">
-                    Write to us at <a href="#" class="underline">Not Available</a>
-                </p>
-            </section>
-
+        <div class="flex flex-col items-center">
             <a href="subscribe.html"
-                class="bg-gradient fixed bottom-5 right-5 md:hidden inline-flex items-center gap-2 px-4 py-3 rounded-2xl font-bold shadow-xl">
-                🚀 Subscribe
+                class="hidden md:block w-full py-3 mb-4 text-center rounded-lg text-white animated-gradient transform hover:scale-105 shadow-lg">
+                <span class="font-semibold">Subscribe Now</span>
             </a>
 
-            <div id="sidebarBackdrop"
-                class="fixed inset-0 bg-black opacity-0 z-40 hidden transition-opacity duration-300 ease-in-out lg:hidden">
-            </div>
-
-            <footer class="text-xs mt-12 text-slate-500 dark:text-slate-400 text-center">
-                © 2025 ePapers Hub • Built for learners with ❤️ by Ankit 8168305050.
-            </footer>
-        </main>
-    </div>
-
-    <div class="overlay" id="overlay"></div>
-
-    <div class="popup" id="subscriptionPopup">
-        <span class="close-btn" onclick="closePopup('subscriptionPopup')">&times;</span>
-        <h2>📚 Stay Ahead with Daily e-Papers & Study Material!</h2>
-        <p>Access newspapers, current affairs, and exam-ready notes — all in one place.</p>
-        <p><b>Your one-stop hub for UPSC, SSC, Banking & State Exams.</b></p>
-        <p class="highlight">🔔 Special Independence Offer: Flat 50% Off Premium Access</p>
-        <button onclick="window.location.href='subscribe.html'">Subscribe Now</button>
-        <p style="margin-top:10px;">🎉 Celebrate Knowledge. Empower Your Preparation.<br>
-            📖 Exclusive <b>Student Discount Available!</b></p>
-    </div>
-
-    <div id="offerPopup" class="popup">
-        <span class="close-btn" onclick="closePopup('offerPopup')">&times;</span>
-        <div class="popup-content">
-            <h2 class="text-2xl font-bold mb-4">💡 Support Free Learning for Aspirants!</h2>
-            <p class="text-gray-700 dark:text-gray-300 mb-4">
-                We created <b class="text-gray-900 dark:text-gray-100">epapers.netlify.app</b> as a <b
-                    class="text-gray-900 dark:text-gray-100">100% free platform</b> for government job aspirants — with
-                e-papers, daily quizzes, live news, and important study material.
-            </p>
-
-            <p class="text-gray-700 dark:text-gray-300 mb-4">
-                Your small support will help us:
-            </p>
-
-            <ul class="list-none space-y-2 mb-6">
-                <li class="flex items-center text-gray-700 dark:text-gray-300">
-                    <span class="mr-2 text-green-500">✅</span> Keep the platform free & ad-free
-                </li>
-                <li class="flex items-center text-gray-700 dark:text-gray-300">
-                    <span class="mr-2 text-green-500">✅</span> Add more quizzes, notes, and updates
-                </li>
-                <li class="flex items-center text-gray-700 dark:text-gray-300">
-                    <span class="mr-2 text-green-500">✅</span> Cover hosting & maintenance costs
-                </li>
-            </ul>
-
-            <p class="text-gray-700 dark:text-gray-300 text-center mb-4">
-                📌 <b>Scan the UPI QR Code below to donate</b>
-            </p>
-
-            <div class="flex justify-center">
-                <img src="Airtel.jpg" alt="UPI QR Code to donate"
-                    class="w-48 h-48 mb-4 border border-gray-300 dark:border-gray-600 rounded-lg" />
-            </div>
-
-            <p class="text-sm text-gray-600 dark:text-gray-400 text-center mb-6">
-                Every contribution, no matter how small, empowers thousands of aspirants like you.
-            </p>
-
-            <div class="flex justify-end mt-4">
-                <button onclick="closePopup('offerPopup')"
-                    class="px-4 py-2 rounded-lg border border-transparent text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 transition">
-                    🙏 Thank you for supporting Free Learning!
-                </button>
-            </div>
+            <button id="themeToggle"
+                class="w-full py-3 px-4 rounded-lg bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-white transition-colors duration-300 flex items-center justify-center">
+                <svg id="moonIcon" class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20" style="display: none;">
+                    <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+                </svg>
+                <svg id="sunIcon" class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                    <path
+                        d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4.393 2.929a1 1 0 01.707 1.293l-1.5 2.5a1 1 0 11-1.732-1l1.5-2.5a1 1 0 011.025-.293zM15 10a1 1 0 100-2h-1a1 1 0 100 2h1zm-2.707 4.707a1 1 0 01-1.293.707l-2.5-1.5a1 1 0 011-1.732l2.5 1.5a1 1 0 01.293 1.025zM10 18a1 1 0 01-1-1v-1a1 1 0 112 0v1a1 1 0 01-1 1zm-4.393-2.929a1 1 0 01-.707-1.293l1.5-2.5a1 1 0 011.732 1l-1.5 2.5a1 1 0 01-1.025.293zM5 10a1 1 0 100-2H4a1 1 0 100 2h1zM6.707 4.707a1 1 0 011.293-.707l2.5 1.5a1 1 0 11-1 1.732l-2.5-1.5a1 1 0 01-.293-1.025z" />
+                </svg>
+                Toggle Dark/Light
+            </button>
         </div>
-    </div>
+    </aside>
+
+    <main class="md:ml-64 p-4 md:p-8 bg-gray-100 dark:bg-gray-900 min-h-screen transition-colors duration-500">
+        <div class="flex md:hidden items-center justify-between mb-6">
+            <h1 class="text-3xl font-bold text-gray-800 dark:text-white">ePapers Hub</h1>
+            <button id="sidebarToggle"
+                class="p-2 rounded-lg bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-white">
+                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd"
+                        d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
+                        clip-rule="evenodd"></path>
+                </svg>
+            </button>
+        </div>
+
+        <header id="dashboard" class="flex flex-col md:flex-row items-center justify-between mb-8">
+            <div>
+                <h2 class="text-4xl font-bold text-gray-800 dark:text-white">Dashboard</h2>
+                <p class="text-lg text-gray-500 dark:text-gray-400">Your daily dose of knowledge and news.</p>
+            </div>
+            <div class="flex items-center space-x-4 mt-4 md:mt-0">
+                <input id="searchBox" type="text" placeholder="Search ePapers or news..."
+                    class="w-full md:w-64 px-4 py-2 rounded-lg glass-effect border-none focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 text-gray-800 dark:text-white">
+                <a href="subscribe.html"
+                    class="hidden md:block px-6 py-2 rounded-lg text-white animated-gradient transform hover:scale-105 shadow-lg">
+                    Subscribe
+                </a>
+            </div>
+        </header>
+
+        <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+            <div id="statAffairs" class="glass-effect p-6 rounded-2xl hover-float text-center">
+                <h3 class="text-gray-500 dark:text-gray-400 font-semibold mb-1">Today’s Affairs</h3>
+                <p class="text-4xl font-bold text-blue-500 dark:text-blue-400">0</p>
+            </div>
+            <div id="statPapers" class="glass-effect p-6 rounded-2xl hover-float text-center">
+                <h3 class="text-gray-500 dark:text-gray-400 font-semibold mb-1">Active ePapers</h3>
+                <p class="text-4xl font-bold text-green-500 dark:text-green-400">0</p>
+            </div>
+            <div id="statCountdown" class="glass-effect p-6 rounded-2xl hover-float text-center">
+                <h3 class="text-gray-500 dark:text-gray-400 font-semibold mb-1">ePapers Expire In</h3>
+                <p class="text-3xl font-bold text-red-500 dark:text-red-400" id="countdownTimer">--:--:--</p>
+            </div>
+            <div id="statReaders" class="glass-effect p-6 rounded-2xl hover-float text-center">
+                <h3 class="text-gray-500 dark:text-gray-400 font-semibold mb-1">Readers</h3>
+                <p class="text-4xl font-bold text-yellow-500 dark:text-yellow-400">1213</p>
+            </div>
+        </section>
+
+        <section id="epapers" class="mb-12">
+            <div class="flex items-center space-x-4 mb-6">
+                <h2 class="text-3xl font-bold text-gray-800 dark:text-white">Today’s ePapers</h2>
+                <div class="hidden sm:inline-block px-3 py-1 bg-green-500 text-white text-xs font-bold rounded-full">
+                    Updated daily at 6AM IST</div>
+            </div>
+            <div id="epaperGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="skeleton-card glass-effect p-4 rounded-2xl shimmer">
+                    <div class="w-full h-64 bg-gray-300 dark:bg-gray-600 rounded-lg mb-4"></div>
+                    <div class="h-6 bg-gray-300 dark:bg-gray-600 rounded w-3/4 mb-2"></div>
+                    <div class="h-4 bg-gray-300 dark:bg-gray-600 rounded w-1/2 mb-4"></div>
+                    <div class="h-10 bg-gray-300 dark:bg-gray-600 rounded-lg w-full"></div>
+                </div>
+                <div class="skeleton-card glass-effect p-4 rounded-2xl shimmer hidden sm:block">
+                    <div class="w-full h-64 bg-gray-300 dark:bg-gray-600 rounded-lg mb-4"></div>
+                    <div class="h-6 bg-gray-300 dark:bg-gray-600 rounded w-3/4 mb-2"></div>
+                    <div class="h-4 bg-gray-300 dark:bg-gray-600 rounded w-1/2 mb-4"></div>
+                    <div class="h-10 bg-gray-300 dark:bg-gray-600 rounded-lg w-full"></div>
+                </div>
+                <div class="skeleton-card glass-effect p-4 rounded-2xl shimmer hidden lg:block">
+                    <div class="w-full h-64 bg-gray-300 dark:bg-gray-600 rounded-lg mb-4"></div>
+                    <div class="h-6 bg-gray-300 dark:bg-gray-600 rounded w-3/4 mb-2"></div>
+                    <div class="h-4 bg-gray-300 dark:bg-gray-600 rounded w-1/2 mb-4"></div>
+                    <div class="h-10 bg-gray-300 dark:bg-gray-600 rounded-lg w-full"></div>
+                </div>
+                <div class="skeleton-card glass-effect p-4 rounded-2xl shimmer hidden lg:block">
+                    <div class="w-full h-64 bg-gray-300 dark:bg-gray-600 rounded-lg mb-4"></div>
+                    <div class="h-6 bg-gray-300 dark:bg-gray-600 rounded w-3/4 mb-2"></div>
+                    <div class="h-4 bg-gray-300 dark:bg-gray-600 rounded w-1/2 mb-4"></div>
+                    <div class="h-10 bg-gray-300 dark:bg-gray-600 rounded-lg w-full"></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="bank-po-mock" class="mb-12">
+            <h2 class="text-3xl font-bold text-gray-800 dark:text-white mb-6">Bank PO Mock Tests</h2>
+            <div class="glass-effect p-6 rounded-2xl text-gray-700 dark:text-gray-300 text-center">
+                <p class="mb-4">Prepare for your banking exams with our comprehensive mock tests, designed by experts to
+                    simulate the real exam environment. Analyze your performance, identify your strengths and
+                    weaknesses, and master key concepts to ace your Bank PO exam.</p>
+                <a href="mock.html"
+                    class="inline-block px-6 py-3 rounded-lg text-white bg-gradient-to-r from-teal-500 to-green-500 hover:from-teal-600 hover:to-green-600 transition-all duration-300 transform hover:scale-105 shadow-lg">
+                    Start Mock Test
+                </a>
+            </div>
+        </section>
+
+        <section id="daily-mcqs" class="mb-12">
+            <h2 class="text-3xl font-bold text-gray-800 dark:text-white mb-6">Daily MCQs</h2>
+            <div class="glass-effect p-6 rounded-2xl text-gray-700 dark:text-gray-300 text-center">
+                <p class="mb-4">Sharpen your knowledge with our daily multiple-choice questions. These short quizzes are
+                    perfect for a quick revision of current affairs and key concepts, helping you stay on top of your
+                    preparation.</p>
+                <a href="demo-2.html"
+                    class="inline-block px-6 py-3 rounded-lg text-white bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 transition-all duration-300 transform hover:scale-105 shadow-lg">
+                    Take a Quiz
+                </a>
+            </div>
+        </section>
+
+        <section id="current-affairs" class="mb-12">
+            <div class="flex flex-col md:flex-row justify-between items-center mb-6">
+                <h2 class="text-3xl font-bold text-gray-800 dark:text-white mb-4 md:mb-0">Current Affairs</h2>
+                <div class="flex items-center space-x-2">
+                    <input type="date" id="dateFilter"
+                        class="px-4 py-2 rounded-lg glass-effect border-none focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 text-gray-800 dark:text-white">
+                    <button id="clearFilterBtn"
+                        class="px-4 py-2 rounded-lg bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-white transition-colors duration-200">Clear</button>
+                </div>
+            </div>
+            <div id="affairsFeed" class="space-y-4">
+                <div class="glass-effect p-4 rounded-lg shimmer">
+                    <div class="h-6 bg-gray-300 dark:bg-gray-600 rounded w-3/4 mb-2"></div>
+                    <div class="h-4 bg-gray-300 dark:bg-gray-600 rounded w-1/4 mb-2"></div>
+                    <div class="h-4 bg-gray-300 dark:bg-gray-600 rounded w-full mb-4"></div>
+                    <div class="flex gap-2">
+                        <div class="h-4 bg-gray-300 dark:bg-gray-600 rounded-full w-1/6"></div>
+                        <div class="h-4 bg-gray-300 dark:bg-gray-600 rounded-full w-1/6"></div>
+                    </div>
+                </div>
+                <div class="glass-effect p-4 rounded-lg shimmer">
+                    <div class="h-6 bg-gray-300 dark:bg-gray-600 rounded w-3/4 mb-2"></div>
+                    <div class="h-4 bg-gray-300 dark:bg-gray-600 rounded w-1/4 mb-2"></div>
+                    <div class="h-4 bg-gray-300 dark:bg-gray-600 rounded w-full mb-4"></div>
+                    <div class="flex gap-2">
+                        <div class="h-4 bg-gray-300 dark:bg-gray-600 rounded-full w-1/6"></div>
+                        <div class="h-4 bg-gray-300 dark:bg-gray-600 rounded-full w-1/6"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="paginationControls" class="flex justify-center items-center space-x-4 mt-6">
+                <button id="prevBtn"
+                    class="px-4 py-2 rounded-lg glass-effect text-gray-800 dark:text-white disabled:opacity-50 disabled:cursor-not-allowed">Previous</button>
+                <span id="pageInfo" class="text-gray-600 dark:text-gray-400">Page 1 of 1</span>
+                <button id="nextBtn"
+                    class="px-4 py-2 rounded-lg glass-effect text-gray-800 dark:text-white disabled:opacity-50 disabled:cursor-not-allowed">Next</button>
+            </div>
+        </section>
+
+        <section id="about" class="mb-12">
+            <h2 class="text-3xl font-bold text-gray-800 dark:text-white mb-6">About Us</h2>
+            <div class="glass-effect p-6 rounded-2xl text-gray-700 dark:text-gray-300">
+                <p class="mb-4">ePapers Hub is dedicated to providing high-quality daily news and ePapers for government
+                    job aspirants. Our goal is to consolidate essential information, making it easy for you to stay
+                    updated with current affairs and access a variety of newspapers from a single platform.</p>
+                <p>We believe that consistent and focused preparation is key to success. With a curated selection of
+                    news feeds and timely access to ePapers, we aim to be your one-stop solution for exam preparation.
+                </p>
+            </div>
+        </section>
+
+        <section id="contact" class="mb-12">
+            <h2 class="text-3xl font-bold text-gray-800 dark:text-white mb-6">Contact Us</h2>
+            <div class="glass-effect p-6 rounded-2xl text-gray-700 dark:text-gray-300">
+                <p class="mb-2"><strong>Email:</strong> supportContact via WhatsApp message only</p>
+                <p class="mb-2"><strong>Phone:</strong> +91 8168305050</p>
+                <p><strong>Address:</strong> Gurugram, Haryana, India</p>
+            </div>
+        </section>
+
+        <a href="subscribe.html"
+            class="fixed bottom-4 right-4 md:hidden z-30 p-4 rounded-full text-white animated-gradient mobile-btn shadow-xl transform transition-transform duration-300 hover:scale-110 animate-bounce">
+            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                <path
+                    d="M10 2a8 8 0 100 16 8 8 0 000-16zM5 10a1 1 0 001 1h3v3a1 1 0 102 0v-3h3a1 1 0 100-2h-3V6a1 1 0 10-2 0v3H6a1 1 0 00-1 1z" />
+            </svg>
+        </a>
+
+        <footer
+            class="text-center text-gray-500 dark:text-gray-400 mt-12 p-4 border-t border-gray-200 dark:border-gray-700">
+            © 2025 ePapers Hub • Built for learners with ❤️ by Ankit 8168305050
+        </footer>
+    </main>
 
     <script>
-        /* ================== THEME ================== */
-        const root = document.documentElement;
         const themeToggle = document.getElementById('themeToggle');
-        const savedTheme = localStorage.getItem('fmz-theme');
-        if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-            root.classList.add('dark');
+        const sunIcon = document.getElementById('sunIcon');
+        const moonIcon = document.getElementById('moonIcon');
+        const body = document.body;
+
+        // Theme Toggle Logic
+        const storedTheme = localStorage.getItem('fmz-theme');
+        if (storedTheme === 'dark') {
+            body.classList.add('dark');
+            sunIcon.style.display = 'none';
+            moonIcon.style.display = 'inline';
+        } else {
+            body.classList.remove('dark');
+            sunIcon.style.display = 'inline';
+            moonIcon.style.display = 'none';
         }
+
         themeToggle.addEventListener('click', () => {
-            root.classList.toggle('dark');
-            localStorage.setItem('fmz-theme', root.classList.contains('dark') ? 'dark' : 'light');
+            body.classList.toggle('dark');
+            if (body.classList.contains('dark')) {
+                localStorage.setItem('fmz-theme', 'dark');
+                sunIcon.style.display = 'none';
+                moonIcon.style.display = 'inline';
+            } else {
+                localStorage.setItem('fmz-theme', 'light');
+                sunIcon.style.display = 'inline';
+                moonIcon.style.display = 'none';
+            }
         });
 
-        /* ================== MOBILE MENU ================== */
+        // Mobile Sidebar Toggle Logic
+        const sidebarToggle = document.getElementById('sidebarToggle');
         const sidebar = document.getElementById('sidebar');
-        const openSidebarBtn = document.getElementById('openSidebar');
-        const closeSidebarBtn = document.getElementById('closeSidebar');
         const sidebarBackdrop = document.getElementById('sidebarBackdrop');
 
-        function toggleSidebar(show) {
-            if (show) {
-                sidebar.classList.remove('-translate-x-full');
-                sidebarBackdrop.classList.remove('hidden');
-                setTimeout(() => sidebarBackdrop.classList.add('opacity-40'), 10);
-            } else {
-                sidebar.classList.add('-translate-x-full');
-                sidebarBackdrop.classList.remove('opacity-40');
-                setTimeout(() => sidebarBackdrop.classList.add('hidden'), 300);
-            }
-        }
-
-        openSidebarBtn.addEventListener('click', () => toggleSidebar(true));
-        closeSidebarBtn.addEventListener('click', () => toggleSidebar(false));
-        sidebarBackdrop.addEventListener('click', () => toggleSidebar(false));
-
-        const navLinks = sidebar.querySelectorAll('a[href^="#"]');
-        navLinks.forEach(link => {
-            link.addEventListener('click', () => {
-                if (window.innerWidth < 1024) {
-                    toggleSidebar(false);
-                }
-            });
+        sidebarToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('open');
+            sidebarBackdrop.classList.toggle('open');
         });
 
+        sidebarBackdrop.addEventListener('click', () => {
+            sidebar.classList.remove('open');
+            sidebarBackdrop.classList.remove('open');
+        });
 
-        /* ================== DATA (edit daily) ================== */
+        // Toast Notification System
+        function showToast(message) {
+            const toastContainer = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = 'toast text-gray-800 dark:text-white';
+            toast.textContent = message;
+            toastContainer.appendChild(toast);
+
+            setTimeout(() => {
+                toast.style.animation = 'none';
+                toast.style.opacity = '0';
+                setTimeout(() => toast.remove(), 500);
+            }, 5000);
+        }
+
+        // First-time User Tour
+        const tourSteps = [
+            {
+                elementId: 'sidebarToggle',
+                content: 'Click here to open the navigation menu on mobile.',
+                position: 'bottom',
+                mobileOnly: true,
+                fixed: true
+            },
+            {
+                elementId: 'epapers',
+                content: 'This section shows today\'s latest ePapers, updated daily.',
+                position: 'top',
+                fixed: false
+            },
+            {
+                elementId: 'searchBox',
+                content: 'You can quickly search for ePapers or news articles here.',
+                position: 'bottom',
+                fixed: true
+            },
+            {
+                elementId: 'themeToggle',
+                content: 'Easily switch between Light and Dark mode.',
+                position: 'top',
+                mobileOnly: true,
+                fixed: true
+            },
+            {
+                elementId: 'tour-overlay',
+                content: 'That\'s it! You\'re ready to explore. Click anywhere to close this guide.',
+                position: 'center',
+                fixed: false
+            }
+        ];
+
+        function startTour() {
+            const tourOverlay = document.getElementById('tour-overlay');
+            tourOverlay.classList.add('active');
+
+            let currentStep = 0;
+
+            function showStep(step) {
+                const stepData = tourSteps[step];
+                const targetElement = document.getElementById(stepData.elementId);
+                const tooltip = document.createElement('div');
+                tooltip.className = 'tour-tooltip';
+                tooltip.textContent = stepData.content;
+
+                // Remove existing highlights and tooltips
+                document.querySelectorAll('.tour-highlight, .tour-tooltip').forEach(el => {
+                    el.classList.remove('tour-highlight', 'tour-highlight-fixed');
+                    if (el.classList.contains('tour-tooltip')) el.remove();
+                });
+
+                if (targetElement) {
+                    targetElement.classList.add('tour-highlight');
+                    if (stepData.fixed) targetElement.classList.add('tour-highlight-fixed');
+
+                    const rect = targetElement.getBoundingClientRect();
+
+                    const tooltipMargin = 10;
+                    if (stepData.position === 'bottom') {
+                        tooltip.style.top = `${rect.bottom + tooltipMargin}px`;
+                        tooltip.style.left = `${rect.left + rect.width / 2 - 125}px`;
+                    } else if (stepData.position === 'top') {
+                        tooltip.style.top = `${rect.top - tooltip.offsetHeight - tooltipMargin}px`;
+                        tooltip.style.left = `${rect.left + rect.width / 2 - 125}px`;
+                    } else if (stepData.position === 'center') {
+                        tooltip.style.top = '50%';
+                        tooltip.style.left = '50%';
+                        tooltip.style.transform = 'translate(-50%, -50%)';
+                        targetElement.classList.remove('tour-highlight');
+                    }
+
+                    document.body.appendChild(tooltip);
+                } else {
+                    // For non-element steps like the final message
+                    document.body.appendChild(tooltip);
+                    tooltip.style.top = '50%';
+                    tooltip.style.left = '50%';
+                    tooltip.style.transform = 'translate(-50%, -50%)';
+                }
+            }
+
+            function nextStep() {
+                if (currentStep < tourSteps.length - 1) {
+                    currentStep++;
+                    showStep(currentStep);
+                } else {
+                    endTour();
+                }
+            }
+
+            function endTour() {
+                tourOverlay.classList.remove('active');
+                localStorage.setItem('hasVisited', 'true');
+                document.querySelectorAll('.tour-highlight, .tour-tooltip').forEach(el => {
+                    el.classList.remove('tour-highlight', 'tour-highlight-fixed');
+                    if (el.classList.contains('tour-tooltip')) el.remove();
+                });
+            }
+
+            // Bind click to advance tour
+            tourOverlay.addEventListener('click', (e) => {
+                if (!e.target.closest('.tour-tooltip')) {
+                    nextStep();
+                }
+            });
+
+            // Start the tour
+            showStep(currentStep);
+        }
+
+        // --- Data Handling ---
         let currentAffairs = [];
         let filteredAffairs = [];
         let currentPage = 1;
         const pageSize = 15;
 
-        // E-PAPER DATA & HELPERS
-        function getSixAMISTTimestamp() {
-            const now = new Date();
-            const istOffsetMs = 5.5 * 60 * 60 * 1000;
-            const sixAMIST = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 6, 0, 0);
-            const localOffsetMs = sixAMIST.getTimezoneOffset() * 60 * 1000;
-            const addedAtTimestamp = sixAMIST.getTime() - localOffsetMs - istOffsetMs;
-            return addedAtTimestamp;
-        }
-
         const epapers = [
-            { title: 'The Hindu Delhi Edition', url: 'https://www.dropbox.com/scl/fi/kqnl5k3k3somyfb4104mw/Hindu-Delhi-Coded-Free-Version-27-08-2025.pdf?rlkey=19s2h3mm7sn4mxmzqercgnecg&st=mhc13ucp&dl=0', addedAt: getSixAMISTTimestamp(), thumbnailUrl: '1.png' },
-            { title: 'हिन्दू इंसान अनुवादित', url: 'https://www.dropbox.com/scl/fi/6u3dpti7twq7qbzd4y15e/27-08-2025.pdf?rlkey=zdu318v5gxyf5adirdiz5gzxh&st=wieb4me0&dl=0', addedAt: getSixAMISTTimestamp(), thumbnailUrl: '2.png' },
-            { title: 'Indian Express Delhi', url: 'https://www.dropbox.com/scl/fi/mcuoz8gaivx03zztz10x4/IE-Delhi-Coded-Free-Version-27-08-2025.pdf?rlkey=7gg83xcnwvm1txlrg44g2mpob&st=gljd1r2b&dl=0', addedAt: getSixAMISTTimestamp(), thumbnailUrl: '3.png' },
-            { title: 'Business Line', url: 'subscribe.html', addedAt: getSixAMISTTimestamp(), thumbnailUrl: '4.jpg' },
-            { title: 'मशीन अनुवादित - द हिन्दू', url: 'https://www.dropbox.com/scl/fi/euy6gq9sufcj0dkfzwvlh/27-08-2025.pdf?rlkey=bkcs9sccum88s5rtyzx6y8h4v&st=k9ft843v&dl=0', addedAt: getSixAMISTTimestamp(), thumbnailUrl: '5.png' }
+            { title: "The Hindu", url: "#", addedAt: null, thumbnailUrl: "1.jpg" },
+            { title: "Indian Express", url: "https://rb.gy/c5skyl", addedAt: null, thumbnailUrl: "3.png" },
+            { title: "Business Line", url: "subscribe.html", addedAt: null, thumbnailUrl: "3.jpg" },
+            { title: "Economic Times", url: "subscribe.html", addedAt: null, thumbnailUrl: "4.png" },
+            { title: "Times Of India Delhi", url: "Subscribe.html", addedAt: null, thumbnailUrl: "5.png" },
+            { title: "मशीन अनुवादित - द हिन्दू", url: "#", addedAt: null, thumbnailUrl: "1.jpg" },
+            { title: "इंसान अनुवादित - द हिन्दू", url: "#", addedAt: null, thumbnailUrl: "1.jpg" }
         ];
 
-        /* ================== HELPERS ================== */
-        const fmtDate = d => new Date(d).toLocaleDateString(undefined, { day: '2-digit', month: 'short', year: 'numeric' });
+        // --- Helper Functions ---
+        function getSixAMISTTimestamp() {
+            const now = new Date();
+            const istOffset = 5.5 * 60 * 60 * 1000;
+            const todayIST = new Date(now.getTime() + istOffset);
 
-        const timeLeft = (addedAt) => {
-            const expiry = addedAt + 24 * 60 * 60 * 1000;
-            const diff = expiry - Date.now();
-            if (diff <= 0) return { expired: true, h: 0, m: 0 };
-            const h = Math.floor(diff / (1000 * 60 * 60));
-            const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-            return { expired: false, h, m };
-        };
+            todayIST.setUTCHours(6);
+            todayIST.setUTCMinutes(0);
+            todayIST.setUTCSeconds(0);
+            todayIST.setUTCMilliseconds(0);
 
-        /* ================== RENDER: AFFAIRS ================== */
-        const affairsFeed = document.getElementById('affairsFeed');
-        const searchBox = document.getElementById('searchBox');
-        const filterDate = document.getElementById('filterDate');
-        const clearFilters = document.getElementById('clearFilters');
-        const prevBtn = document.getElementById('prevBtn');
-        const nextBtn = document.getElementById('nextBtn');
-        const pageInfo = document.getElementById('pageInfo');
+            return todayIST.getTime();
+        }
 
+        function fmtDate(d) {
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            return new Date(d).toLocaleDateString('en-IN', options);
+        }
+
+        function timeLeft(addedAt) {
+            const expiryTime = addedAt + (24 * 60 * 60 * 1000);
+            const now = Date.now();
+            const remaining = expiryTime - now;
+
+            if (remaining <= 0) return { hours: 0, minutes: 0, seconds: 0, expired: true };
+
+            const hours = Math.floor(remaining / (1000 * 60 * 60));
+            const minutes = Math.floor((remaining % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((remaining % (1000 * 60)) / 1000);
+
+            return { hours, minutes, seconds, expired: false };
+        }
+
+        // --- Render Functions ---
         function renderPaginatedAffairs() {
+            const feedContainer = document.getElementById('affairsFeed');
+            const pageInfo = document.getElementById('pageInfo');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+
+            feedContainer.innerHTML = '';
+
+            const start = (currentPage - 1) * pageSize;
+            const end = start + pageSize;
+            const itemsToRender = filteredAffairs.slice(start, end);
             const totalPages = Math.ceil(filteredAffairs.length / pageSize);
 
-            if (filteredAffairs.length === 0) {
-                affairsFeed.innerHTML = `<div class="glass soft-shadow rounded-2xl p-6 text-sm">No items match your filter.</div>`;
-                prevBtn.style.display = 'none';
-                nextBtn.style.display = 'none';
-                pageInfo.textContent = '';
+            if (itemsToRender.length === 0) {
+                feedContainer.innerHTML = '<div class="text-center text-gray-500 dark:text-gray-400 py-10">No current affairs found for this date.</div>';
+                pageInfo.textContent = 'Page 0 of 0';
+                prevBtn.disabled = true;
+                nextBtn.disabled = true;
                 return;
             }
 
-            prevBtn.style.display = 'inline-block';
-            nextBtn.style.display = 'inline-block';
+            itemsToRender.forEach(item => {
+                const article = document.createElement('article');
+                article.className = 'glass-effect p-4 rounded-lg hover-float';
+                article.innerHTML = `
+                    <a href="${item.link}" target="_blank" class="block">
+                        <h3 class="text-xl font-semibold text-gray-800 dark:text-white mb-2">${item.title}</h3>
+                        <p class="text-sm text-gray-500 dark:text-gray-400 mb-2">${fmtDate(item.date)}</p>
+                        <p class="text-gray-700 dark:text-gray-300 mb-2">${item.summary || 'Click to read more...'}</p>
+                        <div class="flex flex-wrap gap-2">
+                            ${item.tags.map(tag => `<span class="bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-400 text-xs font-semibold px-2 py-1 rounded-full">${tag}</span>`).join('')}
+                        </div>
+                    </a>
+                `;
+                feedContainer.appendChild(article);
+            });
 
-            const startIndex = (currentPage - 1) * pageSize;
-            const endIndex = Math.min(startIndex + pageSize, filteredAffairs.length);
-            const articlesToRender = filteredAffairs.slice(startIndex, endIndex);
-
-            affairsFeed.innerHTML = articlesToRender
-                .map(item => `
-            <article class="glass soft-shadow rounded-2xl p-5 hover-float">
-              <div class="flex items-center justify-between gap-3 mb-1">
-                <h4 class="font-semibold">${item.title}</h4>
-                <span class="text-xs px-2 py-1 rounded-lg bg-slate-900 text-white dark:bg-white dark:text-slate-900">${fmtDate(item.date)}</span>
-              </div>
-              <p class="text-sm text-slate-600 dark:text-slate-300">${item.summary}</p>
-              <div class="mt-3 flex flex-wrap items-center gap-2">
-                ${item.tags?.map(t => `<span class="text-xs px-2 py-1 rounded-full bg-slate-100 dark:bg-slate-800">${t}</span>`).join('')}
-                <a href="${item.link}" target="_blank" class="ml-auto text-sm underline">Read more →</a>
-              </div>
-            </article>
-            `).join('');
-
-            prevBtn.disabled = currentPage === 1;
-            nextBtn.disabled = currentPage >= totalPages;
             pageInfo.textContent = `Page ${currentPage} of ${totalPages}`;
+            prevBtn.disabled = currentPage === 1;
+            nextBtn.disabled = currentPage === totalPages;
         }
 
         function filterAffairs() {
-            const q = (searchBox.value || '').toLowerCase().trim();
-            const d = filterDate.value;
+            const searchBox = document.getElementById('searchBox');
+            const dateFilter = document.getElementById('dateFilter');
+            const searchTerm = searchBox.value.toLowerCase();
+            const filterDate = dateFilter.value;
 
-            filteredAffairs = currentAffairs.filter(a => {
-                const matchesText = [a.title, a.summary, ...(a.tags || [])].join(' ').toLowerCase().includes(q);
-                const matchesDate = !d || a.date === d;
-                return matchesText && matchesDate;
+            filteredAffairs = currentAffairs.filter(item => {
+                const matchesSearch = item.title.toLowerCase().includes(searchTerm) || item.summary.toLowerCase().includes(searchTerm);
+                const itemDate = new Date(item.date).toISOString().split('T')[0];
+                const matchesDate = !filterDate || itemDate === filterDate;
+                return matchesSearch && matchesDate;
             });
 
-            filteredAffairs.sort((a, b) => new Date(b.date) - new Date(a.date));
             currentPage = 1;
-
             renderPaginatedAffairs();
-
-            document.getElementById('statAffairs').textContent = filteredAffairs.length;
         }
 
-        searchBox.addEventListener('input', filterAffairs);
-        filterDate.addEventListener('change', filterAffairs);
-        clearFilters.addEventListener('click', () => { searchBox.value = ''; filterDate.value = ''; filterAffairs(); });
+        function renderPapers() {
+            const epaperGrid = document.getElementById('epaperGrid');
+            const statPapers = document.getElementById('statPapers');
+            epaperGrid.innerHTML = '';
 
-        prevBtn.addEventListener('click', () => {
+            let activeCount = 0;
+            const sixAMIST = getSixAMISTTimestamp();
+
+            epapers.forEach(paper => {
+                paper.addedAt = sixAMIST;
+                const remaining = timeLeft(paper.addedAt);
+
+                if (remaining.expired) return;
+
+                activeCount++;
+                const card = document.createElement('div');
+                card.className = 'glass-effect p-4 rounded-2xl flex flex-col items-center text-center relative hover-float';
+                card.innerHTML = `
+                    <div class="absolute top-4 right-4 text-xs font-semibold px-3 py-1 rounded-full ${remaining.hours < 6 ? 'bg-red-500 text-white animate-pulse' : 'bg-green-500 text-white'}">
+                        ${remaining.hours < 6 ? 'Expiring Soon' : 'Active'}
+                    </div>
+                    <img src="${paper.thumbnailUrl}" alt="${paper.title}" class="w-full h-94 aspect-[2/3] object-cover rounded-lg mb-4 shadow-lg">
+                    <h3 class="text-xl font-semibold text-gray-800 dark:text-white mb-2">${paper.title}</h3>
+                    <p class="text-sm text-gray-500 dark:text-gray-400 mb-4">Expires in ${String(remaining.hours).padStart(2, '0')}:${String(remaining.minutes).padStart(2, '0')}</p>
+                    <a href="${paper.url}" target="_blank" class="w-full py-2 rounded-lg text-white bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 transition-all duration-300">
+                        Download
+                    </a>
+                `;
+                epaperGrid.appendChild(card);
+            });
+
+            statPapers.querySelector('p').textContent = activeCount;
+            showToast(`${activeCount} new ePapers added at ${new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })}`);
+        }
+
+        function renderCountdown() {
+            const countdownTimer = document.getElementById('countdownTimer');
+            const sixAMIST = getSixAMISTTimestamp();
+            const remaining = timeLeft(sixAMIST);
+
+            if (remaining.expired) {
+                countdownTimer.textContent = 'Expired';
+            } else {
+                const formattedTime = `${String(remaining.hours).padStart(2, '0')}:${String(remaining.minutes).padStart(2, '0')}:${String(remaining.seconds).padStart(2, '0')}`;
+                countdownTimer.textContent = formattedTime;
+            }
+        }
+
+        // --- RSS Fetching and Loading ---
+        const feeds = [
+            'https://www.thehindu.com/feeder/default.rss',
+            'https://indianexpress.com/feed/',
+            'https://www.livemint.com/rss/news',
+            'https://timesofindia.indiatimes.com/rssfeedstopstories.cms',
+            'https://economictimes.indiatimes.com/rssfeedsdefault.cms',
+            'https://www.thehindubusinessline.com/news/?service=rss',
+            'https://www.business-standard.com/rss/home_page_stories.rss',
+            'https://www.hindustantimes.com/rss/topnews/rssfeed.xml'
+        ];
+
+        async function fetchRSS(feedUrl) {
+            const corsProxy = 'https://api.rss2json.com/v1/api.json?rss_url=';
+            try {
+                const response = await fetch(corsProxy + encodeURIComponent(feedUrl));
+                const data = await response.json();
+
+                if (data.status !== 'ok') {
+                    console.error('Failed to fetch RSS:', data);
+                    return [];
+                }
+
+                return data.items.map(item => ({
+                    date: new Date(item.pubDate),
+                    title: item.title,
+                    summary: item.description,
+                    link: item.link,
+                    tags: data.feed.title ? [data.feed.title.replace(' - Latest news, breaking news, live updates, stories, articles, reports, analysis, photos, videos, blogs | The Indian Express', '').trim()] : []
+                }));
+            } catch (error) {
+                console.error('Error fetching RSS feed:', feedUrl, error);
+                return [];
+            }
+        }
+
+        async function loadCurrentAffairs() {
+            const feedContainer = document.getElementById('affairsFeed');
+            const promises = feeds.map(feed => fetchRSS(feed));
+            const results = await Promise.all(promises);
+
+            const todayIST = new Date(getSixAMISTTimestamp());
+            const yesterdayIST = new Date(todayIST.getTime() - (24 * 60 * 60 * 1000));
+
+            currentAffairs = results.flat().filter(item => {
+                const itemDate = new Date(item.date);
+                return itemDate >= yesterdayIST && itemDate <= todayIST;
+            });
+
+            currentAffairs.sort((a, b) => b.date - a.date);
+            filteredAffairs = [...currentAffairs];
+
+            document.getElementById('statAffairs').querySelector('p').textContent = filteredAffairs.length;
+            renderPaginatedAffairs();
+        }
+
+        // --- Event Listeners and Init ---
+        document.getElementById('prevBtn').addEventListener('click', () => {
             if (currentPage > 1) {
                 currentPage--;
                 renderPaginatedAffairs();
             }
         });
 
-        nextBtn.addEventListener('click', () => {
-            if (currentPage * pageSize < filteredAffairs.length) {
+        document.getElementById('nextBtn').addEventListener('click', () => {
+            const totalPages = Math.ceil(filteredAffairs.length / pageSize);
+            if (currentPage < totalPages) {
                 currentPage++;
                 renderPaginatedAffairs();
             }
         });
 
-        /* ================== RENDER: EPAPERS ================== */
-        const epaperGrid = document.getElementById('epaperGrid');
-        function renderPapers() {
-            const active = epapers.filter(p => !timeLeft(p.addedAt).expired);
-            epaperGrid.innerHTML = active.map(p => {
-                const t = timeLeft(p.addedAt);
-                const warn = (t.h < 6);
-                return `
-            <div class="glass soft-shadow rounded-2xl p-5 hover-float flex flex-col gap-3">
-              <img src="${p.thumbnailUrl}" alt="Thumbnail for ${p.title}" class="w-full h-[30rem] object-cover rounded-xl" onerror="this.src='https://placehold.co/400x800/E5E7EB/4B5563?text=Image+Not+Found'" />
-              
-              <div class="flex items-start justify-between gap-3">
-                <h4 class="font-semibold">${p.title}</h4>
-                <span class="text-[10px] px-2 py-1 rounded-lg ${warn ? 'bg-rose-600 text-white' : 'bg-emerald-600 text-white'}">
-                  ${warn ? 'Expiring Soon' : 'Active'}
-                </span>
-              </div>
-              <p class="text-sm text-slate-600 dark:text-slate-300">Available for <b>${String(t.h).padStart(2, '0')}h ${String(t.m).padStart(2, '0')}m</b></p>
-              <a href="${p.url}" target="_blank"
-                 class="inline-flex justify-center items-center gap-2 px-4 py-2 rounded-xl bg-slate-900 text-white dark:bg-white dark:text-slate-900 font-semibold">
-                Download
-              </a>
-            </div>
-            `;
-            }).join('');
+        document.getElementById('searchBox').addEventListener('input', filterAffairs);
+        document.getElementById('dateFilter').addEventListener('change', filterAffairs);
+        document.getElementById('clearFilterBtn').addEventListener('click', () => {
+            document.getElementById('searchBox').value = '';
+            document.getElementById('dateFilter').value = '';
+            filteredAffairs = [...currentAffairs];
+            currentPage = 1;
+            renderPaginatedAffairs();
+        });
 
-            document.getElementById('statPapers').textContent = active.length;
-            document.getElementById('statExpiring').textContent = active.filter(p => timeLeft(p.addedAt).h < 6).length;
-        }
-
-        /* ================== FETCH & RENDER ================== */
-        const feeds = [
-            { source: "The Hindu", url: "https://www.thehindu.com/news/national/feeder/default.rss" },
-            { source: "Indian Express", url: "https://indianexpress.com/feed/" },
-            { source: "Mint", url: "https://www.livemint.com/rss/news" },
-            { source: "Times of India", url: "https://timesofindia.indiatimes.com/rssfeedstopstories.cms" },
-            { source: "Economic Times", url: "https://economictimes.indiatimes.com/rssfeedstopstories.cms" },
-            { source: "Business Line", url: "https://www.thehindubusinessline.com/news/feeder/default.rss" },
-            { source: "Business Standard", url: "https://www.business-standard.com/rss/4/all-news.rss" },
-            { source: "Hindustan Times", url: "https://www.hindustantimes.com/rss/india-news/rssfeed.xml" }
-        ];
-
-        // Helper function to get the current date in IST
-        function getISTToday() {
-            const now = new Date();
-            const istOffset = 5.5 * 60 * 60 * 1000;
-            const localOffset = now.getTimezoneOffset() * 60 * 1000;
-            const utcTime = now.getTime() + localOffset;
-            const istTime = utcTime + istOffset;
-            return new Date(istTime).toISOString().slice(0, 10);
-        }
-
-        // Fetch and parse RSS via rss2json (secure proxy)
-        async function fetchRSS(feed) {
-            try {
-                const apiURL = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(feed.url)}`;
-                const res = await fetch(apiURL);
-                const data = await res.json();
-                const items = data.items;
-
-                if (!items) {
-                    console.error("No items found or invalid feed:", feed.source);
-                    return [];
-                }
-
-                const todayIST = getISTToday();
-
-                return items.filter(item => {
-                    const itemPubDate = new Date(item.pubDate);
-                    const itemPubDateIST = new Date(itemPubDate.getTime() + (5.5 * 60 * 60 * 1000));
-                    return itemPubDateIST.toISOString().slice(0, 10) === todayIST;
-                }).map(item => ({
-                    date: todayIST,
-                    title: item.title || "No title",
-                    summary: (item.description || item.content || "").replace(/<[^>]+>/g, "").slice(0, 150) + "...",
-                    link: item.link || "#",
-                    tags: [feed.source, ...(item.categories || [])]
-                }));
-            } catch (err) {
-                console.error("Error fetching:", feed.source, err);
-                return [];
-            }
-        }
-
-        async function loadCurrentAffairs() {
-            let articles = [];
-
-            for (const f of feeds) {
-                const list = await fetchRSS(f);
-                articles = articles.concat(list);
-            }
-
-            articles.sort((a, b) => new Date(b.date) - new Date(a.date));
-
-            currentAffairs.length = 0;
-            currentAffairs.push(...articles);
-
-            filterAffairs();
-        }
-
-        // ================== POP-UP LOGIC ==================
-        function showPopup(popupId) {
-            const popup = document.getElementById(popupId);
-            const overlay = document.getElementById("overlay");
-            if (popup && !popup.classList.contains("show")) {
-                overlay.style.display = "block";
-                popup.classList.add("show");
-            }
-        }
-
-        function closePopup(popupId) {
-            const popup = document.getElementById(popupId);
-            if (popup) {
-                document.getElementById("overlay").style.display = "none";
-                popup.classList.remove("show");
-            }
-        }
-
-        // ================== INIT ==================
         function init() {
             renderPapers();
             loadCurrentAffairs();
-            setInterval(renderPapers, 60000);
+            renderCountdown();
 
-            // Schedule the first pop-up after a 3-second delay
-            setTimeout(() => showPopup('subscriptionPopup'), 3000);
+            if (!localStorage.getItem('hasVisited')) {
+                startTour();
+            }
 
-            // Schedule the second pop-up after a 10-second delay
-            setTimeout(() => showPopup('offerPopup'), 10000);
-
-            // Then, show the subscription pop-up again every 2 minutes
-            setInterval(() => showPopup('subscriptionPopup'), 120000);
+            setInterval(renderCountdown, 1000); // Update every second for accuracy
+            setInterval(renderPapers, 60000); // Check and refresh papers every minute
         }
 
         document.addEventListener('DOMContentLoaded', init);

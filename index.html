@@ -2,28 +2,29 @@
 <html lang="en">
 
 <head>
-
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-XL099YS7ZS"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
-        function gtag() { dataLayer.push(arguments); }
-        gtag('js', new Date());
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag("js", new Date());
 
-        gtag('config', 'G-XL099YS7ZS');
+        gtag("config", "G-XL099YS7ZS");
     </script>
 
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>ePapers Hub</title>
 
     <script src="https://cdn.tailwindcss.com"></script>
 
-    <meta name="color-scheme" content="light dark">
+    <meta name="color-scheme" content="light dark" />
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
 
     <style>
         :root {
@@ -35,7 +36,7 @@
         }
 
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: "Inter", sans-serif;
             background: #e0e0e0;
             transition: background 0.5s ease;
         }
@@ -49,7 +50,8 @@
             background-color: var(--glass-bg);
             border: 1px solid var(--glass-border);
             box-shadow: 0 4px 6px var(--glass-shadow);
-            transition: background-color 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
+            transition: background-color 0.3s ease, border-color 0.3s ease,
+                transform 0.3s ease;
         }
 
         body.dark .glass-effect {
@@ -82,7 +84,19 @@
         }
 
         .bg-gradient {
-            background: linear-gradient(135deg, #FF6B6B, #FFC144, #F0E68C, #A9F1DF, #64B5F6, #9D84F7, #FF99C2, #E67E22, #F1C40F, #3498DB, #9B59B6, #E74C3C);
+            background: linear-gradient(135deg,
+                    #ff6b6b,
+                    #ffc144,
+                    #f0e68c,
+                    #a9f1df,
+                    #64b5f6,
+                    #9d84f7,
+                    #ff99c2,
+                    #e67e22,
+                    #f1c40f,
+                    #3498db,
+                    #9b59b6,
+                    #e74c3c);
             background-size: 400% 400%;
             animation: color-shift 20s ease infinite;
         }
@@ -103,7 +117,12 @@
 
         /* Smooth Gradient Animation for Subscribe Buttons */
         .animated-gradient {
-            background: linear-gradient(to right, #64B5F6, #9D84F7, #FF99C2, #F0E68C, #FF6B6B);
+            background: linear-gradient(to right,
+                    #64b5f6,
+                    #9d84f7,
+                    #ff99c2,
+                    #f0e68c,
+                    #ff6b6b);
             background-size: 400% 400%;
             animation: pulse-gradient 10s ease infinite;
             transition: all 0.3s ease;
@@ -115,7 +134,12 @@
         }
 
         .animated-gradient.mobile-btn {
-            background: linear-gradient(to right, #FF6B6B, #FFC144, #F0E68C, #A9F1DF, #64B5F6);
+            background: linear-gradient(to right,
+                    #ff6b6b,
+                    #ffc144,
+                    #f0e68c,
+                    #a9f1df,
+                    #64b5f6);
             background-size: 400% 400%;
             animation: pulse-gradient 10s ease infinite;
         }
@@ -205,19 +229,25 @@
         }
 
         .shimmer::after {
-            content: '';
+            content: "";
             position: absolute;
             top: 0;
             right: 0;
             bottom: 0;
             left: 0;
             transform: translateX(-100%);
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            background: linear-gradient(90deg,
+                    transparent,
+                    rgba(255, 255, 255, 0.2),
+                    transparent);
             animation: shimmer 1.5s infinite;
         }
 
         body.dark .shimmer::after {
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.05), transparent);
+            background: linear-gradient(90deg,
+                    transparent,
+                    rgba(255, 255, 255, 0.05),
+                    transparent);
         }
 
         @keyframes pulse {
@@ -343,8 +373,12 @@
             <div class="flex items-center mb-8">
                 <div class="w-10 h-10 bg-gradient rounded-lg animated-spin mr-3"></div>
                 <div>
-                    <h1 class="text-3xl font-bold text-gray-800 dark:text-white">ePapers</h1>
-                    <p class="text-sm text-gray-500 dark:text-gray-400">Govt Job Aspirants</p>
+                    <h1 class="text-3xl font-bold text-gray-800 dark:text-white">
+                        ePapers
+                    </h1>
+                    <p class="text-sm text-gray-500 dark:text-gray-400">
+                        Govt Job Aspirants
+                    </p>
                 </div>
             </div>
 
@@ -419,7 +453,7 @@
 
             <button id="themeToggle"
                 class="w-full py-3 px-4 rounded-lg bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-white transition-colors duration-300 flex items-center justify-center">
-                <svg id="moonIcon" class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20" style="display: none;">
+                <svg id="moonIcon" class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20" style="display: none">
                     <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
                 </svg>
                 <svg id="sunIcon" class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
@@ -433,7 +467,9 @@
 
     <main class="md:ml-64 p-4 md:p-8 bg-gray-100 dark:bg-gray-900 min-h-screen transition-colors duration-500">
         <div class="flex md:hidden items-center justify-between mb-6">
-            <h1 class="text-3xl font-bold text-gray-800 dark:text-white">ePapers Hub</h1>
+            <h1 class="text-3xl font-bold text-gray-800 dark:text-white">
+                ePapers Hub
+            </h1>
             <button id="sidebarToggle"
                 class="p-2 rounded-lg bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-white">
                 <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
@@ -446,12 +482,16 @@
 
         <header id="dashboard" class="flex flex-col md:flex-row items-center justify-between mb-8">
             <div>
-                <h2 class="text-4xl font-bold text-gray-800 dark:text-white">Dashboard</h2>
-                <p class="text-lg text-gray-500 dark:text-gray-400">Your daily dose of knowledge and news.</p>
+                <h2 class="text-4xl font-bold text-gray-800 dark:text-white">
+                    Dashboard
+                </h2>
+                <p class="text-lg text-gray-500 dark:text-gray-400">
+                    Your daily dose of knowledge and news.
+                </p>
             </div>
             <div class="flex items-center space-x-4 mt-4 md:mt-0">
                 <input id="searchBox" type="text" placeholder="Search ePapers or news..."
-                    class="w-full md:w-64 px-4 py-2 rounded-lg glass-effect border-none focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 text-gray-800 dark:text-white">
+                    class="w-full md:w-64 px-4 py-2 rounded-lg glass-effect border-none focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 text-gray-800 dark:text-white" />
                 <a href="subscribe.html"
                     class="hidden md:block px-6 py-2 rounded-lg text-white animated-gradient transform hover:scale-105 shadow-lg">
                     Subscribe
@@ -461,28 +501,43 @@
 
         <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
             <div id="statAffairs" class="glass-effect p-6 rounded-2xl hover-float text-center">
-                <h3 class="text-gray-500 dark:text-gray-400 font-semibold mb-1">Today's Affairs</h3>
+                <h3 class="text-gray-500 dark:text-gray-400 font-semibold mb-1">
+                    Today's Affairs
+                </h3>
                 <p class="text-4xl font-bold text-blue-500 dark:text-blue-400">0</p>
             </div>
             <div id="statPapers" class="glass-effect p-6 rounded-2xl hover-float text-center">
-                <h3 class="text-gray-500 dark:text-gray-400 font-semibold mb-1">Active ePapers</h3>
+                <h3 class="text-gray-500 dark:text-gray-400 font-semibold mb-1">
+                    Active ePapers
+                </h3>
                 <p class="text-4xl font-bold text-green-500 dark:text-green-400">0</p>
             </div>
             <div id="statCountdown" class="glass-effect p-6 rounded-2xl hover-float text-center">
-                <h3 class="text-gray-500 dark:text-gray-400 font-semibold mb-1">ePapers Expire In</h3>
-                <p class="text-3xl font-bold text-red-500 dark:text-red-400" id="countdownTimer">--:--:--</p>
+                <h3 class="text-gray-500 dark:text-gray-400 font-semibold mb-1">
+                    ePapers Expire In
+                </h3>
+                <p class="text-3xl font-bold text-red-500 dark:text-red-400" id="countdownTimer">
+                    --:--:--
+                </p>
             </div>
             <div id="statReaders" class="glass-effect p-6 rounded-2xl hover-float text-center">
-                <h3 class="text-gray-500 dark:text-gray-400 font-semibold mb-1">Readers</h3>
-                <p class="text-4xl font-bold text-yellow-500 dark:text-yellow-400">1230</p>
+                <h3 class="text-gray-500 dark:text-gray-400 font-semibold mb-1">
+                    Readers
+                </h3>
+                <p class="text-4xl font-bold text-yellow-500 dark:text-yellow-400">
+                    1230
+                </p>
             </div>
         </section>
 
         <section id="epapers" class="mb-12">
             <div class="flex items-center space-x-4 mb-6">
-                <h2 class="text-3xl font-bold text-gray-800 dark:text-white">Today's ePapers</h2>
+                <h2 class="text-3xl font-bold text-gray-800 dark:text-white">
+                    Today's ePapers
+                </h2>
                 <div class="hidden sm:inline-block px-3 py-1 bg-green-500 text-white text-xs font-bold rounded-full">
-                    Updated daily at 6AM IST</div>
+                    Updated daily at 6AM IST
+                </div>
             </div>
             <div id="epaperGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                 <div class="skeleton-card glass-effect p-4 rounded-2xl shimmer">
@@ -513,11 +568,16 @@
         </section>
 
         <section id="bank-po-mock" class="mb-12">
-            <h2 class="text-3xl font-bold text-gray-800 dark:text-white mb-6">Bank PO Mock Tests</h2>
+            <h2 class="text-3xl font-bold text-gray-800 dark:text-white mb-6">
+                Bank PO Mock Tests
+            </h2>
             <div class="glass-effect p-6 rounded-2xl text-gray-700 dark:text-gray-300 text-center">
-                <p class="mb-4">Prepare for your banking exams with our comprehensive mock tests, designed by experts to
-                    simulate the real exam environment. Analyze your performance, identify your strengths and
-                    weaknesses, and master key concepts to ace your Bank PO exam.</p>
+                <p class="mb-4">
+                    Prepare for your banking exams with our comprehensive mock tests,
+                    designed by experts to simulate the real exam environment. Analyze
+                    your performance, identify your strengths and weaknesses, and master
+                    key concepts to ace your Bank PO exam.
+                </p>
                 <a href="Maths-Mock-Test-01.html"
                     class="inline-block px-6 py-3 rounded-lg text-white bg-gradient-to-r from-teal-500 to-green-500 hover:from-teal-600 hover:to-green-600 transition-all duration-300 transform hover:scale-105 shadow-lg">
                     Start Mock Test
@@ -526,11 +586,16 @@
         </section>
 
         <section id="daily-mcqs" class="mb-12">
-            <h2 class="text-3xl font-bold text-gray-800 dark:text-white mb-6">Daily MCQs</h2>
+            <h2 class="text-3xl font-bold text-gray-800 dark:text-white mb-6">
+                Daily MCQs
+            </h2>
             <div class="glass-effect p-6 rounded-2xl text-gray-700 dark:text-gray-300 text-center">
-                <p class="mb-4">Sharpen your knowledge with our daily multiple-choice questions. These short quizzes are
-                    perfect for a quick revision of current affairs and key concepts, helping you stay on top of your
-                    preparation.</p>
+                <p class="mb-4">
+                    Sharpen your knowledge with our daily multiple-choice questions.
+                    These short quizzes are perfect for a quick revision of current
+                    affairs and key concepts, helping you stay on top of your
+                    preparation.
+                </p>
                 <a href="demo-2.html"
                     class="inline-block px-6 py-3 rounded-lg text-white bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 transition-all duration-300 transform hover:scale-105 shadow-lg">
                     Take a Quiz
@@ -540,12 +605,16 @@
 
         <section id="current-affairs" class="mb-12">
             <div class="flex flex-col md:flex-row justify-between items-center mb-6">
-                <h2 class="text-3xl font-bold text-gray-800 dark:text-white mb-4 md:mb-0">Current Affairs</h2>
+                <h2 class="text-3xl font-bold text-gray-800 dark:text-white mb-4 md:mb-0">
+                    Current Affairs
+                </h2>
                 <div class="flex items-center space-x-2">
                     <input type="date" id="dateFilter"
-                        class="px-4 py-2 rounded-lg glass-effect border-none focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 text-gray-800 dark:text-white">
+                        class="px-4 py-2 rounded-lg glass-effect border-none focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 text-gray-800 dark:text-white" />
                     <button id="clearFilterBtn"
-                        class="px-4 py-2 rounded-lg bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-white transition-colors duration-200">Clear</button>
+                        class="px-4 py-2 rounded-lg bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-white transition-colors duration-200">
+                        Clear
+                    </button>
                 </div>
             </div>
             <div id="affairsFeed" class="space-y-4">
@@ -571,29 +640,45 @@
 
             <div id="paginationControls" class="flex justify-center items-center space-x-4 mt-6">
                 <button id="prevBtn"
-                    class="px-4 py-2 rounded-lg glass-effect text-gray-800 dark:text-white disabled:opacity-50 disabled:cursor-not-allowed">Previous</button>
+                    class="px-4 py-2 rounded-lg glass-effect text-gray-800 dark:text-white disabled:opacity-50 disabled:cursor-not-allowed">
+                    Previous
+                </button>
                 <span id="pageInfo" class="text-gray-600 dark:text-gray-400">Page 1 of 1</span>
                 <button id="nextBtn"
-                    class="px-4 py-2 rounded-lg glass-effect text-gray-800 dark:text-white disabled:opacity-50 disabled:cursor-not-allowed">Next</button>
+                    class="px-4 py-2 rounded-lg glass-effect text-gray-800 dark:text-white disabled:opacity-50 disabled:cursor-not-allowed">
+                    Next
+                </button>
             </div>
         </section>
 
         <section id="about" class="mb-12">
-            <h2 class="text-3xl font-bold text-gray-800 dark:text-white mb-6">About Us</h2>
+            <h2 class="text-3xl font-bold text-gray-800 dark:text-white mb-6">
+                About Us
+            </h2>
             <div class="glass-effect p-6 rounded-2xl text-gray-700 dark:text-gray-300">
-                <p class="mb-4">ePapers Hub is dedicated to providing high-quality daily news and ePapers for government
-                    job aspirants. Our goal is to consolidate essential information, making it easy for you to stay
-                    updated with current affairs and access a variety of newspapers from a single platform.</p>
-                <p>We believe that consistent and focused preparation is key to success. With a curated selection of
-                    news feeds and timely access to ePapers, we aim to be your one-stop solution for exam preparation.
+                <p class="mb-4">
+                    ePapers Hub is dedicated to providing high-quality daily news and
+                    ePapers for government job aspirants. Our goal is to consolidate
+                    essential information, making it easy for you to stay updated with
+                    current affairs and access a variety of newspapers from a single
+                    platform.
+                </p>
+                <p>
+                    We believe that consistent and focused preparation is key to
+                    success. With a curated selection of news feeds and timely access to
+                    ePapers, we aim to be your one-stop solution for exam preparation.
                 </p>
             </div>
         </section>
 
         <section id="contact" class="mb-12">
-            <h2 class="text-3xl font-bold text-gray-800 dark:text-white mb-6">Contact Us</h2>
+            <h2 class="text-3xl font-bold text-gray-800 dark:text-white mb-6">
+                Contact Us
+            </h2>
             <div class="glass-effect p-6 rounded-2xl text-gray-700 dark:text-gray-300">
-                <p class="mb-2"><strong>Email:</strong> supportContact via WhatsApp message only</p>
+                <p class="mb-2">
+                    <strong>Email:</strong> supportContact via WhatsApp message only
+                </p>
                 <p class="mb-2"><strong>Phone:</strong> +91 8168305050</p>
                 <p><strong>Address:</strong> Gurugram, Haryana, India</p>
             </div>
@@ -614,62 +699,62 @@
     </main>
 
     <script>
-        const themeToggle = document.getElementById('themeToggle');
-        const sunIcon = document.getElementById('sunIcon');
-        const moonIcon = document.getElementById('moonIcon');
+        const themeToggle = document.getElementById("themeToggle");
+        const sunIcon = document.getElementById("sunIcon");
+        const moonIcon = document.getElementById("moonIcon");
         const body = document.body;
 
         // Theme Toggle Logic
-        const storedTheme = localStorage.getItem('fmz-theme');
-        if (storedTheme === 'dark') {
-            body.classList.add('dark');
-            sunIcon.style.display = 'none';
-            moonIcon.style.display = 'inline';
+        const storedTheme = localStorage.getItem("fmz-theme");
+        if (storedTheme === "dark") {
+            body.classList.add("dark");
+            sunIcon.style.display = "none";
+            moonIcon.style.display = "inline";
         } else {
-            body.classList.remove('dark');
-            sunIcon.style.display = 'inline';
-            moonIcon.style.display = 'none';
+            body.classList.remove("dark");
+            sunIcon.style.display = "inline";
+            moonIcon.style.display = "none";
         }
 
-        themeToggle.addEventListener('click', () => {
-            body.classList.toggle('dark');
-            if (body.classList.contains('dark')) {
-                localStorage.setItem('fmz-theme', 'dark');
-                sunIcon.style.display = 'none';
-                moonIcon.style.display = 'inline';
+        themeToggle.addEventListener("click", () => {
+            body.classList.toggle("dark");
+            if (body.classList.contains("dark")) {
+                localStorage.setItem("fmz-theme", "dark");
+                sunIcon.style.display = "none";
+                moonIcon.style.display = "inline";
             } else {
-                localStorage.setItem('fmz-theme', 'light');
-                sunIcon.style.display = 'inline';
-                moonIcon.style.display = 'none';
+                localStorage.setItem("fmz-theme", "light");
+                sunIcon.style.display = "inline";
+                moonIcon.style.display = "none";
             }
         });
 
         // Mobile Sidebar Toggle Logic
-        const sidebarToggle = document.getElementById('sidebarToggle');
-        const sidebar = document.getElementById('sidebar');
-        const sidebarBackdrop = document.getElementById('sidebarBackdrop');
+        const sidebarToggle = document.getElementById("sidebarToggle");
+        const sidebar = document.getElementById("sidebar");
+        const sidebarBackdrop = document.getElementById("sidebarBackdrop");
 
-        sidebarToggle.addEventListener('click', () => {
-            sidebar.classList.toggle('open');
-            sidebarBackdrop.classList.toggle('open');
+        sidebarToggle.addEventListener("click", () => {
+            sidebar.classList.toggle("open");
+            sidebarBackdrop.classList.toggle("open");
         });
 
-        sidebarBackdrop.addEventListener('click', () => {
-            sidebar.classList.remove('open');
-            sidebarBackdrop.classList.remove('open');
+        sidebarBackdrop.addEventListener("click", () => {
+            sidebar.classList.remove("open");
+            sidebarBackdrop.classList.remove("open");
         });
 
         // Toast Notification System
         function showToast(message) {
-            const toastContainer = document.getElementById('toastContainer');
-            const toast = document.createElement('div');
-            toast.className = 'toast text-gray-800 dark:text-white';
+            const toastContainer = document.getElementById("toastContainer");
+            const toast = document.createElement("div");
+            toast.className = "toast text-gray-800 dark:text-white";
             toast.textContent = message;
             toastContainer.appendChild(toast);
 
             setTimeout(() => {
-                toast.style.animation = 'none';
-                toast.style.opacity = '0';
+                toast.style.animation = "none";
+                toast.style.opacity = "0";
                 setTimeout(() => toast.remove(), 500);
             }, 5000);
         }
@@ -677,85 +762,90 @@
         // First-time User Tour
         const tourSteps = [
             {
-                elementId: 'sidebarToggle',
-                content: 'Click here to open the navigation menu on mobile.',
-                position: 'bottom',
+                elementId: "sidebarToggle",
+                content: "Click here to open the navigation menu on mobile.",
+                position: "bottom",
                 mobileOnly: true,
-                fixed: true
+                fixed: true,
             },
             {
-                elementId: 'epapers',
-                content: 'This section shows today\'s latest ePapers, updated daily.',
-                position: 'top',
-                fixed: false
+                elementId: "epapers",
+                content: "This section shows today's latest ePapers, updated daily.",
+                position: "top",
+                fixed: false,
             },
             {
-                elementId: 'searchBox',
-                content: 'You can quickly search for ePapers or news articles here.',
-                position: 'bottom',
-                fixed: true
+                elementId: "searchBox",
+                content: "You can quickly search for ePapers or news articles here.",
+                position: "bottom",
+                fixed: true,
             },
             {
-                elementId: 'themeToggle',
-                content: 'Easily switch between Light and Dark mode.',
-                position: 'top',
+                elementId: "themeToggle",
+                content: "Easily switch between Light and Dark mode.",
+                position: "top",
                 mobileOnly: true,
-                fixed: true
+                fixed: true,
             },
             {
-                elementId: 'tour-overlay',
-                content: 'That\'s it! You\'re ready to explore. Click anywhere to close this guide.',
-                position: 'center',
-                fixed: false
-            }
+                elementId: "tour-overlay",
+                content:
+                    "That's it! You're ready to explore. Click anywhere to close this guide.",
+                position: "center",
+                fixed: false,
+            },
         ];
 
         function startTour() {
-            const tourOverlay = document.getElementById('tour-overlay');
-            tourOverlay.classList.add('active');
+            const tourOverlay = document.getElementById("tour-overlay");
+            tourOverlay.classList.add("active");
 
             let currentStep = 0;
 
             function showStep(step) {
                 const stepData = tourSteps[step];
                 const targetElement = document.getElementById(stepData.elementId);
-                const tooltip = document.createElement('div');
-                tooltip.className = 'tour-tooltip';
+                const tooltip = document.createElement("div");
+                tooltip.className = "tour-tooltip";
                 tooltip.textContent = stepData.content;
 
                 // Remove existing highlights and tooltips
-                document.querySelectorAll('.tour-highlight, .tour-tooltip').forEach(el => {
-                    el.classList.remove('tour-highlight', 'tour-highlight-fixed');
-                    if (el.classList.contains('tour-tooltip')) el.remove();
-                });
+                document
+                    .querySelectorAll(".tour-highlight, .tour-tooltip")
+                    .forEach((el) => {
+                        el.classList.remove("tour-highlight", "tour-highlight-fixed");
+                        if (el.classList.contains("tour-tooltip")) el.remove();
+                    });
 
                 if (targetElement) {
-                    targetElement.classList.add('tour-highlight');
-                    if (stepData.fixed) targetElement.classList.add('tour-highlight-fixed');
+                    targetElement.classList.add("tour-highlight");
+                    if (stepData.fixed)
+                        targetElement.classList.add("tour-highlight-fixed");
 
                     const rect = targetElement.getBoundingClientRect();
 
                     const tooltipMargin = 10;
-                    if (stepData.position === 'bottom') {
+                    if (stepData.position === "bottom") {
                         tooltip.style.top = `${rect.bottom + tooltipMargin}px`;
                         tooltip.style.left = `${rect.left + rect.width / 2 - 125}px`;
-                    } else if (stepData.position === 'top') {
-                        tooltip.style.top = `${rect.top - tooltip.offsetHeight - tooltipMargin}px`;
+                    } else if (stepData.position === "top") {
+                        tooltip.style.top = `${rect.top - tooltip.offsetHeight - tooltipMargin
+                            }px`;
                         tooltip.style.left = `${rect.left + rect.width / 2 - 125}px`;
-                    } else if (stepData.position === 'center') {
-                        tooltip.style.top = '50%';
-                        tooltip.style.left = '50%';
-                        tooltip.style.transform = 'translate(-50%, -50%)';
-                        targetElement.classList.remove('tour-highlight');
+                    } else if (stepData.position === "center") {
+                        tooltip.style.top = "50%";
+                        tooltip.style.left = "50%";
+                        tooltip.style.transform = "translate(-50%, -50%)";
+                        targetElement.classList.remove("tour-highlight");
                     }
 
                     document.body.appendChild(tooltip);
                 } else {
                     // For non-element steps like the final message
                     document.body.appendChild(tooltip);
-                    tooltip.style.top = '50%';
-                    tooltip.style.left = '50%';
-                    tooltip.style.transform = 'translate(-50%, -50%)';
+                    tooltip.style.top = "50%";
+                    tooltip.style.left = "50%";
+                    tooltip.style.transform = "translate(-50%, -50%)";
                 }
             }
 
@@ -769,17 +859,19 @@
             }
 
             function endTour() {
-                tourOverlay.classList.remove('active');
-                localStorage.setItem('hasVisited', 'true');
-                document.querySelectorAll('.tour-highlight, .tour-tooltip').forEach(el => {
-                    el.classList.remove('tour-highlight', 'tour-highlight-fixed');
-                    if (el.classList.contains('tour-tooltip')) el.remove();
-                });
+                tourOverlay.classList.remove("active");
+                localStorage.setItem("hasVisited", "true");
+                document
+                    .querySelectorAll(".tour-highlight, .tour-tooltip")
+                    .forEach((el) => {
+                        el.classList.remove("tour-highlight", "tour-highlight-fixed");
+                        if (el.classList.contains("tour-tooltip")) el.remove();
+                    });
             }
 
             // Bind click to advance tour
-            tourOverlay.addEventListener('click', (e) => {
-                if (!e.target.closest('.tour-tooltip')) {
+            tourOverlay.addEventListener("click", (e) => {
+                if (!e.target.closest(".tour-tooltip")) {
                     nextStep();
                 }
             });
@@ -795,13 +887,48 @@
         const pageSize = 15;
 
         const epapers = [
-            { title: "The Hindu", url: "https://www.dropbox.com/scl/fi/oxfl7khq6u0clt8gqly0f/Hindu-Delhi-Coded-Free-Version-04-09-2025.pdf?rlkey=gg9jdhn99jmu5sc5k05ebtdzr&st=99npd70r&dl=0", addedAt: null, thumbnailUrl: "1.png" },
-            { title: "Indian Express", url: "https://www.dropbox.com/scl/fi/pstxj852v7ak0e3eolnn6/IE-Delhi-Coded-Free-Version-04-09-2025.pdf?rlkey=ngoprmzj1gaxefsm5put1xm03&st=yz2yflk4&dl=0", addedAt: null, thumbnailUrl: "2.png" },
-            { title: "Business Line", url: "subscribe.html", addedAt: null, thumbnailUrl: "3.png" },
-            { title: "Economic Times", url: "subscribe.html", addedAt: null, thumbnailUrl: "4.png" },
-            { title: "Times Of India Delhi", url: "Subscribe.html", addedAt: null, thumbnailUrl: "5.png" },
-            { title: "मशीन अनुवादित - द हिन्दू", url: "https://www.dropbox.com/scl/fi/1c0bvm68z1xyhxl76nc2f/04-09-2025.pdf?rlkey=wbihclk1jlqboku51ej7hq1ux&st=6htz6gau&dl=0", addedAt: null, thumbnailUrl: "6.png" },
-            { title: "इंसान अनुवादित - द हिन्दू", url: "https://iah.netlify.app/", addedAt: null, thumbnailUrl: "hindi.png" },
+            {
+                title: "The Hindu",
+                url: "https://www.dropbox.com/scl/fi/oxfl7khq6u0clt8gqly0f/Hindu-Delhi-Coded-Free-Version-04-09-2025.pdf?rlkey=gg9jdhn99jmu5sc5k05ebtdzr&st=99npd70r&dl=0",
+                addedAt: null,
+                thumbnailUrl: "1.png",
+            },
+            {
+                title: "Indian Express",
+                url: "https://www.dropbox.com/scl/fi/pstxj852v7ak0e3eolnn6/IE-Delhi-Coded-Free-Version-04-09-2025.pdf?rlkey=ngoprmzj1gaxefsm5put1xm03&st=yz2yflk4&dl=0",
+                addedAt: null,
+                thumbnailUrl: "2.png",
+            },
+            {
+                title: "Business Line",
+                url: "subscribe.html",
+                addedAt: null,
+                thumbnailUrl: "3.png",
+            },
+            {
+                title: "Economic Times",
+                url: "subscribe.html",
+                addedAt: null,
+                thumbnailUrl: "4.png",
+            },
+            {
+                title: "Times Of India Delhi",
+                url: "Subscribe.html",
+                addedAt: null,
+                thumbnailUrl: "5.png",
+            },
+            {
+                title: "मशीन अनुवादित - द हिन्दू",
+                url: "https://www.dropbox.com/scl/fi/1c0bvm68z1xyhxl76nc2f/04-09-2025.pdf?rlkey=wbihclk1jlqboku51ej7hq1ux&st=6htz6gau&dl=0",
+                addedAt: null,
+                thumbnailUrl: "6.png",
+            },
+            {
+                title: "इंसान अनुवादित - द हिन्दू",
+                url: "https://iah.netlify.app/",
+                addedAt: null,
+                thumbnailUrl: "7.png",
+            },
         ];
 
         // --- Helper Functions ---
@@ -819,19 +946,22 @@
         }
 
         function fmtDate(d) {
-            const options = { year: 'numeric', month: 'long', day: 'numeric' };
-            return new Date(d).toLocaleDateString('en-IN', options);
+            const options = { year: "numeric", month: "long", day: "numeric" };
+            return new Date(d).toLocaleDateString("en-IN", options);
         }
 
         function timeLeft(addedAt) {
-            const expiryTime = addedAt + (24 * 60 * 60 * 1000);
+            const expiryTime = addedAt + 24 * 60 * 60 * 1000;
             const now = Date.now();
             const remaining = expiryTime - now;
 
-            if (remaining <= 0) return { hours: 0, minutes: 0, seconds: 0, expired: true };
+            if (remaining <= 0)
+                return { hours: 0, minutes: 0, seconds: 0, expired: true };
 
             const hours = Math.floor(remaining / (1000 * 60 * 60));
-            const minutes = Math.floor((remaining % (1000 * 60 * 60)) / (1000 * 60));
+            const minutes = Math.floor(
+                (remaining % (1000 * 60 * 60)) / (1000 * 60)
+            );
             const seconds = Math.floor((remaining % (1000 * 60)) / 1000);
 
             return { hours, minutes, seconds, expired: false };
@@ -839,12 +969,12 @@
 
         // --- Render Functions ---
         function renderPaginatedAffairs() {
-            const feedContainer = document.getElementById('affairsFeed');
-            const pageInfo = document.getElementById('pageInfo');
-            const prevBtn = document.getElementById('prevBtn');
-            const nextBtn = document.getElementById('nextBtn');
+            const feedContainer = document.getElementById("affairsFeed");
+            const pageInfo = document.getElementById("pageInfo");
+            const prevBtn = document.getElementById("prevBtn");
+            const nextBtn = document.getElementById("nextBtn");
 
-            feedContainer.innerHTML = '';
+            feedContainer.innerHTML = "";
 
             const start = (currentPage - 1) * pageSize;
             const end = start + pageSize;
@@ -852,23 +982,33 @@
             const totalPages = Math.ceil(filteredAffairs.length / pageSize);
 
             if (itemsToRender.length === 0) {
-                feedContainer.innerHTML = '<div class="text-center text-gray-500 dark:text-gray-400 py-10">No current affairs found for this date.</div>';
-                pageInfo.textContent = 'Page 0 of 0';
+                feedContainer.innerHTML =
+                    '<div class="text-center text-gray-500 dark:text-gray-400 py-10">No current affairs found for this date.</div>';
+                pageInfo.textContent = "Page 0 of 0";
                 prevBtn.disabled = true;
                 nextBtn.disabled = true;
                 return;
             }
 
-            itemsToRender.forEach(item => {
-                const article = document.createElement('article');
-                article.className = 'glass-effect p-4 rounded-lg hover-float';
+            itemsToRender.forEach((item) => {
+                const article = document.createElement("article");
+                article.className = "glass-effect p-4 rounded-lg hover-float";
                 article.innerHTML = `
                     <a href="${item.link}" target="_blank" class="block">
-                        <h3 class="text-xl font-semibold text-gray-800 dark:text-white mb-2">${item.title}</h3>
-                        <p class="text-sm text-gray-500 dark:text-gray-400 mb-2">${fmtDate(item.date)}</p>
-                        <p class="text-gray-700 dark:text-gray-300 mb-2">${item.summary || 'Click to read more...'}</p>
+                        <h3 class="text-xl font-semibold text-gray-800 dark:text-white mb-2">${item.title
+                    }</h3>
+                        <p class="text-sm text-gray-500 dark:text-gray-400 mb-2">${fmtDate(
+                        item.date
+                    )}</p>
+                        <p class="text-gray-700 dark:text-gray-300 mb-2">${item.summary || "Click to read more..."
+                    }</p>
                         <div class="flex flex-wrap gap-2">
-                            ${item.tags.map(tag => `<span class="bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-400 text-xs font-semibold px-2 py-1 rounded-full">${tag}</span>`).join('')}
+                            ${item.tags
+                        .map(
+                            (tag) =>
+                                `<span class="bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-400 text-xs font-semibold px-2 py-1 rounded-full">${tag}</span>`
+                        )
+                        .join("")}
                         </div>
                     </a>
                 `;
@@ -881,14 +1021,16 @@
         }
 
         function filterAffairs() {
-            const searchBox = document.getElementById('searchBox');
-            const dateFilter = document.getElementById('dateFilter');
+            const searchBox = document.getElementById("searchBox");
+            const dateFilter = document.getElementById("dateFilter");
             const searchTerm = searchBox.value.toLowerCase();
             const filterDate = dateFilter.value;
 
-            filteredAffairs = currentAffairs.filter(item => {
-                const matchesSearch = item.title.toLowerCase().includes(searchTerm) || item.summary.toLowerCase().includes(searchTerm);
-                const itemDate = new Date(item.date).toISOString().split('T')[0];
+            filteredAffairs = currentAffairs.filter((item) => {
+                const matchesSearch =
+                    item.title.toLowerCase().includes(searchTerm) ||
+                    item.summary.toLowerCase().includes(searchTerm);
+                const itemDate = new Date(item.date).toISOString().split("T")[0];
                 const matchesDate = !filterDate || itemDate === filterDate;
                 return matchesSearch && matchesDate;
             });
@@ -898,98 +1040,129 @@
         }
 
         function renderPapers() {
-            const epaperGrid = document.getElementById('epaperGrid');
-            const statPapers = document.getElementById('statPapers');
-            epaperGrid.innerHTML = '';
+            const epaperGrid = document.getElementById("epaperGrid");
+            const statPapers = document.getElementById("statPapers");
+            epaperGrid.innerHTML = "";
 
             let activeCount = 0;
             const sixAMIST = getSixAMISTTimestamp();
 
-            epapers.forEach(paper => {
+            epapers.forEach((paper) => {
                 paper.addedAt = sixAMIST;
                 const remaining = timeLeft(paper.addedAt);
 
                 if (remaining.expired) return;
 
                 activeCount++;
-                const card = document.createElement('div');
-                card.className = 'glass-effect p-4 rounded-2xl flex flex-col items-center text-center relative hover-float';
+                const card = document.createElement("div");
+                card.className =
+                    "glass-effect p-4 rounded-2xl flex flex-col items-center text-center relative hover-float";
                 card.innerHTML = `
-                    <div class="absolute top-4 right-4 text-xs font-semibold px-3 py-1 rounded-full ${remaining.hours < 6 ? 'bg-red-500 text-white animate-pulse' : 'bg-green-500 text-white'}">
-                        ${remaining.hours < 6 ? 'Expiring Soon' : 'Active'}
+                    <div class="absolute top-4 right-4 text-xs font-semibold px-3 py-1 rounded-full ${remaining.hours < 6
+                        ? "bg-red-500 text-white animate-pulse"
+                        : "bg-green-500 text-white"
+                    }">
+                        ${remaining.hours < 6 ? "Expiring Soon" : "Active"}
                     </div>
-                    <img src="${paper.thumbnailUrl}" alt="${paper.title}" class="w-full h-94 aspect-[2/3] object-cover rounded-lg mb-4 shadow-lg">
-                    <h3 class="text-xl font-semibold text-gray-800 dark:text-white mb-2">${paper.title}</h3>
-                    <p class="text-sm text-gray-500 dark:text-gray-400 mb-4">Expires in ${String(remaining.hours).padStart(2, '0')}:${String(remaining.minutes).padStart(2, '0')}</p>
-                    <a href="${paper.url}" target="_blank" class="w-full py-2 rounded-lg text-white bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 transition-all duration-300">
+                    <img src="${paper.thumbnailUrl}" alt="${paper.title
+                    }" class="w-full h-94 aspect-[2/3] object-cover rounded-lg mb-4 shadow-lg">
+                    <h3 class="text-xl font-semibold text-gray-800 dark:text-white mb-2">${paper.title
+                    }</h3>
+                    <p class="text-sm text-gray-500 dark:text-gray-400 mb-4">Expires in ${String(
+                        remaining.hours
+                    ).padStart(2, "0")}:${String(remaining.minutes).padStart(
+                        2,
+                        "0"
+                    )}</p>
+                    <a href="${paper.url
+                    }" target="_blank" class="w-full py-2 rounded-lg text-white bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 transition-all duration-300">
                         Download
                     </a>
                 `;
                 epaperGrid.appendChild(card);
             });
 
-            statPapers.querySelector('p').textContent = activeCount;
-            showToast(`${activeCount} new ePapers added at ${new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })}`);
+            statPapers.querySelector("p").textContent = activeCount;
+            showToast(
+                `${activeCount} new ePapers added at ${new Date().toLocaleTimeString(
+                    "en-US",
+                    { hour: "2-digit", minute: "2-digit" }
+                )}`
+            );
         }
 
         function renderCountdown() {
-            const countdownTimer = document.getElementById('countdownTimer');
+            const countdownTimer = document.getElementById("countdownTimer");
             const sixAMIST = getSixAMISTTimestamp();
             const remaining = timeLeft(sixAMIST);
 
             if (remaining.expired) {
-                countdownTimer.textContent = 'Expired';
+                countdownTimer.textContent = "Expired";
             } else {
-                const formattedTime = `${String(remaining.hours).padStart(2, '0')}:${String(remaining.minutes).padStart(2, '0')}:${String(remaining.seconds).padStart(2, '0')}`;
+                const formattedTime = `${String(remaining.hours).padStart(
+                    2,
+                    "0"
+                )}:${String(remaining.minutes).padStart(2, "0")}:${String(
+                    remaining.seconds
+                ).padStart(2, "0")}`;
                 countdownTimer.textContent = formattedTime;
             }
         }
 
         // --- RSS Fetching and Loading ---
         const feeds = [
-            'https://www.thehindu.com/feeder/default.rss',
-            'https://indianexpress.com/feed/',
-            'https://www.livemint.com/rss/news',
-            'https://timesofindia.indiatimes.com/rssfeedstopstories.cms',
-            'https://economictimes.indiatimes.com/rssfeedsdefault.cms',
-            'https://www.thehindubusinessline.com/news/?service=rss',
-            'https://www.business-standard.com/rss/home_page_stories.rss',
-            'https://www.hindustantimes.com/rss/topnews/rssfeed.xml'
+            "https://www.thehindu.com/feeder/default.rss",
+            "https://indianexpress.com/feed/",
+            "https://www.livemint.com/rss/news",
+            "https://timesofindia.indiatimes.com/rssfeedstopstories.cms",
+            "https://economictimes.indiatimes.com/rssfeedsdefault.cms",
+            "https://www.thehindubusinessline.com/news/?service=rss",
+            "https://www.business-standard.com/rss/home_page_stories.rss",
+            "https://www.hindustantimes.com/rss/topnews/rssfeed.xml",
         ];
 
         async function fetchRSS(feedUrl) {
-            const corsProxy = 'https://api.rss2json.com/v1/api.json?rss_url=';
+            const corsProxy = "https://api.rss2json.com/v1/api.json?rss_url=";
             try {
                 const response = await fetch(corsProxy + encodeURIComponent(feedUrl));
                 const data = await response.json();
 
-                if (data.status !== 'ok') {
-                    console.error('Failed to fetch RSS:', data);
+                if (data.status !== "ok") {
+                    console.error("Failed to fetch RSS:", data);
                     return [];
                 }
 
-                return data.items.map(item => ({
+                return data.items.map((item) => ({
                     date: new Date(item.pubDate),
                     title: item.title,
                     summary: item.description,
                     link: item.link,
-                    tags: data.feed.title ? [data.feed.title.replace(' - Latest news, breaking news, live updates, stories, articles, reports, analysis, photos, videos, blogs | The Indian Express', '').trim()] : []
+                    tags: data.feed.title
+                        ? [
+                            data.feed.title
+                                .replace(
+                                    " - Latest news, breaking news, live updates, stories, articles, reports, analysis, photos, videos, blogs | The Indian Express",
+                                    ""
+                                )
+                                .trim(),
+                        ]
+                        : [],
                 }));
             } catch (error) {
-                console.error('Error fetching RSS feed:', feedUrl, error);
+                console.error("Error fetching RSS feed:", feedUrl, error);
                 return [];
             }
         }
 
         async function loadCurrentAffairs() {
-            const feedContainer = document.getElementById('affairsFeed');
-            const promises = feeds.map(feed => fetchRSS(feed));
+            const feedContainer = document.getElementById("affairsFeed");
+            const promises = feeds.map((feed) => fetchRSS(feed));
             const results = await Promise.all(promises);
 
             const todayIST = new Date(getSixAMISTTimestamp());
-            const yesterdayIST = new Date(todayIST.getTime() - (24 * 60 * 60 * 1000));
+            const yesterdayIST = new Date(todayIST.getTime() - 24 * 60 * 60 * 1000);
 
-            currentAffairs = results.flat().filter(item => {
+            currentAffairs = results.flat().filter((item) => {
                 const itemDate = new Date(item.date);
                 return itemDate >= yesterdayIST && itemDate <= todayIST;
             });
@@ -997,19 +1170,20 @@
             currentAffairs.sort((a, b) => b.date - a.date);
             filteredAffairs = [...currentAffairs];
 
-            document.getElementById('statAffairs').querySelector('p').textContent = filteredAffairs.length;
+            document.getElementById("statAffairs").querySelector("p").textContent =
+                filteredAffairs.length;
             renderPaginatedAffairs();
         }
 
         // --- Event Listeners and Init ---
-        document.getElementById('prevBtn').addEventListener('click', () => {
+        document.getElementById("prevBtn").addEventListener("click", () => {
             if (currentPage > 1) {
                 currentPage--;
                 renderPaginatedAffairs();
             }
         });
 
-        document.getElementById('nextBtn').addEventListener('click', () => {
+        document.getElementById("nextBtn").addEventListener("click", () => {
             const totalPages = Math.ceil(filteredAffairs.length / pageSize);
             if (currentPage < totalPages) {
                 currentPage++;
@@ -1017,22 +1191,28 @@
             }
         });
 
-        document.getElementById('searchBox').addEventListener('input', filterAffairs);
-        document.getElementById('dateFilter').addEventListener('change', filterAffairs);
-        document.getElementById('clearFilterBtn').addEventListener('click', () => {
-            document.getElementById('searchBox').value = '';
-            document.getElementById('dateFilter').value = '';
-            filteredAffairs = [...currentAffairs];
-            currentPage = 1;
-            renderPaginatedAffairs();
-        });
+        document
+            .getElementById("searchBox")
+            .addEventListener("input", filterAffairs);
+        document
+            .getElementById("dateFilter")
+            .addEventListener("change", filterAffairs);
+        document
+            .getElementById("clearFilterBtn")
+            .addEventListener("click", () => {
+                document.getElementById("searchBox").value = "";
+                document.getElementById("dateFilter").value = "";
+                filteredAffairs = [...currentAffairs];
+                currentPage = 1;
+                renderPaginatedAffairs();
+            });
 
         function init() {
             renderPapers();
             loadCurrentAffairs();
             renderCountdown();
 
-            if (!localStorage.getItem('hasVisited')) {
+            if (!localStorage.getItem("hasVisited")) {
                 startTour();
             }
 
@@ -1040,7 +1220,7 @@
             setInterval(renderPapers, 60000); // Check and refresh papers every minute
         }
 
-        document.addEventListener('DOMContentLoaded', init);
+        document.addEventListener("DOMContentLoaded", init);
     </script>
 </body>
 
